@@ -1,0 +1,9 @@
+{
+  "name": "sign-along",
+  "version": "1.0.0",
+  "description": "Kobylisy's sign book",
+  "main": "pages/index.js",
+  "repository": "git@github.com:Rootre/sing-along.git",
+  "author": "Ondřej Tůma <ondr@centrum.cz>",
+  "license": "MIT"
+}
