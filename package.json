@@ -6,7 +6,17 @@
   "repository": "git@github.com:Rootre/sing-along.git",
   "author": "Ondřej Tůma <ondr@centrum.cz>",
   "license": "MIT",
+  "scripts": {
+    "dev": "cross-env BABEL_ENV=development node server.js"
+  },
   "dependencies": {
-    "next": "^7.0.2"
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10",
+    "next": "^7.0.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
   }
 }
