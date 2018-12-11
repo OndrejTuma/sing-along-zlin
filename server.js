@@ -1,11 +1,20 @@
 const express = require('express');
 const next = require('next');
+const mongoose = require('mongoose');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const APP_PORT = 3000;
+
+mongoose
+    .connect(
+        'mongodb://mongo:27017/sing-along',
+        { useNewUrlParser: true }
+    )
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
 
 app.prepare()
     .then(() => {

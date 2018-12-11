@@ -1,11 +1,18 @@
-version: '3.1'
+version: '3'
 
 services:
-
-  mongo:
-    image: mongo
+  app:
+    container_name: sing-along
     restart: always
-    command: --smallfiles
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+    build: .
+    ports:
+      - '80:3000'
+    links:
+      - mongo
+    volumes:
+      - './:/usr/src/app'
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
