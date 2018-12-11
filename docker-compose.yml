@@ -1,3 +1,5 @@
+# courtesy of https://github.com/bradtraversy/docker-node-mongo
+
 version: '3'
 
 services:

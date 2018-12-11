@@ -1,6 +1,7 @@
 const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
+const Chapter = require('./models/Chapter');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -20,8 +21,17 @@ app.prepare()
     .then(() => {
         const server = express();
 
-        server.get('*', (req, res) => {
-            return handle(req, res)
+        /*
+        const newChapter = new Chapter({
+            title: 'Pokus',
+        });
+
+        newChapter.save();
+        */
+
+        server.get('*', async (req, res) => {
+            const chapters = await Chapter.find();
+            return handle(req, Object.assign(res, {chapters: chapters}));
         });
 
         server.listen(APP_PORT, (err) => {
