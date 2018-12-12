@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import Head from 'next/head';
 
+import FormNewChapter from '../components/FormNewChapter';
+
+import '../static/sass/global.scss';
+
 class Index extends Component {
     static getInitialProps({res}) {
         return {
@@ -9,6 +13,7 @@ class Index extends Component {
     }
     render() {
         const {chapters} = this.props;
+        console.log(chapters);
 
         return (
             <div>
@@ -17,8 +22,14 @@ class Index extends Component {
                 </Head>
                 <h1>Vítej zpěváku!</h1>
                 <ul>
-                    {chapters.map(chapter => <li key={chapter.id}>{chapter.title}</li>)}
+                    {chapters.map(chapter => (
+                        <li key={chapter._id}>
+                            {chapter.title}
+                            <p><small>{chapter.body}</small></p>
+                        </li>
+                    ))}
                 </ul>
+                <FormNewChapter/>
             </div>
         );
     }

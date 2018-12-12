@@ -1,6 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const next = require('next');
 const mongoose = require('mongoose');
+
 const Chapter = require('./models/Chapter');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -21,17 +23,20 @@ app.prepare()
     .then(() => {
         const server = express();
 
-        /*
-        const newChapter = new Chapter({
-            title: 'Pokus',
-        });
-
-        newChapter.save();
-        */
+        server.use(bodyParser.urlencoded({ extended: false }));
 
         server.get('*', async (req, res) => {
             const chapters = await Chapter.find();
             return handle(req, Object.assign(res, {chapters: chapters}));
+        });
+
+        server.post('/chapter/add', (req, res) => {
+            const newChapter = new Chapter({
+                title: req.body.title,
+                body: req.body.body,
+            });
+
+            newChapter.save().then(() => res.redirect('/'));
         });
 
         server.listen(APP_PORT, (err) => {

@@ -1,0 +1,43 @@
+{
+  "env": {
+    "production": {
+      "presets": [
+        [
+          "next/babel",
+          {
+            "targets": {
+              "browsers": [
+                "ie >= 10",
+                "chrome >= 55",
+                "ff >= 55",
+                "safari >= 9"
+              ]
+            }
+          }
+        ]
+      ]
+    },
+    "development": {
+      "presets": [
+        [
+          "next/babel",
+          {
+            "targets": {
+              "browsers": [
+                "chrome >= 55",
+                "ff >= 57"
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "transform-class-properties"
+  ]
+}

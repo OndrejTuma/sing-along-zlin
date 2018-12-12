@@ -1,0 +1,15 @@
+@import "helpers.scss";
+
+* {
+    box-sizing: border-box;
+}
+a {
+    color: $regent-gray;
+    font-weight: 700;
+    text-decoration: none;
+}
+body {
+    color: $regent-gray;
+    font-family: $font-family-hind;
+    margin: 0;
+}
