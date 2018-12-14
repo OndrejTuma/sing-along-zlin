@@ -8,13 +8,17 @@ services:
     restart: always
     build: .
     ports:
-      - '80:3000'
+      - '88:3000'
     links:
       - mongo
     volumes:
-      - './:/usr/src/app'
+      - ./:/usr/src/app
+      - app-node-modules:/usr/src/app/node_modules/
   mongo:
     container_name: mongo
     image: mongo
     ports:
       - '27017:27017'
+
+volumes:
+  app-node-modules:

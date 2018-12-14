@@ -1,26 +1,24 @@
 import React, {Component} from 'react';
 import Head from 'next/head';
 
-import FormNewChapter from '../components/FormNewChapter';
+import FormLoginUser from '../components/FormLoginUser';
 
 import '../static/sass/global.scss';
 
 class Index extends Component {
-    static getInitialProps({res}) {
+    static async getInitialProps({req, res}) {
         return {
             chapters: res.chapters,
         };
     }
     render() {
         const {chapters} = this.props;
-        console.log(chapters);
 
         return (
             <div>
                 <Head>
                     <title>{`Sing along`}</title>
                 </Head>
-                <h1>Vítej zpěváku!</h1>
                 <ul>
                     {chapters.map(chapter => (
                         <li key={chapter._id}>
@@ -29,7 +27,7 @@ class Index extends Component {
                         </li>
                     ))}
                 </ul>
-                <FormNewChapter/>
+                <FormLoginUser/>
             </div>
         );
     }

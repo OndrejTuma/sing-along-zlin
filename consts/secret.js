@@ -1,0 +1,1 @@
+module.exports = salt = 'sing-along-secret-salt';
