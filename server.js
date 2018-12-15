@@ -79,7 +79,7 @@ app.prepare()
 
                 await newSong.save();
 
-                res.status(200).json({success: true});
+                res.status(200).json({song: newSong});
             } catch (e) {
                 res.status(500).json(e);
             }
@@ -103,7 +103,23 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
+        server.post('/song/fetch/all', async (req, res) => {
+            const token = cookie.parse(req.headers.cookie)[tokenName];
 
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                jwt.verify(token, secret);
+
+                const songs = await Song.find();
+
+                res.status(200).json({songs: songs});
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
         server.post('/user/create', (req, res) => {
             const token = cookie.parse(req.headers.cookie)[tokenName];
 
@@ -128,7 +144,7 @@ app.prepare()
                 const JWT = jwt.sign({
                     login: user.login,
                 }, secret, {
-                    expiresIn: 120, // 120s
+                    expiresIn: 300, // s
                 });
 
                 res.status(200).json({token: JWT});

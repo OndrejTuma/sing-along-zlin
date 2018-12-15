@@ -1,18 +1,15 @@
 import React from 'react';
+import {useGlobal} from 'reactn';
 
 import {logout} from '../../api/client';
-import {useStore} from '../../hooks/store';
 
 function Logout() {
-    const [state, setState] = useStore();
+    const [, setIsLogged] = useGlobal('isLogged');
 
     function handleLogoutClick() {
         logout();
 
-        setState({
-            ...state,
-            isLogged: false,
-        });
+        setIsLogged(false);
     }
 
     return (

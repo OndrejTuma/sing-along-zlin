@@ -1,22 +1,29 @@
 import React from 'react';
 import Head from 'next/head';
+import {setGlobal, useGlobal} from 'reactn';
 
 import Admin from '../components/Admin';
 import FormLoginUser from '../components/FormLoginUser';
+import Notification from '../components/Notification';
 
-import {store, useStore} from '../hooks/store';
+setGlobal({
+    isLogged: false,
+    notifications: new Map(),
+    songs: new Map(),
+});
 
 import '../static/sass/global.scss';
 
 function Index({logged}) {
-    const [state] = useStore();
-    const {isLogged} = state;
+    const [isLogged] = useGlobal('isLogged');
+    const [notifications] = useGlobal('notifications');
 
     return (
         <div>
             <Head>
                 <title>{`Sing along admin`}</title>
             </Head>
+            <Notification notifications={notifications}/>
             {(logged || isLogged) ? (
                 <Admin/>
             ) : (
@@ -27,10 +34,6 @@ function Index({logged}) {
 }
 
 Index.getInitialProps = ({req, res}) => {
-    store.state = {
-        isLogged: res.isLogged,
-    };
-
     return {
         logged: res.isLogged,
     };

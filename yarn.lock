@@ -5646,6 +5646,11 @@ react-error-overlay@4.0.0:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.0.tgz#d198408a85b4070937a98667f500c832f86bd5d4"
   integrity sha512-FlsPxavEyMuR6TjVbSSywovXSEyOg6ZDj5+Z8nbsRl9EkOzAhEIcS+GLoQDC5fz/t9suhUXWmUrOBrgeUvrMxw==
 
+react-hookstore@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-hookstore/-/react-hookstore-1.0.8.tgz#4132088b85e83c002c15e9ae83ac9f24c3ff56f9"
+  integrity sha512-vuSttslvoSJwH3gCQmAVd1E4iXY9OfqzUrfvRDlpimbWgJBMgLi6Din2kx6mX2SFbPt2tbx5GbYDGYsFPCx4RQ==
+
 react-svg-core@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-svg-core/-/react-svg-core-2.1.0.tgz#3700322af70117c91f83f18febb481128de3cfbb"
@@ -5676,6 +5681,13 @@ react@^16.7.0-alpha.2:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.12.0-alpha.2"
+
+reactn@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/reactn/-/reactn-0.1.8.tgz#89b7c856edb788ca094328d34249610fa6feb1fe"
+  integrity sha512-OfXZnWrZxIR4y7sp8OgPU3+rDy7kdCko+RIqNFZoVmI1RGPUe6TrShyI1DSMt7N2V0YQZzZ0NxWfTEQ1AJqAtg==
+  dependencies:
+    use-force-update "^1.0.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -6980,6 +6992,11 @@ url@0.11.0, url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-force-update@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-force-update/-/use-force-update-1.0.0.tgz#8b4c3893575b8246a2d9c785a9921572db50e182"
+  integrity sha512-6q85dgqCcp4IAXoWxtm03C4gutwStG9bZRN2bUUTERFnYpuvNorHijCrd2cG6G9XGh80TX0Q5vc1h9ixAijKVQ==
 
 use@^3.1.0:
   version "3.1.1"

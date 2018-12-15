@@ -3,25 +3,24 @@ import React, {useState} from 'react';
 import Button from '../Button';
 import Form from '../Form';
 import Input from '../Input';
-import Notification from '../Notification';
 
 import {createSong} from '../../api/client';
-import useNotifications from '../../hooks/useNotifications';
+import useGlobalMap from '../../hooks/useGlobalMap';
 
 function FormNewSong() {
     const [fetching, setFetching] = useState(false);
-    const [notifications, setNotification, deleteNotification, deleteAllNotifications] = useNotifications();
+    const [, addNotification] = useGlobalMap('notifications');
+    const [, addSong] = useGlobalMap('songs');
 
     async function handleOnSubmit(elements) {
         setFetching(true);
 
         try {
-            await createSong(elements.get('title'), elements.get('text'));
+            const {song} = await createSong(elements.get('title'), elements.get('text'));
 
-            deleteAllNotifications();
-            setNotification(`Successfully added!`, 'success');
+            addSong(song._id, song);
         } catch (e) {
-            setNotification(e.message, 'error');
+            addNotification(e.message, 'error');
         }
 
         setFetching(false);
@@ -32,7 +31,6 @@ function FormNewSong() {
             <h2>Nová písnička</h2>
             <Input label={'Název'} name={'title'} />
             <Input label={'Text'} name={'text'} />
-            <Notification notifications={notifications} remove={deleteNotification} />
             <Button label={'Uložit'} busy={fetching} />
         </Form>
     )
