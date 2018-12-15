@@ -1,10 +1,12 @@
 const bodyParser = require('body-parser');
+const cookie = require('cookie');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const next = require('next');
 
 const secret = require('./consts/secret');
+const tokenName = require('./api/token_name');
 
 const Chapter = require('./models/Chapter');
 const Song = require('./models/Song');
@@ -32,11 +34,26 @@ app.prepare()
         server.use(bodyParser.json());
 
         server.get('*', async (req, res) => {
-            const chapters = await Chapter.find();
-            return handle(req, Object.assign(res, {chapters: chapters}));
+            const token = cookie.parse(req.headers.cookie)[tokenName];
+
+            let data = false;
+            try {
+                data = jwt.verify(token, secret);
+            } catch (e) {
+
+            }
+
+            const songs = await Song.find();
+
+            return handle(req, Object.assign(res, {
+                songs: songs,
+                isLogged: data && data.login,
+            }));
         });
 
         server.post('/chapter/create', (req, res) => {
+            const token = cookie.parse(req.headers.cookie)[tokenName];
+
             const newChapter = new Chapter({
                 title: req.body.title,
                 body: req.body.body,
@@ -44,8 +61,9 @@ app.prepare()
 
             newChapter.save().then(() => res.redirect('/'));
         });
-
         server.post('/user/create', (req, res) => {
+            const token = cookie.parse(req.headers.cookie)[tokenName];
+
             const newUser = new User({
                 login: req.body.login,
                 password: req.body.password,
@@ -53,9 +71,8 @@ app.prepare()
 
             newUser.save().then(() => res.redirect('/'));
         });
-
         server.post('/song/create', async (req, res) => {
-            const token = req.body.token;
+            const token = cookie.parse(req.headers.cookie)[tokenName];
 
             if (!token) {
                 return res.status(200).json({error: 'you must be logged in'});
@@ -77,7 +94,25 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
+        server.post('/song/delete', async (req, res) => {
+            const token = cookie.parse(req.headers.cookie)[tokenName];
 
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                jwt.verify(token, secret);
+
+                await Song.deleteOne({
+                    title: req.body.title,
+                });
+
+                res.status(200).json({success: true});
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
         server.post('/user/login', async (req, res) => {
             try {
                 const user = await User.findOne({
@@ -86,7 +121,7 @@ app.prepare()
                 });
 
                 if (!user) {
-                    return res.status(200).json({error: 'user not found'});
+                    return res.status(200).json({error: 'invalid credentials'});
                 }
 
                 const JWT = jwt.sign({

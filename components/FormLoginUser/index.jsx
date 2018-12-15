@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import cookie from 'js-cookie';
 
 import Button from '../Button';
 import Form from '../Form';
@@ -6,7 +7,7 @@ import Input from '../Input';
 import Notification from '../Notification';
 
 import {login} from '../../api/client';
-import {USER_TOKEN} from '../../consts/session_storage';
+import USER_TOKEN from '../../api/token_name';
 import useNotifications from '../../hooks/useNotifications';
 
 function FormLoginUser() {
@@ -19,7 +20,7 @@ function FormLoginUser() {
         try {
             const result = await login(elements.get('login'), elements.get('password'));
 
-            sessionStorage.setItem(USER_TOKEN, result.token);
+            cookie.set(USER_TOKEN, result.token);
             deleteAllNotifications();
             setNotification(`Successfully logged!`, 'success');
         } catch (e) {

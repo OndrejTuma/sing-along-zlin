@@ -1,0 +1,1 @@
+module.exports = 'sing-along-user-token';

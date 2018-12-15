@@ -6,7 +6,6 @@ import Input from '../Input';
 import Notification from '../Notification';
 
 import {createSong} from '../../api/client';
-import {USER_TOKEN} from '../../consts/session_storage';
 import useNotifications from '../../hooks/useNotifications';
 
 function FormNewSong() {
@@ -17,7 +16,7 @@ function FormNewSong() {
         setFetching(true);
 
         try {
-            await createSong(elements.get('title'), elements.get('text'), sessionStorage.getItem(USER_TOKEN));
+            await createSong(elements.get('title'), elements.get('text'));
 
             deleteAllNotifications();
             setNotification(`Successfully added!`, 'success');

@@ -1,13 +1,17 @@
 import fetch from 'cross-fetch';
 
 import {AppError, ApiError, API_ERRORS, ERR_NETWORK, ERR_NETWORK_MSG} from './errors';
-import {AUTH_URL, CREATE_SONG_URL} from './urls';
+import {AUTH_URL, CREATE_SONG_URL, DELETE_SONG_URL} from './urls';
 
-export function createSong(title, text, token) {
+export function createSong(title, text) {
     return apiFetch(CREATE_SONG_URL, 'POST', {
         title,
         text,
-        token,
+    });
+}
+export function deleteSong(title) {
+    return apiFetch(DELETE_SONG_URL, 'POST', {
+        title,
     });
 }
 export function login(login, password) {
