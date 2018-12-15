@@ -1,32 +1,38 @@
 import React, {useState} from 'react';
 
+import Button from '../Button';
 import Form from '../Form';
 import Input from '../Input';
-import Button from "../Button";
+import Notification from '../Notification';
 
 import {login} from '../../api/client';
+import {USER_TOKEN} from '../../consts/session_storage';
+import useNotifications from '../../hooks/useNotifications';
 
 function FormLoginUser() {
+    const [fetching, setFetching] = useState(false);
+    const [notifications, setNotification, deleteNotification, deleteAllNotifications] = useNotifications();
 
-    async function onSubmit(elements) {
+    async function handleOnSubmit(elements) {
         setFetching(true);
         try {
             const result = await login(elements.get('login'), elements.get('password'));
 
-            console.log(result);
+            sessionStorage.setItem(USER_TOKEN, result.token);
+            deleteAllNotifications();
+            setNotification(`Successfully logged!`, 'success');
         } catch (e) {
-            console.error(e);
+            setNotification(e.message, 'error');
         }
         setFetching(false);
     }
 
-    const [fetching, setFetching] = useState(false);
-
     return (
-        <Form action={`/user/login`} onSubmit={onSubmit}>
-            <p>Přihlásit</p>
+        <Form action={`/user/login`} onSubmit={handleOnSubmit}>
+            <h2>Přihlásit</h2>
             <Input label={'Jméno'} name={'login'} />
             <Input label={'Heslo'} type={'password'} name={'password'} />
+            <Notification notifications={notifications} remove={deleteNotification} />
             <Button label={'Přihlásit se'} busy={fetching} />
         </Form>
     )

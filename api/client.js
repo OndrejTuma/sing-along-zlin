@@ -10,8 +10,6 @@ export async function login(login, password) {
         login,
         password,
     });
-console.log(result);
-    //const accessToken = result.headers.get('Authorization');
 
     result = await result.json();
 
