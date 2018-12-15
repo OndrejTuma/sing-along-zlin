@@ -1,23 +1,20 @@
 import fetch from 'cross-fetch';
 
 import {AppError, ApiError, API_ERRORS, ERR_NETWORK, ERR_NETWORK_MSG} from './errors';
-import {AUTH_URL} from './urls';
+import {AUTH_URL, CREATE_SONG_URL} from './urls';
 
-export async function login(login, password) {
-    let result;
-
-    result = await apiFetch(AUTH_URL, 'POST', {
+export function createSong(title, text, token) {
+    return apiFetch(CREATE_SONG_URL, 'POST', {
+        title,
+        text,
+        token,
+    });
+}
+export function login(login, password) {
+    return apiFetch(AUTH_URL, 'POST', {
         login,
         password,
     });
-
-    result = await result.json();
-
-    if (result.error) {
-        throw new ApiError(result.error, API_ERRORS[result.error] || result.error);
-    }
-
-    return result;
 }
 
 async function apiFetch(url, method = 'GET', body) {
@@ -29,13 +26,24 @@ async function apiFetch(url, method = 'GET', body) {
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                //'APIKey': API_KEY,
             },
             body: JSON.stringify(body),
         });
     }
     catch (e) {
         throw new AppError(ERR_NETWORK, ERR_NETWORK_MSG);
+    }
+
+    if (result.status >= 400) {
+        result = await result.json();
+
+        throw new AppError(ERR_NETWORK, result.message);
+    }
+
+    result = await result.json();
+
+    if (result.error) {
+        throw new ApiError(result.error, API_ERRORS[result.error] || result.error);
     }
 
     return result;

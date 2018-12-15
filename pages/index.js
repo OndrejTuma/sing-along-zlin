@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Head from 'next/head';
 
 import FormLoginUser from '../components/FormLoginUser';
+import FormNewSong from '../components/FormNewSong';
 
 import '../static/sass/global.scss';
 
@@ -11,6 +12,7 @@ class Index extends Component {
             chapters: res.chapters,
         };
     }
+
     render() {
         const {chapters} = this.props;
 
@@ -28,6 +30,7 @@ class Index extends Component {
                     ))}
                 </ul>
                 <FormLoginUser/>
+                <FormNewSong/>
             </div>
         );
     }

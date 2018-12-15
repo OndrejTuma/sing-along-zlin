@@ -5,11 +5,11 @@ import Form from '../Form';
 import Input from '../Input';
 import Notification from '../Notification';
 
-import {login} from '../../api/client';
+import {createSong} from '../../api/client';
 import {USER_TOKEN} from '../../consts/session_storage';
 import useNotifications from '../../hooks/useNotifications';
 
-function FormLoginUser() {
+function FormNewSong() {
     const [fetching, setFetching] = useState(false);
     const [notifications, setNotification, deleteNotification, deleteAllNotifications] = useNotifications();
 
@@ -17,11 +17,10 @@ function FormLoginUser() {
         setFetching(true);
 
         try {
-            const result = await login(elements.get('login'), elements.get('password'));
+            await createSong(elements.get('title'), elements.get('text'), sessionStorage.getItem(USER_TOKEN));
 
-            sessionStorage.setItem(USER_TOKEN, result.token);
             deleteAllNotifications();
-            setNotification(`Successfully logged!`, 'success');
+            setNotification(`Successfully added!`, 'success');
         } catch (e) {
             setNotification(e.message, 'error');
         }
@@ -30,14 +29,14 @@ function FormLoginUser() {
     }
 
     return (
-        <Form action={`/user/login`} onSubmit={handleOnSubmit}>
-            <h2>Přihlásit</h2>
-            <Input label={'Jméno'} name={'login'} />
-            <Input label={'Heslo'} type={'password'} name={'password'} />
+        <Form onSubmit={handleOnSubmit}>
+            <h2>Nová písnička</h2>
+            <Input label={'Název'} name={'title'} />
+            <Input label={'Text'} name={'text'} />
             <Notification notifications={notifications} remove={deleteNotification} />
-            <Button label={'Přihlásit se'} busy={fetching} />
+            <Button label={'Uložit'} busy={fetching} />
         </Form>
     )
 }
 
-export default FormLoginUser;
+export default FormNewSong;
