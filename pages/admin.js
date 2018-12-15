@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 
+import Admin from '../components/Admin';
 import FormLoginUser from '../components/FormLoginUser';
-import FormNewSong from '../components/FormNewSong';
 
-import {store, useStore} from '../hooks/global';
+import {store, useStore} from '../hooks/store';
 
 import '../static/sass/global.scss';
 
@@ -18,7 +18,7 @@ function Index({logged}) {
                 <title>{`Sing along admin`}</title>
             </Head>
             {(logged || isLogged) ? (
-                <FormNewSong/>
+                <Admin/>
             ) : (
                 <FormLoginUser/>
             )}

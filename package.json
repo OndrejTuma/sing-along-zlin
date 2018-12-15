@@ -7,8 +7,9 @@
   "author": "Ondřej Tůma <ondr@centrum.cz>",
   "license": "MIT",
   "scripts": {
+    "build": "cross-env BABEL_ENV=production next build",
     "dev": "cross-env BABEL_ENV=development node server.js",
-    "build": "cross-env BABEL_ENV=production next build"
+    "generate": "plop"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -34,6 +35,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^5.2.0",
     "node-sass": "^4.11.0",
+    "plop": "^2.2.0",
     "react-svg-loader": "^2.1.0"
   }
 }

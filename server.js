@@ -61,16 +61,6 @@ app.prepare()
 
             newChapter.save().then(() => res.redirect('/'));
         });
-        server.post('/user/create', (req, res) => {
-            const token = cookie.parse(req.headers.cookie)[tokenName];
-
-            const newUser = new User({
-                login: req.body.login,
-                password: req.body.password,
-            });
-
-            newUser.save().then(() => res.redirect('/'));
-        });
         server.post('/song/create', async (req, res) => {
             const token = cookie.parse(req.headers.cookie)[tokenName];
 
@@ -112,6 +102,17 @@ app.prepare()
             } catch (e) {
                 res.status(500).json(e);
             }
+        });
+
+        server.post('/user/create', (req, res) => {
+            const token = cookie.parse(req.headers.cookie)[tokenName];
+
+            const newUser = new User({
+                login: req.body.login,
+                password: req.body.password,
+            });
+
+            newUser.save().then(() => res.redirect('/'));
         });
         server.post('/user/login', async (req, res) => {
             try {

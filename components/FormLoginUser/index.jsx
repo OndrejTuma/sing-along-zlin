@@ -8,7 +8,7 @@ import Notification from '../Notification';
 
 import {login} from '../../api/client';
 import tokenName from '../../api/token_name';
-import {useStore} from '../../hooks/global';
+import {useStore} from '../../hooks/store';
 import useNotifications from '../../hooks/useNotifications';
 
 function FormLoginUser() {

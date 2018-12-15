@@ -1,7 +1,9 @@
 import fetch from 'cross-fetch';
+import cookie from 'js-cookie';
 
 import {AppError, ApiError, API_ERRORS, ERR_NETWORK, ERR_NETWORK_MSG} from './errors';
-import {AUTH_URL, CREATE_SONG_URL, DELETE_SONG_URL} from './urls';
+import {CREATE_SONG_URL, DELETE_SONG_URL, USER_LOGIN_URL} from './urls';
+import tokenName from './token_name';
 
 export function createSong(title, text) {
     return apiFetch(CREATE_SONG_URL, 'POST', {
@@ -15,10 +17,13 @@ export function deleteSong(title) {
     });
 }
 export function login(login, password) {
-    return apiFetch(AUTH_URL, 'POST', {
+    return apiFetch(USER_LOGIN_URL, 'POST', {
         login,
         password,
     });
+}
+export function logout() {
+    return cookie.remove(tokenName);
 }
 
 async function apiFetch(url, method = 'GET', body) {
