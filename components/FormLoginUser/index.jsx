@@ -7,12 +7,14 @@ import Input from '../Input';
 import Notification from '../Notification';
 
 import {login} from '../../api/client';
-import USER_TOKEN from '../../api/token_name';
+import tokenName from '../../api/token_name';
+import {useStore} from '../../hooks/global';
 import useNotifications from '../../hooks/useNotifications';
 
 function FormLoginUser() {
     const [fetching, setFetching] = useState(false);
-    const [notifications, setNotification, deleteNotification, deleteAllNotifications] = useNotifications();
+    const [notifications, setNotification, deleteNotification] = useNotifications();
+    const [state, setState] = useStore();
 
     async function handleOnSubmit(elements) {
         setFetching(true);
@@ -20,9 +22,12 @@ function FormLoginUser() {
         try {
             const result = await login(elements.get('login'), elements.get('password'));
 
-            cookie.set(USER_TOKEN, result.token);
-            deleteAllNotifications();
-            setNotification(`Successfully logged!`, 'success');
+            cookie.set(tokenName, result.token);
+
+            setState({
+                ...state,
+                isLogged: true,
+            })
         } catch (e) {
             setNotification(e.message, 'error');
         }
@@ -39,6 +44,6 @@ function FormLoginUser() {
             <Button label={'Přihlásit se'} busy={fetching} />
         </Form>
     )
-}
+};
 
 export default FormLoginUser;

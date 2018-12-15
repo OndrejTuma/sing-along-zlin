@@ -1,36 +1,39 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Head from 'next/head';
 
 import FormLoginUser from '../components/FormLoginUser';
 import FormNewSong from '../components/FormNewSong';
 
+import {store, useStore} from '../hooks/global';
+
 import '../static/sass/global.scss';
 
-class Index extends Component {
-    static async getInitialProps({req, res}) {
-        return {
-            isLogged: res.isLogged,
-        };
-    }
+function Index({logged}) {
+    const [state] = useStore();
+    const {isLogged} = state;
 
-    render() {
-        const {isLogged} = this.props;
-
-        console.log('isLogged', isLogged);
-
-        return (
-            <div>
-                <Head>
-                    <title>{`Sing along admin`}</title>
-                </Head>
-                {isLogged ? (
-                    <FormNewSong/>
-                ) : (
-                    <FormLoginUser/>
-                )}
-            </div>
-        );
-    }
+    return (
+        <div>
+            <Head>
+                <title>{`Sing along admin`}</title>
+            </Head>
+            {(logged || isLogged) ? (
+                <FormNewSong/>
+            ) : (
+                <FormLoginUser/>
+            )}
+        </div>
+    );
 }
+
+Index.getInitialProps = ({req, res}) => {
+    store.state = {
+        isLogged: res.isLogged,
+    };
+
+    return {
+        logged: res.isLogged,
+    };
+};
 
 export default Index;
