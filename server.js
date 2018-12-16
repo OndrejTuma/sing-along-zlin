@@ -33,26 +33,37 @@ app.prepare()
 
         server.use(bodyParser.json());
 
-        server.get('*', async (req, res) => {
+        // update token
+        server.all('*', (req, res, next) => {
             const token = cookie.parse(req.headers.cookie)[tokenName];
 
             let data = false;
             try {
                 data = jwt.verify(token, secret);
-            } catch (e) {
 
+                req.token = jwt.sign({
+                    login: data.login,
+                }, secret, {
+                    expiresIn: 300, // s
+                });
+                req.login = data.login;
+            } catch (e) {
             }
 
+            next();
+        });
+
+        server.get('*', async (req, res) => {
             const songs = await Song.find();
 
             return handle(req, Object.assign(res, {
                 songs: songs,
-                isLogged: data && data.login,
+                token: req.token,
             }));
         });
 
         server.post('/chapter/create', (req, res) => {
-            const token = cookie.parse(req.headers.cookie)[tokenName];
+            const token = req.token;
 
             const newChapter = new Chapter({
                 title: req.body.title,
@@ -62,17 +73,15 @@ app.prepare()
             newChapter.save().then(() => res.redirect('/'));
         });
         server.post('/song/create', async (req, res) => {
-            const token = cookie.parse(req.headers.cookie)[tokenName];
+            const token = req.token;
 
             if (!token) {
                 return res.status(200).json({error: 'you must be logged in'});
             }
 
             try {
-                const data = jwt.verify(token, secret);
-
                 const newSong = new Song({
-                    author: data.login,
+                    author: req.login,
                     title: req.body.title,
                     text: req.body.text,
                 });
@@ -85,15 +94,13 @@ app.prepare()
             }
         });
         server.post('/song/delete', async (req, res) => {
-            const token = cookie.parse(req.headers.cookie)[tokenName];
+            const token = req.token;
 
             if (!token) {
                 return res.status(200).json({error: 'you must be logged in'});
             }
 
             try {
-                jwt.verify(token, secret);
-
                 await Song.deleteOne({
                     title: req.body.title,
                 });
@@ -104,15 +111,13 @@ app.prepare()
             }
         });
         server.post('/song/fetch/all', async (req, res) => {
-            const token = cookie.parse(req.headers.cookie)[tokenName];
+            const token = req.token;
 
             if (!token) {
                 return res.status(200).json({error: 'you must be logged in'});
             }
 
             try {
-                jwt.verify(token, secret);
-
                 const songs = await Song.find();
 
                 res.status(200).json({songs: songs});
@@ -121,7 +126,7 @@ app.prepare()
             }
         });
         server.post('/user/create', (req, res) => {
-            const token = cookie.parse(req.headers.cookie)[tokenName];
+            const token = req.token;
 
             const newUser = new User({
                 login: req.body.login,

@@ -1,10 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
+import cookie from 'js-cookie';
 import {setGlobal, useGlobal} from 'reactn';
 
 import Admin from '../components/Admin';
 import FormLoginUser from '../components/FormLoginUser';
 import Notification from '../components/Notification';
+
+import tokenName from '../api/token_name';
+
+import '../static/sass/global.scss';
 
 setGlobal({
     isLogged: false,
@@ -12,11 +17,11 @@ setGlobal({
     songs: new Map(),
 });
 
-import '../static/sass/global.scss';
-
-function Index({logged}) {
+function Index({token}) {
     const [isLogged] = useGlobal('isLogged');
     const [notifications] = useGlobal('notifications');
+
+    cookie.set(tokenName, token);
 
     return (
         <div>
@@ -24,7 +29,7 @@ function Index({logged}) {
                 <title>{`Sing along admin`}</title>
             </Head>
             <Notification notifications={notifications}/>
-            {(logged || isLogged) ? (
+            {(token || isLogged) ? (
                 <Admin/>
             ) : (
                 <FormLoginUser/>
@@ -35,7 +40,7 @@ function Index({logged}) {
 
 Index.getInitialProps = ({req, res}) => {
     return {
-        logged: res.isLogged,
+        token: res.token,
     };
 };
 
