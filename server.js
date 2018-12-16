@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const next = require('next');
 
-const tokenName = require('./api/token_name');
 const secret = require('./consts/secret');
-const user = require('./helpers/user');
+const tokenName = require('./api/token_name');
+const userHelper = require('./helpers/user');
 
 const Chapter = require('./models/Chapter');
 const Song = require('./models/Song');
@@ -43,7 +43,7 @@ app.prepare()
             try {
                 data = jwt.verify(token, secret);
 
-                req.token = user.login(data);
+                req.token = userHelper.login(data);
                 req.login = data.login;
             } catch (e) {
             }
@@ -61,11 +61,10 @@ app.prepare()
         });
 
         server.post('/chapter/create', (req, res) => {
-            const token = req.token;
-
             const newChapter = new Chapter({
                 title: req.body.title,
                 body: req.body.body,
+                token: req.token,
             });
 
             newChapter.save().then(() => res.redirect('/'));
@@ -86,7 +85,10 @@ app.prepare()
 
                 await newSong.save();
 
-                res.status(200).json({song: newSong});
+                res.status(200).json({
+                    song: newSong,
+                    token: token,
+                });
             } catch (e) {
                 res.status(500).json(e);
             }
@@ -103,7 +105,10 @@ app.prepare()
                     title: req.body.title,
                 });
 
-                res.status(200).json({success: true});
+                res.status(200).json({
+                    success: true,
+                    token: token,
+                });
             } catch (e) {
                 res.status(500).json(e);
             }
@@ -118,7 +123,10 @@ app.prepare()
             try {
                 const songs = await Song.find();
 
-                res.status(200).json({songs: songs});
+                res.status(200).json({
+                    songs: songs,
+                    token: token,
+                });
             } catch (e) {
                 res.status(500).json(e);
             }
@@ -144,7 +152,7 @@ app.prepare()
                     return res.status(200).json({error: 'invalid credentials'});
                 }
 
-                const JWT = user.login(user);
+                const JWT = userHelper.login(user);
 
                 res.status(200).json({token: JWT});
             } catch (e) {

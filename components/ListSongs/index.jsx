@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useGlobal} from 'reactn';
+import cookie from 'js-cookie';
 
 import Loading from '../Loading';
 
 import {deleteSong as deleteSongAPI, fetchSongs} from '../../api/client';
+import tokenName from "../../api/token_name";
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
@@ -15,8 +17,10 @@ function ListSongs() {
 
     async function handleDeleteSong(song) {
         try {
-            await deleteSongAPI(song.title);
+            const {token} = await deleteSongAPI(song.title);
+
             deleteSong(song._id);
+            cookie.set(tokenName, token);
         } catch (e) {
             setNotification({
                 message: e.message,
