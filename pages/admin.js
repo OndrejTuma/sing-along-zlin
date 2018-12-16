@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Head from 'next/head';
 import cookie from 'js-cookie';
 import {setGlobal, useGlobal} from 'reactn';
@@ -21,7 +21,9 @@ function Index({token}) {
     const [isLogged] = useGlobal('isLogged');
     const [notifications] = useGlobal('notifications');
 
-    cookie.set(tokenName, token);
+    useEffect(() => {
+        cookie.set(tokenName, token);
+    }, []);
 
     return (
         <div>

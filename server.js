@@ -35,6 +35,7 @@ app.prepare()
 
         // update token
         server.all('*', (req, res, next) => {
+            // TODO: not all request, just page requests
             const token = cookie.parse(req.headers.cookie)[tokenName];
 
             let data = false;
