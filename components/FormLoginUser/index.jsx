@@ -19,9 +19,9 @@ function FormLoginUser() {
         setFetching(true);
 
         try {
-            const result = await login(elements.get('login'), elements.get('password'));
+            const {token} = await login(elements.get('login'), elements.get('password'));
 
-            cookie.set(tokenName, result.token);
+            cookie.set(tokenName, token);
 
             setIsLogged(true);
         } catch (e) {

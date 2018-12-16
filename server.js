@@ -5,8 +5,9 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const next = require('next');
 
-const secret = require('./consts/secret');
 const tokenName = require('./api/token_name');
+const secret = require('./consts/secret');
+const user = require('./helpers/user');
 
 const Chapter = require('./models/Chapter');
 const Song = require('./models/Song');
@@ -42,11 +43,7 @@ app.prepare()
             try {
                 data = jwt.verify(token, secret);
 
-                req.token = jwt.sign({
-                    login: data.login,
-                }, secret, {
-                    expiresIn: 300, // s
-                });
+                req.token = user.login(data);
                 req.login = data.login;
             } catch (e) {
             }
@@ -147,11 +144,7 @@ app.prepare()
                     return res.status(200).json({error: 'invalid credentials'});
                 }
 
-                const JWT = jwt.sign({
-                    login: user.login,
-                }, secret, {
-                    expiresIn: 300, // s
-                });
+                const JWT = user.login(user);
 
                 res.status(200).json({token: JWT});
             } catch (e) {

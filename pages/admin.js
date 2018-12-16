@@ -18,11 +18,15 @@ setGlobal({
 });
 
 function Index({token}) {
-    const [isLogged] = useGlobal('isLogged');
+    const [isLogged, setIsLogged] = useGlobal('isLogged');
     const [notifications] = useGlobal('notifications');
 
     useEffect(() => {
         cookie.set(tokenName, token);
+
+        if (token) {
+            setIsLogged(true);
+        }
     }, []);
 
     return (
