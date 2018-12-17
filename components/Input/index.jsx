@@ -1,71 +1,44 @@
-import React, {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import classNames from 'classnames';
 
-import Visibility from '../../static/svg/visibility.svg';
-import VisibilityOff from '../../static/svg/visibility_off.svg';
+import InputHidden from '../InputHidden';
+import InputPassword from '../InputPassword';
+
+import {generateID} from '../../helpers/strings';
 
 import styles from './styles.scss';
 
-class Input extends Component {
-    state = {
-        focused: false,
-        passwordVisible: false,
-        value: '',
-    };
+function Input({className, errorMessage, id = generateID(), label, name, type = 'text', value = ''}) {
+    const [stateValue, setStateValue] = useState(value);
+    const [isFocused, setIsFocused] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
-    handleBlur = () => {
-        this.setState({focused: false});
-    };
-
-    handleChange = () => {
-        this.setState({value: this.input.value});
-    };
-
-    handleFocus = () => {
-        this.setState({focused: true});
-    };
-
-    togglePassword = () => {
-        this.setState({passwordVisible: !this.state.passwordVisible});
-    };
-
-    render() {
-        const {className, errorText, hasError, id, label, name, type} = this.props;
-        const {focused, passwordVisible, value} = this.state;
-
-        const filled = value.length > 0;
-        const isPassword = type === 'password';
-
-        let Eye;
-
-        if (isPassword) {
-            Eye = passwordVisible ? VisibilityOff : Visibility;
-        }
-
-        return (
-            <div className={classNames(styles.container, className, {
-                [styles.focused]: focused,
-                [styles.filled]: filled,
-                [styles.hasError]: hasError,
-            })}>
-                {label && <label className={styles.label} htmlFor={id}>{label}</label>}
-                <input id={id} type={passwordVisible ? 'text' : type}
-                       value={value}
-                       name={name}
-                       ref={el => this.input = el}
-                       onFocus={this.handleFocus}
-                       onBlur={this.handleBlur}
-                       onChange={this.handleChange}/>
-                {isPassword && <Eye className={styles.eye} onClick={this.togglePassword}/>}
-                {errorText && <p className={styles.error}>{errorText}</p>}
-            </div>
-        );
+    if (type === 'hidden') {
+        return <InputHidden name={name} value={value}/>;
     }
-}
 
-Input.defaultProps = {
-    hasError: false,
-    type: 'text',
-};
+    return (
+        <div className={classNames(styles.container, className, {
+            [styles.focused]: isFocused,
+            [styles.filled]: stateValue && stateValue.length > 0,
+            [styles.hasError]: hasError,
+        })}>
+            {label && <label className={styles.label} htmlFor={id}>{label}</label>}
+            {type === 'password' ? (
+                <InputPassword name={name} value={stateValue} setIsFocused={setIsFocused} onChange={setStateValue}/>
+            ) : (
+                <input id={id}
+                       type={type}
+                       value={stateValue}
+                       name={name}
+                       onFocus={() => setIsFocused(true)}
+                       onBlur={() => setIsFocused(false)}
+                       onChange={(e) => setStateValue(e.target.value)}
+                />
+            )}
+            {hasError && <p className={styles.error}>{errorMessage}</p>}
+        </div>
+    )
+}
 
 export default Input;

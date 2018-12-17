@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Button from '../Button';
 import Form from '../Form';
 import Input from '../Input';
+import Wysiwyg from '../Wysiwyg';
 
 import {createSong} from '../../api/client';
 import {setTokenCookie} from '../../helpers/user';
@@ -15,6 +16,8 @@ function FormNewSong() {
 
     async function handleOnSubmit(elements) {
         setFetching(true);
+
+        console.log(elements);
 
         try {
             const {song, token} = await createSong(elements.get('title'), elements.get('text'));
@@ -32,7 +35,7 @@ function FormNewSong() {
         <Form onSubmit={handleOnSubmit}>
             <h3>Nová písnička</h3>
             <Input label={'Název'} name={'title'} />
-            <Input label={'Text'} name={'text'} />
+            <Wysiwyg name={'text'}/>
             <Button label={'Uložit'} busy={fetching} />
         </Form>
     )

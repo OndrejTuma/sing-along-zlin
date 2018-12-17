@@ -1,3 +1,3 @@
 module.exports = {
-    IDLE_TIME: 300, // s
+    IDLE_TIME: 10 * 60, // s
 };
