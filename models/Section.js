@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const SectionSchema = new Schema({
     belongsTo: {type: Schema.ObjectId, ref: 'repertoire'},
-    title: {type: String},
+    title: {type: String, required: true},
     description: {type: String},
     song: {type: Schema.ObjectId, ref: 'song'},
 });

@@ -9,7 +9,8 @@ const secret = require('./consts/secret');
 const tokenName = require('./api/token_name');
 const userHelper = require('./helpers/server/user');
 
-const Chapter = require('./models/Chapter');
+const Repertoire = require('./models/Repertoire');
+const Section = require('./models/Section');
 const Song = require('./models/Song');
 const User = require('./models/User');
 
