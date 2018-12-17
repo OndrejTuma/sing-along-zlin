@@ -18,8 +18,8 @@ function AdminSongs() {
         <div className={styles.wrapper}>
             <h2>Správa písniček</h2>
             <PlusSVG
-                className={classNames(styles.addNewSong, {
-                    [styles.isOpen]: addSongIsVisible,
+                className={classNames(styles.addNewSong, 'addSVG', {
+                    active: addSongIsVisible,
                 })}
                 onClick={() => handleAddSongVisibility(!addSongIsVisible)}
                 title={addSongIsVisible ? 'Zavřít' : 'Přidat písničku'}

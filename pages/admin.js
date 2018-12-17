@@ -25,6 +25,7 @@ function Admin({token}) {
     useEffect(() => {
         setTokenCookie(token);
 
+        //TODO: think of a way to set token from server to false after using it here
         setIsLogged(!!token);
         setIsLoaded(true);
     }, []);

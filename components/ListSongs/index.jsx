@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useGlobal} from 'reactn';
 
 import Loading from '../Loading';
+import Song from '../Song';
 
-import {deleteSong as deleteSongAPI, fetchSongs} from '../../api/client';
-import {setTokenCookie} from '../../helpers/user';
+import {fetchSongs} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
@@ -12,21 +12,9 @@ import styles from './styles.scss';
 function ListSongs() {
     const [, setNotification] = useGlobal('notifications');
     const [fetching, setFetching] = useState(true);
-    const [songs, addSong, deleteSong] = useGlobalMap('songs');
+    const [songs, addSong] = useGlobalMap('songs');
 
-    async function handleDeleteSong(song) {
-        try {
-            const {token} = await deleteSongAPI(song.title);
 
-            deleteSong(song._id);
-            setTokenCookie(token);
-        } catch (e) {
-            setNotification({
-                message: e.message,
-                type: 'error',
-            });
-        }
-    }
 
     useEffect(() => {
         setFetching(true);
@@ -41,17 +29,16 @@ function ListSongs() {
 
     return (
         <>
+            <h3>Uložené písničky</h3>
             {fetching && <Loading/>}
             <ul className={styles.wrapper}>
                 {songs && songs.size > 0 ? [...songs.values()].map(song => (
                     <li key={song._id}>
-                        <h3>{song.title}</h3>
-                        <strong onClick={() => handleDeleteSong(song)}>&times;</strong>
-                        <p>
-                            <small><i>{song.text}</i></small>
-                        </p>
+                        <Song song={song}/>
                     </li>
-                )) : <li><i>zatím žádné nejsou</i></li>}
+                )) : (
+                    <li><i>zatím žádné nejsou</i></li>
+                )}
             </ul>
         </>
     )

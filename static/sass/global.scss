@@ -13,3 +13,21 @@ body {
     font-family: $font-family-hind;
     margin: 0;
 }
+
+:global {
+    .addSVG {
+        cursor: pointer;
+        fill: $mountain-meadow;
+        transform: rotate(0);
+        transition: transform .3s, fill .3s;
+
+        &.active {
+            fill: $wild-strawberry;
+            transform: rotate(45deg);
+        }
+    }
+    .removeSVG {
+        cursor: pointer;
+        @extend .addSVG.active;
+    }
+}

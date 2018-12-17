@@ -1,9 +1,13 @@
 @import "~./../../static/sass/helpers.scss";
 
-.addNewSong {
+.removeSong {
     position: absolute;
     right: 0;
     top: 0;
+    width: 20px;
+}
+.title {
+    cursor: pointer;
 }
 .wrapper {
     position: relative;

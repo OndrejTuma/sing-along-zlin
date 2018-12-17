@@ -11,7 +11,7 @@ function Notification({notifications}) {
         remove(message);
     }
 
-    if (!notifications) {
+    if (!notifications || !'entries' in notifications) {
         return null;
     }
 
