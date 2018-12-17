@@ -12,7 +12,12 @@ function useGlobalMap(name) {
         setMap(map);
     }
 
-    return [map, addItem, deleteItem];
+    function deleteAllItems() {
+        map.clear();
+        setMap(map);
+    }
+
+    return [map, addItem, deleteItem, deleteAllItems];
 }
 
 export default useGlobalMap;

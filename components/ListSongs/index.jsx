@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import mongoose from 'mongoose';
 import {useGlobal} from 'reactn';
 
 import Loading from '../Loading';

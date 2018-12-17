@@ -11,7 +11,7 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 
 function FormLoginUser() {
     const [fetching, setFetching] = useState(false);
-    const [, setNotification] = useGlobalMap('notifications');
+    const [, setNotification, , deleteAllNotifications] = useGlobalMap('notifications');
     const [, setIsLogged] = useGlobal('isLogged');
 
     async function handleOnSubmit(elements) {
@@ -20,6 +20,7 @@ function FormLoginUser() {
         try {
             const {token} = await login(elements.get('login'), elements.get('password'));
 
+            deleteAllNotifications();
             setTokenCookie(token);
 
             setIsLogged(true);
