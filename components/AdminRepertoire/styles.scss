@@ -5,8 +5,15 @@
     right: 0;
     top: 0;
 }
+.addNewSection {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
 .repertoire {
     border: 1px solid $gray-chateau;
+    padding: 20px;
+    position: relative;
 }
 .wrapper {
     border-bottom: 1px solid $regent-gray;

@@ -40,8 +40,7 @@ function AdminRepertoire() {
             {showNewRepertoire && <FormNewRepertoar/>}
             {currentRepertoireId && (
                 <div className={styles.repertoire}>
-                    <h3>Upravit repertoár</h3>
-                    <h4>{repertoires.get(currentRepertoireId).title}</h4>
+                    <h3>Upravit repertoár: {repertoires.get(currentRepertoireId).title}</h3>
                     <PlusSVG
                         className={classNames(styles.addNewSection, 'addSVG', {
                             active: showNewSection,
