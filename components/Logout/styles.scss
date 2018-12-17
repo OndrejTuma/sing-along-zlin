@@ -1,0 +1,11 @@
+@import "~./../../static/sass/helpers.scss";
+
+.button {
+    cursor: pointer;
+    display: inline-block;
+    fill: $wild-strawberry;
+}
+.wrapper {
+    position: absolute;
+    right: 20px;
+}

@@ -30,7 +30,7 @@ function FormNewSong() {
 
     return (
         <Form onSubmit={handleOnSubmit}>
-            <h2>Nová písnička</h2>
+            <h3>Nová písnička</h3>
             <Input label={'Název'} name={'title'} />
             <Input label={'Text'} name={'text'} />
             <Button label={'Uložit'} busy={fetching} />

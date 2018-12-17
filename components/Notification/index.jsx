@@ -11,6 +11,10 @@ function Notification({notifications}) {
         remove(message);
     }
 
+    if (!notifications) {
+        return null;
+    }
+
     return (
         <ul>
             {[...notifications.entries()].map(([message, type]) => (

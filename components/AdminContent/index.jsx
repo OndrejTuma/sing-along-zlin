@@ -1,7 +1,6 @@
 import React from 'react';
 
-import FormNewSong from '../FormNewSong';
-import ListSongs from '../ListSongs';
+import AdminSongs from '../AdminSongs';
 import Logout from '../Logout';
 
 function AdminContent() {
@@ -10,8 +9,7 @@ function AdminContent() {
         <>
             <Logout/>
             <h1>Vítej v administraci</h1>
-            <ListSongs/>
-            <FormNewSong/>
+            <AdminSongs/>
         </>
     )
 }

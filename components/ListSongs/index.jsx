@@ -41,7 +41,6 @@ function ListSongs() {
 
     return (
         <>
-            <h2>Písničky</h2>
             {fetching && <Loading/>}
             <ul className={styles.wrapper}>
                 {songs && songs.size > 0 ? [...songs.values()].map(song => (
