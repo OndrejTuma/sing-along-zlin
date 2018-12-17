@@ -45,7 +45,7 @@ function ListSongs() {
             <h2>Písničky</h2>
             {fetching && <Loading/>}
             <ul className={styles.wrapper}>
-                {songs ? [...songs.values()].map(song => (
+                {songs && songs.size > 0 ? [...songs.values()].map(song => (
                     <li key={song._id}>
                         <h3>{song.title}</h3>
                         <strong onClick={() => handleDeleteSong(song)}>&times;</strong>

@@ -78,7 +78,7 @@ app.prepare()
             }
 
             try {
-                const adminUser = User.find({login: req.login});
+                const adminUser = await User.findOne({login: req.login});
 
                 const newSong = new Song({
                     author: adminUser._id,
