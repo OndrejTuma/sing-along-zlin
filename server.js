@@ -83,7 +83,25 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
-        server.post('/repertoire/fetch/all', async (req, res) => {
+        server.post('/repertoire/fetch/:id', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                const repertoire = await Repertoire.find({_id: req.params.id});
+
+                res.status(200).json({
+                    repertoire: repertoire,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/repertoire/fetch-all', async (req, res) => {
             const token = req.token;
 
             if (!token) {
@@ -119,6 +137,24 @@ app.prepare()
 
                 res.status(200).json({
                     section: newSection,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/section/fetch/:repertoireId', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                const sections = await Section.find({belongsTo: req.params.repertoireId})
+
+                res.status(200).json({
+                    sections: sections,
                     token: token,
                 });
             } catch (e) {
@@ -171,7 +207,7 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
-        server.post('/song/fetch/all', async (req, res) => {
+        server.post('/song/fetch-all', async (req, res) => {
             const token = req.token;
 
             if (!token) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useGlobal} from 'reactn';
 
 import Button from '../Button';
 import Form from '../Form';
@@ -12,12 +13,13 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 import styles from './styles.scss';
 
 function FormNewSection() {
+    const [currentRepertoireId] = useGlobal('currentRepertoireId');
     const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
-    
+
     async function handleOnSubmit(elements) {
         try {
-            const {section, token} = await createSection(elements.get('title'), elements.get('song'));
+            const {section, token} = await createSection(elements.get('title'), elements.get('song'), currentRepertoireId);
 
             addSection(section._id, section);
             setTokenCookie(token);

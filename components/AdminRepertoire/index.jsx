@@ -38,8 +38,9 @@ function AdminRepertoire() {
             />
             {showNewRepertoire && <FormNewRepertoar/>}
             {currentRepertoireId && (
-                <>
-                    <h3>{repertoires.get(currentRepertoireId).title}</h3>
+                <div className={styles.repertoire}>
+                    <h3>Upravit repertoár</h3>
+                    <h4>{repertoires.get(currentRepertoireId).title}</h4>
                     <PlusSVG
                         className={classNames(styles.addNewSection, 'addSVG', {
                             active: showNewSection,
@@ -49,7 +50,7 @@ function AdminRepertoire() {
                     />
                     {showNewSection && <FormNewSection/>}
                     <ListSections sections={sections}/>
-                </>
+                </div>
             )}
             <ListRepertoires/>
         </div>

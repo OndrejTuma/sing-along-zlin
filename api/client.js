@@ -5,7 +5,9 @@ import {AppError, ApiError, API_ERRORS, ERR_NETWORK, ERR_NETWORK_MSG} from './er
 import {
     REPERTOIRE_CREATE_URL,
     REPERTOIRE_FETCH_ALL_URL,
+    REPERTOIRE_FETCH_URL,
     SECTION_CREATE_URL,
+    SECTION_FETCH_URL,
     SONG_CREATE_URL,
     SONG_DELETE_URL,
     SONG_FETCH_ALL_URL,
@@ -19,10 +21,11 @@ export function createRepertoir(title) {
     });
 }
 
-export function createSection(title, song) {
+export function createSection(title, song, repertoireId) {
     return apiFetch(SECTION_CREATE_URL, 'POST', {
         title,
         song,
+        repertoireId,
     });
 }
 
@@ -39,8 +42,16 @@ export function deleteSong(title) {
     });
 }
 
+export function fetchRepertoire(id) {
+    return apiFetch(`${REPERTOIRE_FETCH_URL}/${id}`);
+}
+
 export function fetchRepertoires() {
     return apiFetch(REPERTOIRE_FETCH_ALL_URL);
+}
+
+export function fetchSectionsInRepertoar(repertoireId) {
+    return apiFetch(`${SECTION_FETCH_URL}/${repertoireId}`);
 }
 
 export function fetchSongs() {

@@ -1,19 +1,35 @@
 import React, {useEffect, useState} from 'react';
+import {useGlobal} from 'reactn';
 
 import Loading from '../Loading';
 
-import {fetchRepertoires} from '../../api/client';
+import {fetchRepertoires, fetchSectionsInRepertoar} from '../../api/client';
+import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
-import {setTokenCookie} from "../../helpers/user";
-import {useGlobal} from "reactn";
 
 function ListRepertoires() {
     const [fetching, setFetching] = useState(false);
     const [, setCurrentRepertoireId] = useGlobal('currentRepertoireId');
     const [repertoires, addRepertoire] = useGlobalMap('repertoires');
+    const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
+
+    async function handleSetCurrentRepertoar(id) {
+        setFetching(true);
+        setCurrentRepertoireId(id);
+        try {
+            const {sections, token} = await fetchSectionsInRepertoar(id);
+
+            sections.forEach(section => addSection(section._id, section));
+            setTokenCookie(token);
+        } catch (e) {
+            addNotification(e.message, 'error');
+        } finally {
+            setFetching(false);
+        }
+    }
 
     useEffect(() => {
         setFetching(true);
@@ -25,21 +41,24 @@ function ListRepertoires() {
             .catch(e => addNotification(e.message, 'error'))
             .finally(() => setFetching(false));
     }, []);
-    
+
     if (fetching) {
         return <Loading/>;
     }
-    
+
     return (
-        <ul className={styles.wrapper}>
-            {repertoires && repertoires.size > 0 ? [...repertoires.values()].map(repertoire => (
-                <li key={repertoire._id} onClick={() => setCurrentRepertoireId(repertoire._id)}>
-                    {repertoire.title}
-                </li>
-            )) : (
-                <li><i>zatím žádné nejsou</i></li>
-            )}
-        </ul>
+        <>
+            <h3>Uložené repertoáry</h3>
+            <ul className={styles.wrapper}>
+                {repertoires && repertoires.size > 0 ? [...repertoires.values()].map(repertoire => (
+                    <li key={repertoire._id} onClick={() => handleSetCurrentRepertoar(repertoire._id)}>
+                        {repertoire.title}
+                    </li>
+                )) : (
+                    <li><i>zatím žádné nejsou</i></li>
+                )}
+            </ul>
+        </>
     )
 }
 
