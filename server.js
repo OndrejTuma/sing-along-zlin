@@ -7,7 +7,7 @@ const next = require('next');
 
 const secret = require('./consts/secret');
 const tokenName = require('./api/token_name');
-const userHelper = require('./helpers/user');
+const userHelper = require('./helpers/server');
 
 const Chapter = require('./models/Chapter');
 const Song = require('./models/Song');

@@ -1,15 +1,6 @@
-const jwt = require('jsonwebtoken');
+import cookie from 'js-cookie';
+import tokenName from '../api/token_name';
 
-const secret = require('../consts/secret');
-
-function login(user) {
-    return jwt.sign({
-        login: user.login,
-    }, secret, {
-        expiresIn: 300, // s
-    });
+export function setTokenCookie(token) {
+    cookie.set(tokenName, token);
 }
-
-module.exports = {
-    login: login,
-};

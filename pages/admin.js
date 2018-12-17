@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
-import cookie from 'js-cookie';
 import {setGlobal, useGlobal} from 'reactn';
 
-import Admin from '../components/Admin';
+import AdminContent from '../components/AdminContent';
 import FormLoginUser from '../components/FormLoginUser';
 import Loading from '../components/Loading';
 import Notification from '../components/Notification';
 
-import tokenName from '../api/token_name';
+import {setTokenCookie} from '../helpers/user';
 
 import '../static/sass/global.scss';
 
@@ -18,13 +17,13 @@ setGlobal({
     songs: new Map(),
 });
 
-function Index({token}) {
+function Admin({token}) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLogged, setIsLogged] = useGlobal('isLogged');
     const [notifications] = useGlobal('notifications');
 
     useEffect(() => {
-        cookie.set(tokenName, token);
+        setTokenCookie(token);
 
         setIsLogged(!!token);
         setIsLoaded(true);
@@ -37,7 +36,7 @@ function Index({token}) {
             </Head>
             <Notification notifications={notifications}/>
             {isLoaded ? isLogged ? (
-                <Admin/>
+                <AdminContent/>
             ) : (
                 <FormLoginUser/>
             ) : (
@@ -47,10 +46,10 @@ function Index({token}) {
     );
 }
 
-Index.getInitialProps = ({req, res}) => {
+Admin.getInitialProps = ({req, res}) => {
     return {
         token: res.token,
     };
 };
 
-export default Index;
+export default Admin;

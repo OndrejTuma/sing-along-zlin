@@ -4,7 +4,7 @@ import FormNewSong from '../FormNewSong';
 import ListSongs from '../ListSongs';
 import Logout from '../Logout';
 
-function Admin() {
+function AdminContent() {
 
     return (
         <>
@@ -16,4 +16,4 @@ function Admin() {
     )
 }
 
-export default Admin;
+export default AdminContent;

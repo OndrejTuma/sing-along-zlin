@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useGlobal} from 'reactn';
-import cookie from 'js-cookie';
 
 import Loading from '../Loading';
 
 import {deleteSong as deleteSongAPI, fetchSongs} from '../../api/client';
-import tokenName from "../../api/token_name";
+import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
@@ -20,7 +19,7 @@ function ListSongs() {
             const {token} = await deleteSongAPI(song.title);
 
             deleteSong(song._id);
-            cookie.set(tokenName, token);
+            setTokenCookie(token);
         } catch (e) {
             setNotification({
                 message: e.message,
@@ -46,7 +45,7 @@ function ListSongs() {
             {fetching && <Loading/>}
             <ul className={styles.wrapper}>
                 {songs ? [...songs.values()].map(song => (
-                    <li key={song._id}>
+                    <li key={song._id} id={song._id}>
                         <h3>{song.title}</h3>
                         <strong onClick={() => handleDeleteSong(song)}>&times;</strong>
                         <p>

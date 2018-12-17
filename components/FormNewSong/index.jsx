@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import cookie from 'js-cookie';
 
 import Button from '../Button';
 import Form from '../Form';
 import Input from '../Input';
 
 import {createSong} from '../../api/client';
-import tokenName from "../../api/token_name";
+import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 function FormNewSong() {
@@ -21,7 +20,7 @@ function FormNewSong() {
             const {song, token} = await createSong(elements.get('title'), elements.get('text'));
 
             addSong(song._id, song);
-            cookie.set(tokenName, token);
+            setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
         }

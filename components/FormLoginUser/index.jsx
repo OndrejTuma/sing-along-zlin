@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import cookie from 'js-cookie';
 import {useGlobal} from 'reactn';
 
 import Button from '../Button';
@@ -7,7 +6,7 @@ import Form from '../Form';
 import Input from '../Input';
 
 import {login} from '../../api/client';
-import tokenName from '../../api/token_name';
+import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 function FormLoginUser() {
@@ -21,7 +20,7 @@ function FormLoginUser() {
         try {
             const {token} = await login(elements.get('login'), elements.get('password'));
 
-            cookie.set(tokenName, token);
+            setTokenCookie(token);
 
             setIsLogged(true);
         } catch (e) {
