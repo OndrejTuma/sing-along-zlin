@@ -14,7 +14,7 @@ function Song({song}) {
     const [, , deleteSong] = useGlobalMap('songs');
 
     async function handleDeleteSong(song) {
-        if (!confirm('Opravdu smazat tuto písničku?')) {
+        if (!confirm(`Opravdu smazat "${song.title}"?`)) {
             return;
         }
 

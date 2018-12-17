@@ -17,8 +17,6 @@ function FormNewSong() {
     async function handleOnSubmit(elements) {
         setFetching(true);
 
-        console.log(elements);
-
         try {
             const {song, token} = await createSong(elements.get('title'), elements.get('text'));
 
