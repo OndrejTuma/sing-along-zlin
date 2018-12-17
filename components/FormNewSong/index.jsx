@@ -33,7 +33,7 @@ function FormNewSong() {
         <Form onSubmit={handleOnSubmit}>
             <h3>Nová písnička</h3>
             <Input label={'Název'} name={'title'} />
-            <Wysiwyg name={'text'}/>
+            <Wysiwyg label={'Text'} name={'text'}/>
             <Button label={'Uložit'} busy={fetching} />
         </Form>
     )

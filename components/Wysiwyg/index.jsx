@@ -6,7 +6,7 @@ import Input from '../Input';
 import './globals.scss';
 import styles from './styles.scss';
 
-function Wysiwyg({name}) {
+function Wysiwyg({label, name}) {
     const [text, setText] = useState('');
 
     function onContentStateChange(state) {
@@ -16,7 +16,8 @@ function Wysiwyg({name}) {
     return (
         <div className={styles.wrapper}>
             <Input type={'hidden'} name={name} value={text}/>
-            <Editor onContentStateChange={onContentStateChange}/>
+            <label>{label}</label>
+            <Editor className={'jouda'} onContentStateChange={onContentStateChange}/>
         </div>
     )
 }

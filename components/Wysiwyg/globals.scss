@@ -807,6 +807,7 @@
     .rdw-editor-main {
         height: 100%;
         overflow: auto;
+        padding: 0 20px;
         box-sizing: border-box;
     }
     .rdw-editor-toolbar {
@@ -828,6 +829,7 @@
         outline: none;
     }
     .rdw-editor-wrapper {
+        border: 1px solid #d8d8d8;
         box-sizing: content-box;
     }
     .rdw-editor-main blockquote {
