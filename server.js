@@ -61,14 +61,69 @@ app.prepare()
             }));
         });
 
-        server.post('/chapter/create', (req, res) => {
-            const newChapter = new Chapter({
-                title: req.body.title,
-                body: req.body.body,
-                token: req.token,
-            });
+        server.post('/repertoire/create', async (req, res) => {
+            const token = req.token;
 
-            newChapter.save().then(() => res.redirect('/'));
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                const newRepertoire = new Repertoire({
+                    title: req.body.title,
+                });
+
+                await newRepertoire.save();
+
+                res.status(200).json({
+                    repertoire: newRepertoire,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/repertoire/fetch/all', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                const repertoires = await Repertoire.find();
+
+                res.status(200).json({
+                    repertoires: repertoires,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/section/create', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                const newSection = new Section({
+                    belongsTo: req.body.repertoireId,
+                    title: req.body.title,
+                    song: req.body.song,
+                });
+
+                await newSection.save();
+
+                res.status(200).json({
+                    section: newSection,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
         });
         server.post('/song/create', async (req, res) => {
             const token = req.token;

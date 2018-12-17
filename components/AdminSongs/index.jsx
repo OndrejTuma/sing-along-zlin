@@ -5,13 +5,16 @@ import FormNewSong from '../FormNewSong';
 import ListSongs from '../ListSongs';
 import PlusSVG from '../../static/svg/plus.svg';
 
+import useGlobalMap from '../../hooks/useGlobalMap';
+
 import styles from './styles.scss';
 
 function AdminSongs() {
-    const [addSongIsVisible, setAddSongIsVisible] = useState(false);
+    const [songs] = useGlobalMap('songs');
+    const [showNewSong, setShowNewSong] = useState(false);
 
     function handleAddSongVisibility(visibility) {
-        setAddSongIsVisible(visibility);
+        setShowNewSong(visibility);
     }
 
     return (
@@ -19,13 +22,13 @@ function AdminSongs() {
             <h2>Správa písniček</h2>
             <PlusSVG
                 className={classNames(styles.addNewSong, 'addSVG', {
-                    active: addSongIsVisible,
+                    active: showNewSong,
                 })}
-                onClick={() => handleAddSongVisibility(!addSongIsVisible)}
-                title={addSongIsVisible ? 'Zavřít' : 'Přidat písničku'}
+                onClick={() => handleAddSongVisibility(!showNewSong)}
+                title={showNewSong ? 'Zavřít' : 'Přidat písničku'}
             />
-            {addSongIsVisible && <FormNewSong/>}
-            <ListSongs/>
+            {showNewSong && <FormNewSong/>}
+            <ListSongs songs={songs}/>
         </div>
     )
 }

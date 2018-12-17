@@ -2,8 +2,29 @@ import fetch from 'cross-fetch';
 import cookie from 'js-cookie';
 
 import {AppError, ApiError, API_ERRORS, ERR_NETWORK, ERR_NETWORK_MSG} from './errors';
-import {SONG_CREATE_URL, SONG_DELETE_URL, SONG_FETCH_URL, USER_LOGIN_URL} from './urls';
+import {
+    REPERTOIRE_CREATE_URL,
+    REPERTOIRE_FETCH_ALL_URL,
+    SECTION_CREATE_URL,
+    SONG_CREATE_URL,
+    SONG_DELETE_URL,
+    SONG_FETCH_ALL_URL,
+    USER_LOGIN_URL,
+} from './urls';
 import tokenName from './token_name';
+
+export function createRepertoir(title) {
+    return apiFetch(REPERTOIRE_CREATE_URL, 'POST', {
+        title,
+    });
+}
+
+export function createSection(title, song) {
+    return apiFetch(SECTION_CREATE_URL, 'POST', {
+        title,
+        song,
+    });
+}
 
 export function createSong(title, text) {
     return apiFetch(SONG_CREATE_URL, 'POST', {
@@ -11,20 +32,28 @@ export function createSong(title, text) {
         text,
     });
 }
+
 export function deleteSong(title) {
     return apiFetch(SONG_DELETE_URL, 'POST', {
         title,
     });
 }
-export function fetchSongs() {
-    return apiFetch(SONG_FETCH_URL);
+
+export function fetchRepertoires() {
+    return apiFetch(REPERTOIRE_FETCH_ALL_URL);
 }
+
+export function fetchSongs() {
+    return apiFetch(SONG_FETCH_ALL_URL);
+}
+
 export function login(login, password) {
     return apiFetch(USER_LOGIN_URL, 'POST', {
         login,
         password,
     });
 }
+
 export function logout() {
     return cookie.remove(tokenName);
 }
@@ -41,8 +70,7 @@ async function apiFetch(url, method = 'POST', body) {
             },
             body: JSON.stringify(body),
         });
-    }
-    catch (e) {
+    } catch (e) {
         throw new AppError(ERR_NETWORK, ERR_NETWORK_MSG);
     }
 
