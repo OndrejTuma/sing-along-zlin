@@ -22,10 +22,11 @@ function AdminRepertoire() {
     function handleNewRepertoireVisibility(visibility) {
         setShowNewRepertoire(visibility);
     }
+
     function handleNewSectionVisibility(visibility) {
         setShowNewSection(visibility);
     }
-    
+
     return (
         <div className={styles.wrapper}>
             <h2>Správa repertoárů</h2>
@@ -49,7 +50,9 @@ function AdminRepertoire() {
                         title={showNewSection ? 'Zavřít' : 'Přidat sekci'}
                     />
                     {showNewSection && <FormNewSection/>}
-                    <ListSections sections={sections}/>
+                    <ListSections
+                        sections={[...sections.values()].filter(section => section.belongsTo === currentRepertoireId)}
+                    />
                 </div>
             )}
             <ListRepertoires/>
