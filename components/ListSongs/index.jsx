@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import mongoose from 'mongoose';
 import {useGlobal} from 'reactn';
 
 import Loading from '../Loading';
@@ -45,7 +46,7 @@ function ListSongs() {
             {fetching && <Loading/>}
             <ul className={styles.wrapper}>
                 {songs ? [...songs.values()].map(song => (
-                    <li key={song._id} id={song._id}>
+                    <li key={song._id}>
                         <h3>{song.title}</h3>
                         <strong onClick={() => handleDeleteSong(song)}>&times;</strong>
                         <p>

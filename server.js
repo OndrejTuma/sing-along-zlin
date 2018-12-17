@@ -7,7 +7,7 @@ const next = require('next');
 
 const secret = require('./consts/secret');
 const tokenName = require('./api/token_name');
-const userHelper = require('./helpers/server');
+const userHelper = require('./helpers/server/user');
 
 const Chapter = require('./models/Chapter');
 const Song = require('./models/Song');
@@ -77,8 +77,10 @@ app.prepare()
             }
 
             try {
+                const adminUser = User.find({login: req.login});
+
                 const newSong = new Song({
-                    author: req.login,
+                    author: adminUser._id,
                     title: req.body.title,
                     text: req.body.text,
                 });
