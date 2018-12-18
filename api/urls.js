@@ -1,8 +1,10 @@
 const API_URL = '/';
 
 export const REPERTOIRE_CREATE_URL = `${API_URL}repertoire/create`;
+export const REPERTOIRE_DELETE_URL = `${API_URL}repertoire/delete`;
 export const REPERTOIRE_FETCH_ALL_URL = `${API_URL}repertoire/fetch-all`;
 export const REPERTOIRE_FETCH_URL = `${API_URL}repertoire/fetch`;
+export const REPERTOIRE_SET_ACTIVE_URL = `${API_URL}repertoire/set/active`;
 export const SECTION_CREATE_URL = `${API_URL}section/create`;
 export const SECTION_DELETE_URL = `${API_URL}section/delete`;
 export const SECTION_FETCH_URL = `${API_URL}section/fetch`;

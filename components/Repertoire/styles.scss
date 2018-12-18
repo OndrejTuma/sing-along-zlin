@@ -1,0 +1,22 @@
+@import "~./../../static/sass/helpers.scss";
+
+.removeIcon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+}
+.title {
+    cursor: pointer;
+    position: relative;
+
+    svg {
+        fill: $mountain-meadow;
+        position: absolute;
+        right: 30px;
+        top: 5px;
+    }
+}
+.wrapper {
+    position: relative;
+}

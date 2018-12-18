@@ -11,26 +11,28 @@ import {setTokenCookie} from '../helpers/user';
 import useGlobalMap from '../hooks/useGlobalMap';
 
 import '../static/sass/global.scss';
-import FormCreateUser from "../components/FormCreateUser";
 
 setGlobal({
     isLogged: false,
-    notifications: new Map(),
     currentRepertoireId: '',
+    currentActiveRepertoireId: '',
+    notifications: new Map(),
     repertoires: new Map(),
     sections: new Map(),
     songs: new Map(),
     visibility: new Map(),
 });
 
-function Admin({songs, token}) {
+function Admin({activeRepertoire, songs, token}) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLogged, setIsLogged] = useGlobal('isLogged');
+    const [, setCurrentActiveRepertoireId] = useGlobal('currentActiveRepertoireId');
     const [, addSong] = useGlobalMap('songs');
     const [notifications] = useGlobal('notifications');
 
     useEffect(() => {
         songs.forEach(song => addSong(song._id, song));
+        setCurrentActiveRepertoireId(activeRepertoire._id);
         setTokenCookie(token);
 
         //TODO: think of a way to set token from server to false after using it here
@@ -57,8 +59,9 @@ function Admin({songs, token}) {
     );
 }
 
-Admin.getInitialProps = ({req, res: {songs, token}}) => {
+Admin.getInitialProps = ({req, res: {activeRepertoire, songs, token}}) => {
     return {
+        activeRepertoire,
         songs,
         token,
     };

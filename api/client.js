@@ -4,8 +4,10 @@ import cookie from 'js-cookie';
 import {AppError, ApiError, API_ERRORS, ERR_NETWORK, ERR_NETWORK_MSG} from './errors';
 import {
     REPERTOIRE_CREATE_URL,
+    REPERTOIRE_DELETE_URL,
     REPERTOIRE_FETCH_ALL_URL,
     REPERTOIRE_FETCH_URL,
+    REPERTOIRE_SET_ACTIVE_URL,
     SECTION_CREATE_URL,
     SECTION_DELETE_URL,
     SECTION_FETCH_URL,
@@ -41,6 +43,11 @@ export function createUser(login, password) {
         password,
     });
 }
+export function deleteRepertoire(id) {
+    return apiFetch(REPERTOIRE_DELETE_URL, 'POST', {
+        id,
+    });
+}
 export function deleteSection(id) {
     return apiFetch(SECTION_DELETE_URL, 'POST', {
         id,
@@ -60,7 +67,6 @@ export function fetchRepertoires() {
 export function fetchSectionsInRepertoar(repertoireId) {
     return apiFetch(`${SECTION_FETCH_URL}/${repertoireId}`);
 }
-
 export function fetchSongs() {
     return apiFetch(SONG_FETCH_ALL_URL);
 }
@@ -72,6 +78,11 @@ export function login(login, password) {
 }
 export function logout() {
     return cookie.remove(tokenName);
+}
+export function setActiveRepertoire(id) {
+    return apiFetch(REPERTOIRE_SET_ACTIVE_URL, 'POST', {
+        id,
+    });
 }
 
 async function apiFetch(url, method = 'POST', body) {

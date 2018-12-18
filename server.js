@@ -54,8 +54,10 @@ app.prepare()
 
         server.get('*', async (req, res) => {
             const songs = await Song.find();
+            const activeRepertoire = await Repertoire.findOne({active: true});
 
             return handle(req, Object.assign(res, {
+                activeRepertoire: activeRepertoire,
                 songs: songs,
                 token: req.token,
             }));
@@ -77,6 +79,26 @@ app.prepare()
 
                 res.status(200).json({
                     repertoire: newRepertoire,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/repertoire/delete', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                await Repertoire.deleteOne({
+                    _id: req.body.id,
+                });
+
+                res.status(200).json({
+                    success: true,
                     token: token,
                 });
             } catch (e) {
@@ -113,6 +135,25 @@ app.prepare()
 
                 res.status(200).json({
                     repertoires: repertoires,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
+        server.post('/repertoire/set/active', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                await Repertoire.updateMany({active: true}, {$set: {active: false}});
+                await Repertoire.updateOne({_id: req.body.id}, {$set: {active: true}});
+
+                res.status(200).json({
+                    success: true,
                     token: token,
                 });
             } catch (e) {

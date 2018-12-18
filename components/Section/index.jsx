@@ -30,8 +30,8 @@ function Section({section, song}) {
 
     return (
         <div className={styles.wrapper}>
-            <h4 className={styles.title}>{section.title}: {song.title}</h4>
-            <PlusSVG className={classNames(styles.removeIcon, 'removeSVG')} onClick={() => handleDeleteSection()}/>
+            <h4>{section.title}: {song.title}</h4>
+            <PlusSVG className={classNames(styles.removeIcon, 'removeSVG')} onClick={handleDeleteSection}/>
         </div>
     )
 }

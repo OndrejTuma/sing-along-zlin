@@ -8,6 +8,7 @@ import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
+import Repertoire from "../Repertoire";
 
 function ListRepertoires() {
     const [fetching, setFetching] = useState(false);
@@ -52,7 +53,7 @@ function ListRepertoires() {
             <ul className={styles.wrapper}>
                 {repertoires && repertoires.size > 0 ? [...repertoires.values()].map(repertoire => (
                     <li key={repertoire._id} onClick={() => handleSetCurrentRepertoar(repertoire._id)}>
-                        {repertoire.title}
+                        <Repertoire repertoire={repertoire}/>
                     </li>
                 )) : (
                     <li><i>zatím žádné nejsou</i></li>
