@@ -32,7 +32,7 @@ function Admin({activeRepertoire, songs, token}) {
 
     useEffect(() => {
         songs.forEach(song => addSong(song._id, song));
-        setCurrentActiveRepertoireId(activeRepertoire._id);
+        activeRepertoire && setCurrentActiveRepertoireId(activeRepertoire._id);
         setTokenCookie(token);
 
         //TODO: think of a way to set token from server to false after using it here

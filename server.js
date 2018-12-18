@@ -56,15 +56,19 @@ app.prepare()
             let activeRepertoire;
 
             if (req.url === '/') {
-                const repertoire = await Repertoire.findOne({active: true});
-                const sections = await Section.find({belongsTo: repertoire._id});
-                const songs = await Song.find({_id: {$in: sections.map(section => section.song)}});
+                try {
+                    const repertoire = await Repertoire.findOne({active: true});
+                    const sections = await Section.find({belongsTo: repertoire._id});
+                    const songs = await Song.find({_id: {$in: sections.map(section => section.song)}});
 
-                activeRepertoire = {
-                    repertoire: repertoire,
-                    sections: sections,
-                    songs: songs,
-                };
+                    activeRepertoire = {
+                        repertoire: repertoire,
+                        sections: sections,
+                        songs: songs,
+                    };
+                } catch (e) {
+                    console.error(e);
+                }
             }
             else {
                 activeRepertoire = await Repertoire.findOne({active: true});
@@ -109,9 +113,8 @@ app.prepare()
             }
 
             try {
-                await Repertoire.deleteOne({
-                    _id: req.body.id,
-                });
+                await Repertoire.deleteOne({_id: req.body.id});
+                await Section.deleteMany({belongsTo: req.body.id});
 
                 res.status(200).json({
                     success: true,

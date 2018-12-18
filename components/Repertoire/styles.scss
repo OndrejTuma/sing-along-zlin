@@ -1,5 +1,8 @@
 @import "~./../../static/sass/helpers.scss";
 
+.name {
+    cursor: pointer;
+}
 .removeIcon {
     position: absolute;
     right: 0;
@@ -7,10 +10,10 @@
     width: 20px;
 }
 .title {
-    cursor: pointer;
     position: relative;
 
     svg {
+        cursor: pointer;
         fill: $mountain-meadow;
         position: absolute;
         right: 30px;

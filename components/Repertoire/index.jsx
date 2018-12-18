@@ -67,7 +67,7 @@ function Repertoire({repertoire}) {
                 onMouseLeave={() => setIsMouseEnter(false)}
                 title={'Zobrazit na hlavní stránce'}
             >
-                <span onClick={handleSetCurrentRepertoar}>{repertoire.title}</span>
+                <span className={styles.name} onClick={handleSetCurrentRepertoar}>{repertoire.title}</span>
                 {(isMouseEnter || currentActiveRepertoireId === repertoire._id) && (
                     <CheckSVG onClick={handleSetActive}/>
                 )}
