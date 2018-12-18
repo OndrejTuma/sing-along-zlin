@@ -3,7 +3,7 @@ import {useGlobal} from 'reactn';
 
 import Loading from '../Loading';
 
-import {fetchRepertoires, fetchSectionsInRepertoar} from '../../api/client';
+import {fetchRepertoires} from '../../api/client';
 import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
@@ -16,21 +16,6 @@ function ListRepertoires() {
     const [repertoires, addRepertoire] = useGlobalMap('repertoires');
     const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
-
-    async function handleSetCurrentRepertoar(id) {
-        setFetching(true);
-        setCurrentRepertoireId(id);
-        try {
-            const {sections, token} = await fetchSectionsInRepertoar(id);
-
-            sections.forEach(section => addSection(section._id, section));
-            setTokenCookie(token);
-        } catch (e) {
-            addNotification(e.message, 'error');
-        } finally {
-            setFetching(false);
-        }
-    }
 
     useEffect(() => {
         setFetching(true);
@@ -52,7 +37,7 @@ function ListRepertoires() {
             <h3>Uložené repertoáry</h3>
             <ul className={styles.wrapper}>
                 {repertoires && repertoires.size > 0 ? [...repertoires.values()].map(repertoire => (
-                    <li key={repertoire._id} onClick={() => handleSetCurrentRepertoar(repertoire._id)}>
+                    <li key={repertoire._id}>
                         <Repertoire repertoire={repertoire}/>
                     </li>
                 )) : (

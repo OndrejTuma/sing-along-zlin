@@ -29,11 +29,14 @@ function FormNewSection() {
     }
 
     return (
-        <Form className={styles.wrapper} onSubmit={handleOnSubmit}>
-            <Input name={'title'} label={'Název'}/>
-            <SongPicker name={'song'}/>
-            <Button label={'Vytvořit'}/>
-        </Form>
+        <>
+            <h3>Přidat sekci:</h3>
+            <Form className={styles.wrapper} onSubmit={handleOnSubmit}>
+                <Input name={'title'} label={'Název'}/>
+                <SongPicker name={'song'}/>
+                <Button label={'Vytvořit'}/>
+            </Form>
+        </>
     )
 }
 

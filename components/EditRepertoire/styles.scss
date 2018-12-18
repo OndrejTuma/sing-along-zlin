@@ -1,0 +1,18 @@
+@import "~./../../static/sass/helpers.scss";
+
+.addNewSection {
+    float: right;
+}
+.close {
+    cursor: pointer;
+    font-size: 2.5em;
+    line-height: .5;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+.repertoire {
+    border: 1px solid $gray-chateau;
+    padding: 20px;
+    position: relative;
+}

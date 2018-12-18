@@ -18,12 +18,13 @@ function SongPicker({name}) {
     return (
         <div className={styles.wrapper}>
             <Input name={name} type={'hidden'} value={pickedSong._id}/>
+            <label>Vyber písničku:</label>
             <ul>
                 {[...songs.values()].map(song => (
                     <li
                         key={song._id}
                         onClick={() => handlePickSong(song)}
-                        className={classNames({
+                        className={classNames(styles.song, {
                             [styles.active]: pickedSong._id === song._id,
                         })}
                     >{song.title}</li>
