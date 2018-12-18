@@ -17,7 +17,9 @@ function Index({activeRepertoire}) {
                     songs={activeRepertoire.songs}
                 />
             ) : (
-                <h1>Dneska se nezpívá</h1>
+                <div className={'wrapper'} style={{textAlign: 'center'}}>
+                    <h1>Dneska se nezpívá</h1>
+                </div>
             )}
         </div>
     );

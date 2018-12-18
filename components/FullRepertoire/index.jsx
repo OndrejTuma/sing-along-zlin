@@ -1,10 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import styles from './styles.scss';
 
 function FullRepertoire({repertoire, sections, songs}) {
     return (
-        <div className={styles.wrapper}>
+        <div className={classNames('wrapper', styles.wrapper)}>
             <h1>{repertoire.title}</h1>
             {sections.map(({_id, title, song: songId}) => {
                 const song = songs.filter(song => song._id.toString() === songId.toString())[0];
