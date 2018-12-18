@@ -11,6 +11,7 @@ import {setTokenCookie} from '../helpers/user';
 import useGlobalMap from '../hooks/useGlobalMap';
 
 import '../static/sass/global.scss';
+import FormCreateUser from "../components/FormCreateUser";
 
 setGlobal({
     isLogged: false,
@@ -42,6 +43,8 @@ function Admin({songs, token}) {
             <Head>
                 <title>{`Sing along admin`}</title>
             </Head>
+
+
             <Notification notifications={notifications}/>
             {isLoaded ? isLogged ? (
                 <AdminContent/>

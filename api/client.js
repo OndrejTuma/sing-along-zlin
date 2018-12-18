@@ -11,6 +11,7 @@ import {
     SONG_CREATE_URL,
     SONG_DELETE_URL,
     SONG_FETCH_ALL_URL,
+    USER_CREATE_URL,
     USER_LOGIN_URL,
 } from './urls';
 import tokenName from './token_name';
@@ -33,6 +34,13 @@ export function createSong(title, text) {
     return apiFetch(SONG_CREATE_URL, 'POST', {
         title,
         text,
+    });
+}
+
+export function createUser(login, password) {
+    return apiFetch(USER_CREATE_URL, 'POST', {
+        login,
+        password,
     });
 }
 

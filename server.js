@@ -225,15 +225,24 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
-        server.post('/user/create', (req, res) => {
-            const token = req.token;
+        server.post('/user/create', async (req, res) => {
+            console.log(req.body);
 
-            const newUser = new User({
-                login: req.body.login,
-                password: req.body.password,
-            });
+            try {
+                const newUser = new User({
+                    login: req.body.login,
+                    password: req.body.password,
+                });
 
-            newUser.save().then(() => res.redirect('/'));
+                await newUser.save();
+
+                res.status(200).json({
+                    success: true,
+                    token: req.token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
         });
         server.post('/user/login', async (req, res) => {
             try {
