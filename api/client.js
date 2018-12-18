@@ -7,6 +7,7 @@ import {
     REPERTOIRE_FETCH_ALL_URL,
     REPERTOIRE_FETCH_URL,
     SECTION_CREATE_URL,
+    SECTION_DELETE_URL,
     SECTION_FETCH_URL,
     SONG_CREATE_URL,
     SONG_DELETE_URL,
@@ -21,7 +22,6 @@ export function createRepertoir(title) {
         title,
     });
 }
-
 export function createSection(title, song, repertoireId) {
     return apiFetch(SECTION_CREATE_URL, 'POST', {
         title,
@@ -29,35 +29,34 @@ export function createSection(title, song, repertoireId) {
         repertoireId,
     });
 }
-
 export function createSong(title, text) {
     return apiFetch(SONG_CREATE_URL, 'POST', {
         title,
         text,
     });
 }
-
 export function createUser(login, password) {
     return apiFetch(USER_CREATE_URL, 'POST', {
         login,
         password,
     });
 }
-
+export function deleteSection(id) {
+    return apiFetch(SECTION_DELETE_URL, 'POST', {
+        id,
+    });
+}
 export function deleteSong(title) {
     return apiFetch(SONG_DELETE_URL, 'POST', {
         title,
     });
 }
-
 export function fetchRepertoire(id) {
     return apiFetch(`${REPERTOIRE_FETCH_URL}/${id}`);
 }
-
 export function fetchRepertoires() {
     return apiFetch(REPERTOIRE_FETCH_ALL_URL);
 }
-
 export function fetchSectionsInRepertoar(repertoireId) {
     return apiFetch(`${SECTION_FETCH_URL}/${repertoireId}`);
 }
@@ -65,14 +64,12 @@ export function fetchSectionsInRepertoar(repertoireId) {
 export function fetchSongs() {
     return apiFetch(SONG_FETCH_ALL_URL);
 }
-
 export function login(login, password) {
     return apiFetch(USER_LOGIN_URL, 'POST', {
         login,
         password,
     });
 }
-
 export function logout() {
     return cookie.remove(tokenName);
 }

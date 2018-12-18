@@ -143,6 +143,26 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
+        server.post('/section/delete', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                await Section.deleteOne({
+                    _id: req.body.id,
+                });
+
+                res.status(200).json({
+                    success: true,
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
         server.post('/section/fetch/:repertoireId', async (req, res) => {
             const token = req.token;
 
@@ -226,8 +246,6 @@ app.prepare()
             }
         });
         server.post('/user/create', async (req, res) => {
-            console.log(req.body);
-
             try {
                 const newUser = new User({
                     login: req.body.login,

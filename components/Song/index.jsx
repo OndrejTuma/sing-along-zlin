@@ -12,8 +12,10 @@ import styles from './styles.scss';
 function Song({song}) {
     const [songTextIsVisible, setSongTextIsVisible] = useState(false);
     const [, , deleteSong] = useGlobalMap('songs');
+    const [, setNotification] = useGlobalMap('notifications');
 
-    async function handleDeleteSong(song) {
+
+    async function handleDeleteSong() {
         if (!confirm(`Opravdu smazat "${song.title}"?`)) {
             return;
         }
@@ -24,10 +26,7 @@ function Song({song}) {
             deleteSong(song._id);
             setTokenCookie(token);
         } catch (e) {
-            setNotification({
-                message: e.message,
-                type: 'error',
-            });
+            setNotification(e.message, 'error');
         }
     }
 
@@ -37,9 +36,9 @@ function Song({song}) {
 
     return (
         <div className={styles.wrapper}>
-            <h3 className={styles.title} onClick={() => handleSongTextVisibility(!songTextIsVisible)}>{song.title}</h3>
+            <h4 className={styles.title} onClick={() => handleSongTextVisibility(!songTextIsVisible)}>{song.title}</h4>
             <PlusSVG className={classNames(styles.removeSong, 'removeSVG')}
-                     onClick={() => handleDeleteSong(song)}/>
+                     onClick={handleDeleteSong}/>
             {songTextIsVisible && (
                 <p>
                     <small><i>{song.text}</i></small>
