@@ -37,7 +37,7 @@ app.prepare()
 
         // update token
         server.all('*', (req, res, next) => {
-            // TODO: not all request, just page requests
+            // TODO: not all request, just page requests (exlude paths containing '/static/')
             const token = cookie.parse(req.headers.cookie)[tokenName];
 
             let data = false;
@@ -53,8 +53,24 @@ app.prepare()
         });
 
         server.get('*', async (req, res) => {
+            let activeRepertoire;
+
+            if (req.url === '/') {
+                const repertoire = await Repertoire.findOne({active: true});
+                const sections = await Section.find({belongsTo: repertoire._id});
+                const songs = await Song.find({_id: {$in: sections.map(section => section.song)}});
+
+                activeRepertoire = {
+                    repertoire: repertoire,
+                    sections: sections,
+                    songs: songs,
+                };
+            }
+            else {
+                activeRepertoire = await Repertoire.findOne({active: true});
+            }
+
             const songs = await Song.find();
-            const activeRepertoire = await Repertoire.findOne({active: true});
 
             return handle(req, Object.assign(res, {
                 activeRepertoire: activeRepertoire,
