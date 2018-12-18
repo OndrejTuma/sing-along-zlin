@@ -19,6 +19,7 @@ setGlobal({
     repertoires: new Map(),
     sections: new Map(),
     songs: new Map(),
+    visibility: new Map(),
 });
 
 function Admin({songs, token}) {

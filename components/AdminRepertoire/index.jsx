@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useGlobal} from 'reactn';
 import classNames from 'classnames';
 
@@ -8,23 +8,32 @@ import ListRepertoires from '../ListRepertoires';
 import ListSections from '../ListSections';
 import PlusSVG from '../../static/svg/plus.svg';
 
+import {ADD_REPERTOIRE, ADD_SECTION} from '../../consts/visibility';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
 
 function AdminRepertoire() {
-    const [showNewSection, setShowNewSection] = useState(false);
-    const [showNewRepertoire, setShowNewRepertoire] = useState(false);
-    const [currentRepertoireId] = useGlobal('currentRepertoireId');
+    const [currentRepertoireId, setCurrentRepertoireId] = useGlobal('currentRepertoireId');
     const [repertoires] = useGlobalMap('repertoires');
     const [sections] = useGlobalMap('sections');
+    const [visibility, addVisibility, removeVisibility] = useGlobalMap('visibility');
 
-    function handleNewRepertoireVisibility(visibility) {
-        setShowNewRepertoire(visibility);
+    const addRepertoireVisible = visibility.has(ADD_REPERTOIRE);
+    const addSectionVisible = visibility.has(ADD_SECTION);
+
+    function handleAddRepertoireVisibility(visibility) {
+        setCurrentRepertoireId('');
+
+        visibility
+            ? addVisibility(ADD_REPERTOIRE, true)
+            : removeVisibility(ADD_REPERTOIRE);
     }
 
-    function handleNewSectionVisibility(visibility) {
-        setShowNewSection(visibility);
+    function handleAddSectionVisibility(visibility) {
+        visibility
+            ? addVisibility(ADD_SECTION, true)
+            : removeVisibility(ADD_SECTION);
     }
 
     return (
@@ -32,23 +41,23 @@ function AdminRepertoire() {
             <h2>Správa repertoárů</h2>
             <PlusSVG
                 className={classNames(styles.addNewRepertoire, 'addSVG', {
-                    active: showNewRepertoire,
+                    active: addRepertoireVisible,
                 })}
-                onClick={() => handleNewRepertoireVisibility(!showNewRepertoire)}
-                title={showNewRepertoire ? 'Zavřít' : 'Přidat repertoár'}
+                onClick={() => handleAddRepertoireVisibility(!addRepertoireVisible)}
+                title={addRepertoireVisible ? 'Zavřít' : 'Přidat repertoár'}
             />
-            {showNewRepertoire && <FormNewRepertoar/>}
+            {addRepertoireVisible && <FormNewRepertoar/>}
             {currentRepertoireId && (
                 <div className={styles.repertoire}>
                     <h3>Upravit repertoár: {repertoires.get(currentRepertoireId).title}</h3>
                     <PlusSVG
                         className={classNames(styles.addNewSection, 'addSVG', {
-                            active: showNewSection,
+                            active: addSectionVisible,
                         })}
-                        onClick={() => handleNewSectionVisibility(!showNewSection)}
-                        title={showNewSection ? 'Zavřít' : 'Přidat sekci'}
+                        onClick={() => handleAddSectionVisibility(!addSectionVisible)}
+                        title={addSectionVisible ? 'Zavřít' : 'Přidat sekci'}
                     />
-                    {showNewSection && <FormNewSection/>}
+                    {addSectionVisible && <FormNewSection/>}
                     <ListSections
                         sections={[...sections.values()].filter(section => section.belongsTo === currentRepertoireId)}
                     />
