@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {EditorState, convertToRaw} from 'draft-js';
 import {Editor} from 'react-draft-wysiwyg';
 
 import Input from '../Input';
@@ -7,17 +8,20 @@ import './globals.scss';
 import styles from './styles.scss';
 
 function Wysiwyg({label, name}) {
-    const [text, setText] = useState('');
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-    function onContentStateChange(state) {
-        setText(state.blocks[0].text);
+    function onEditorStateChange(state) {
+        setEditorState(state);
     }
 
     return (
         <div className={styles.wrapper}>
-            <Input type={'hidden'} name={name} value={text}/>
+            <Input type={'hidden'} name={name} value={JSON.stringify(convertToRaw(editorState.getCurrentContent()))}/>
             <label>{label}</label>
-            <Editor className={'jouda'} onContentStateChange={onContentStateChange}/>
+            <Editor
+                editorState={editorState}
+                onEditorStateChange={onEditorStateChange}
+            />
         </div>
     )
 }

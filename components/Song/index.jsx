@@ -6,6 +6,7 @@ import PlusSVG from '../../static/svg/plus.svg';
 import {deleteSong as deleteSongAPI} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
 import {setTokenCookie} from '../../helpers/user';
+import {getHTMLFromStringifiedState} from '../../helpers/wysiwyg';
 
 import styles from './styles.scss';
 
@@ -40,9 +41,7 @@ function Song({song}) {
             <PlusSVG className={classNames(styles.removeSong, 'removeSVG')}
                      onClick={handleDeleteSong}/>
             {songTextIsVisible && (
-                <p>
-                    <small><i>{song.text}</i></small>
-                </p>
+                <div dangerouslySetInnerHTML={{__html: getHTMLFromStringifiedState(song.text)}}/>
             )}
         </div>
     )

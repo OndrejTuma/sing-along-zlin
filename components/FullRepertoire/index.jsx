@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {getHTMLFromStringifiedState} from '../../helpers/wysiwyg';
+
 import styles from './styles.scss';
 
 function FullRepertoire({repertoire, sections, songs}) {
@@ -13,7 +15,7 @@ function FullRepertoire({repertoire, sections, songs}) {
                 return (
                     <div key={_id}>
                         <h2><small>{title}</small>: {song.title}</h2>
-                        <p>{song.text}</p>
+                        <div dangerouslySetInnerHTML={{__html: getHTMLFromStringifiedState(song.text)}}/>
                     </div>
                 );
             })}
