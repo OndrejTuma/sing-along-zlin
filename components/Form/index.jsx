@@ -1,14 +1,12 @@
-import React, {Component} from 'react';
-import classNames from 'classnames';
+import React from 'react';
 
-class Form extends Component {
-    handleSubmit = e => {
-        const {onSubmit} = this.props;
-        let elements = new Map();
-
+function Form({action = '/', children, className, method = 'POST', onSubmit}) {
+    function handleSubmit(e) {
         if (typeof onSubmit !== 'function') {
             return;
         }
+
+        let elements = new Map();
 
         e.preventDefault();
 
@@ -21,25 +19,15 @@ class Form extends Component {
         }
 
         onSubmit(elements);
-    };
-
-    render() {
-        const {action, className, method, children} = this.props;
-
-        return (
-            <form action={action}
-                  onSubmit={this.handleSubmit}
-                  method={method} className={classNames(className)}>
-                {children}
-            </form>
-        );
     }
-}
 
-Form.defaultProps = {
-    action: '/',
-    className: '',
-    method: 'POST',
-};
+    return (
+        <form action={action}
+              onSubmit={handleSubmit}
+              method={method} className={className}>
+            {children}
+        </form>
+    );
+}
 
 export default Form;
