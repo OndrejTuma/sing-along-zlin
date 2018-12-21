@@ -1,7 +1,28 @@
+@import "~./../../static/sass/helpers.scss";
 
-.error {
-    color: red;
+.item {
+    padding: $padding--default;
+    position: relative;
+
+    &.error {
+        color: red;
+    }
+    &.success {
+        color: green;
+    }
 }
-.success {
-    color: green;
+.remove {
+    cursor: pointer;
+    font-size: 2em;
+    line-height: 26px;
+    padding: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.wrapper {
+    background-color: rgba($alto, .8);
+    list-style: none;
+    margin: 0 0 $margin--default;
+    padding: 0;
 }

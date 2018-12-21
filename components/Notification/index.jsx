@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import useGlobalMap from '../../hooks/useGlobalMap';
 
@@ -16,10 +17,11 @@ function Notification({notifications}) {
     }
 
     return (
-        <ul>
+        <ul className={styles.wrapper}>
             {[...notifications.entries()].map(([message, type]) => (
-                <li key={message} className={styles[type]} onClick={() => handleRemoveNotification(message)}>
+                <li key={message} className={classNames(styles.item, styles[type])}>
                     {message}
+                    <span className={styles.remove} onClick={() => handleRemoveNotification(message)}>&times;</span>
                 </li>
             ))}
         </ul>

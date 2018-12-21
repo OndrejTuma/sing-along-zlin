@@ -1,0 +1,17 @@
+@import "~./../../static/sass/helpers.scss";
+
+.spinner {
+    animation: rotate 500ms linear infinite;
+}
+.wrapper {
+    text-align: center;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
