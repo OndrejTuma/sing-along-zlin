@@ -13,13 +13,13 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 import styles from './styles.scss';
 
 function AdminRepertoire() {
-    const [currentRepertoireId, setCurrentRepertoireId] = useGlobal('currentRepertoireId');
+    const [currentRepertoireId, setEditingRepertoireId] = useGlobal('editingRepertoireId');
     const [visibility, addVisibility, removeVisibility] = useGlobalMap('visibility');
 
     const addRepertoireVisible = visibility.has(ADD_REPERTOIRE);
 
     function handleAddRepertoireVisibility(visibility) {
-        setCurrentRepertoireId('');
+        setEditingRepertoireId('');
 
         visibility
             ? addVisibility(ADD_REPERTOIRE, true)

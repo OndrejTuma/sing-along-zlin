@@ -12,7 +12,7 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 import styles from './styles.scss';
 
 function EditRepertoire() {
-    const [currentRepertoireId, setCurrentRepertoireId] = useGlobal('currentRepertoireId');
+    const [currentRepertoireId, setEditingRepertoireId] = useGlobal('editingRepertoireId');
     const [repertoires] = useGlobalMap('repertoires');
     const [sections] = useGlobalMap('sections');
     const [visibility, addVisibility, removeVisibility] = useGlobalMap('visibility');
@@ -28,7 +28,7 @@ function EditRepertoire() {
     return (
         <div className={styles.repertoire}>
             <h3>Upravit repertoár: {repertoires.get(currentRepertoireId).title}</h3>
-            <span className={styles.close} onClick={() => setCurrentRepertoireId('')}>&times;</span>
+            <span className={styles.close} onClick={() => setEditingRepertoireId('')}>&times;</span>
             <PlusSVG
                 className={classNames(styles.addNewSection, 'addSVG', {
                     active: addSectionVisible,

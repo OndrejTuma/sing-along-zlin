@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useGlobal} from 'reactn';
 
 import Loading from '../Loading';
 
@@ -12,9 +11,7 @@ import Repertoire from "../Repertoire";
 
 function ListRepertoires() {
     const [fetching, setFetching] = useState(false);
-    const [, setCurrentRepertoireId] = useGlobal('currentRepertoireId');
     const [repertoires, addRepertoire] = useGlobalMap('repertoires');
-    const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
 
     useEffect(() => {

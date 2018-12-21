@@ -3,7 +3,7 @@ import Head from 'next/head';
 import {setGlobal, useGlobal} from 'reactn';
 
 import AdminContent from '../components/AdminContent';
-import FormLoginUser from '../components/FormLoginUser';
+import AdminLogin from '../components/AdminLogin';
 import Loading from '../components/Loading';
 import Notification from '../components/Notification';
 
@@ -14,7 +14,7 @@ import '../static/sass/global.scss';
 
 setGlobal({
     isLogged: false,
-    currentRepertoireId: '',
+    editingRepertoireId: '',
     currentActiveRepertoireId: '',
     notifications: new Map(),
     repertoires: new Map(),
@@ -51,7 +51,7 @@ function Admin({activeRepertoire, songs, token}) {
             {isLoaded ? isLogged ? (
                 <AdminContent/>
             ) : (
-                <FormLoginUser/>
+                <AdminLogin/>
             ) : (
                 <Loading/>
             )}

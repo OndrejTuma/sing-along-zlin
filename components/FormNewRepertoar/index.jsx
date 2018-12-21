@@ -14,7 +14,7 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 import styles from './styles.scss';
 
 function FormNewRepertoar() {
-    const [, setCurrentRepertoireId] = useGlobal('currentRepertoireId');
+    const [, setEditingRepertoireId] = useGlobal('editingRepertoireId');
     const [, addNotification] = useGlobalMap('notifications');
     const [, addRepertoire] = useGlobalMap('repertoires');
     const [, , removeVisibility] = useGlobalMap('visibility');
@@ -25,7 +25,7 @@ function FormNewRepertoar() {
             const {repertoire, token} = await createRepertoir(elements.get('title'));
 
             addRepertoire(repertoire._id, repertoire);
-            setCurrentRepertoireId(repertoire._id);
+            setEditingRepertoireId(repertoire._id);
             removeVisibility(ADD_REPERTOIRE);
             setTokenCookie(token);
         } catch (e) {

@@ -13,7 +13,7 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 import styles from './styles.scss';
 
 function FormNewSection() {
-    const [currentRepertoireId] = useGlobal('currentRepertoireId');
+    const [currentRepertoireId] = useGlobal('editingRepertoireId');
     const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
 
