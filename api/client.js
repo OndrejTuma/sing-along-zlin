@@ -104,7 +104,8 @@ async function apiFetch(url, method = 'POST', body) {
     if (result.status >= 400) {
         result = await result.json();
 
-        throw new AppError(ERR_NETWORK, result.message);
+        //TODO: better way to parse error messages
+        throw new AppError(ERR_NETWORK, result.errmsg || result.message);
     }
 
     result = await result.json();
