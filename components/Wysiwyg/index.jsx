@@ -15,6 +15,7 @@ function Wysiwyg({label, name}, ref) {
     }
 
     useImperativeMethods(ref, () => ({
+        isEmpty: () => convertToRaw(editorState.getCurrentContent()).blocks.map(({text}) => text).join('').trim() === '',
         reset: () => setEditorState(EditorState.createEmpty()),
         value: () => JSON.stringify(convertToRaw(editorState.getCurrentContent())),
     }));

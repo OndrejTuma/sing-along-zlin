@@ -18,6 +18,7 @@ function Input({className, errorMessage, id = generateID(), label, name, type = 
     }
 
     useImperativeMethods(ref, () => ({
+        isEmpty: () => stateValue.trim() === '',
         reset: () => setStateValue(value),
         value: () => stateValue,
     }));

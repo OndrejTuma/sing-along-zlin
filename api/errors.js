@@ -1,3 +1,5 @@
+export const ERR_FORM = 'ERR_FORM';
+export const ERR_FORM_MSG = 'Nesprávně vyplněný formulář';
 export const ERR_NETWORK = 'ERR_NETWORK';
 export const ERR_NETWORK_MSG = 'Failed to fetch!';
 export const ERR_RUNTIME = 'ERR_RUNTIME';

@@ -12,6 +12,7 @@ function SongPicker({name}, ref) {
     const [songs] = useGlobalMap('songs');
 
     useImperativeMethods(ref, () => ({
+        isEmpty: () => pickedSongId === '',
         reset: () => setPickedSongId(''),
         value: () => pickedSongId,
     }));

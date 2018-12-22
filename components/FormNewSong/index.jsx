@@ -6,6 +6,7 @@ import Input from '../Input';
 import Wysiwyg from '../Wysiwyg';
 
 import {createSong} from '../../api/client';
+import {AppError, ERR_FORM, ERR_FORM_MSG} from '../../api/errors';
 import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
@@ -15,11 +16,15 @@ function FormNewSong() {
     const [, addSong] = useGlobalMap('songs');
 
     async function handleOnSubmit(refs) {
-        setFetching(true);
         const title = refs.get('title').current;
         const text = refs.get('text').current;
 
         try {
+            if (text.isEmpty() || title.isEmpty()) {
+                throw new AppError(ERR_FORM, ERR_FORM_MSG);
+            }
+            setFetching(true);
+
             const {song, token} = await createSong(title.value(), text.value());
 
             addSong(song._id, song);
@@ -29,9 +34,9 @@ function FormNewSong() {
             text.reset();
         } catch (e) {
             addNotification(e.message, 'error');
+        } finally {
+            setFetching(false);
         }
-
-        setFetching(false);
     }
 
     return (
