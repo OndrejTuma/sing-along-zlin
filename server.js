@@ -38,7 +38,7 @@ app.prepare()
         // update token
         server.all('*', (req, res, next) => {
             // but only for page and api's requests
-            if (req.url.match(/\/(static|_next)\//)) {
+            if (req.url.match(/\/(static|_next)\//) || !req.headers.cookie) {
                 return next();
             }
 
