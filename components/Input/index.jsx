@@ -1,4 +1,4 @@
-import React, {forwardRef, useImperativeMethods, useRef, useState} from 'react';
+import React, {forwardRef, useImperativeMethods, useState} from 'react';
 import classNames from 'classnames';
 
 import InputHidden from '../InputHidden';
@@ -13,15 +13,12 @@ function Input({className, errorMessage, id = generateID(), label, name, type = 
     const [isFocused, setIsFocused] = useState(false);
     const [hasError] = useState(false);
 
-    const inputRef = useRef();
-
     if (type === 'hidden') {
         return <InputHidden name={name} value={value}/>;
     }
 
     useImperativeMethods(ref, () => ({
         reset: () => setStateValue(value),
-        focus: () => inputRef.current.focus()
     }));
 
     return (
@@ -41,7 +38,6 @@ function Input({className, errorMessage, id = generateID(), label, name, type = 
                        onFocus={() => setIsFocused(true)}
                        onBlur={() => setIsFocused(false)}
                        onChange={(e) => setStateValue(e.target.value)}
-                       ref={inputRef}
                 />
             )}
             {hasError && <p className={styles.error}>{errorMessage}</p>}
