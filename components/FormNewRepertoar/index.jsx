@@ -20,7 +20,7 @@ function FormNewRepertoar() {
     const [, , removeVisibility] = useGlobalMap('visibility');
 
 
-    async function handleOnSubmit(_, refs) {
+    async function handleOnSubmit(refs) {
         const title = refs.get('title').current;
 
         try {

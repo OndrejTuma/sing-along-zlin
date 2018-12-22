@@ -14,7 +14,7 @@ function FormNewSong() {
     const [, addNotification] = useGlobalMap('notifications');
     const [, addSong] = useGlobalMap('songs');
 
-    async function handleOnSubmit(_, refs) {
+    async function handleOnSubmit(refs) {
         setFetching(true);
         const title = refs.get('title').current;
         const text = refs.get('text').current;

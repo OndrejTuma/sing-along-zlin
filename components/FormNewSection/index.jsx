@@ -17,7 +17,7 @@ function FormNewSection() {
     const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
 
-    async function handleOnSubmit(_, refs) {
+    async function handleOnSubmit(refs) {
         const title = refs.get('title').current;
         const song = refs.get('song').current;
 
@@ -26,6 +26,9 @@ function FormNewSection() {
 
             addSection(section._id, section);
             setTokenCookie(token);
+            title.reset();
+            song.reset();
+            addNotification('Sekce je na svém místě', 'success');
         } catch (e) {
             addNotification(e.message, 'error');
         }

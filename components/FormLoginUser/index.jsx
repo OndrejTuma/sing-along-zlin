@@ -14,7 +14,7 @@ function FormLoginUser() {
     const [, setNotification, , deleteAllNotifications] = useGlobalMap('notifications');
     const [, setIsLogged] = useGlobal('isLogged');
 
-    async function handleOnSubmit(_, refs) {
+    async function handleOnSubmit(refs) {
         const login = refs.get('login').current;
         const password = refs.get('password').current;
 

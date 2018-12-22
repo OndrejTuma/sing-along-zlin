@@ -11,7 +11,7 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 const FormCreateUser = () => {
     const [, addNotification] = useGlobalMap('notifications');
     
-    async function handleOnSubmit(_, refs) {
+    async function handleOnSubmit(refs) {
         const login = refs.get('login').current;
         const password = refs.get('password').current;
 

@@ -12,19 +12,9 @@ function Form({action = '/', children, className, method = 'POST', onSubmit}) {
             return;
         }
 
-        const elements = new Map();
-
         e.preventDefault();
 
-        for (const elm of e.target.elements) {
-            if (!elm.name) {
-                continue;
-            }
-
-            elements.set(elm.name, elm.value);
-        }
-
-        onSubmit(elements, refs);
+        onSubmit(refs);
     }
 
     function isInputType(child) {
