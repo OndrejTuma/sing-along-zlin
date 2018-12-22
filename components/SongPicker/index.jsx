@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {forwardRef, useImperativeMethods, useState} from 'react';
 import classNames from 'classnames';
 
 import Input from '../Input';
@@ -7,17 +7,22 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
 
-function SongPicker({name}) {
-    const [pickedSong, setPickedSong] = useState({_id:''});
+function SongPicker({name}, ref) {
+    const [pickedSongId, setPickedSongId] = useState('');
     const [songs] = useGlobalMap('songs');
 
-    function handlePickSong(song) {
-        setPickedSong(song);
+    useImperativeMethods(ref, () => ({
+        reset: () => setPickedSongId(''),
+        value: () => pickedSongId,
+    }));
+
+    function handlePickSong({_id}) {
+        setPickedSongId(_id);
     }
     
     return (
         <div className={styles.wrapper}>
-            <Input name={name} type={'hidden'} value={pickedSong._id}/>
+            <Input name={name} type={'hidden'} value={pickedSongId}/>
             <label>Vyber písničku:</label>
             <ul>
                 {[...songs.values()].map(song => (
@@ -25,7 +30,7 @@ function SongPicker({name}) {
                         key={song._id}
                         onClick={() => handlePickSong(song)}
                         className={classNames(styles.song, {
-                            [styles.active]: pickedSong._id === song._id,
+                            [styles.active]: pickedSongId === song._id,
                         })}
                     >{song.title}</li>
                 ))}
@@ -34,4 +39,4 @@ function SongPicker({name}) {
     )
 }
 
-export default SongPicker;
+export default forwardRef(SongPicker);

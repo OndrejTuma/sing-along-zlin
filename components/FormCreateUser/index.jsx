@@ -11,11 +11,14 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 const FormCreateUser = () => {
     const [, addNotification] = useGlobalMap('notifications');
     
-    async function handleOnSubmit(elements) {
+    async function handleOnSubmit(_, refs) {
+        const login = refs.get('login').current;
+        const password = refs.get('password').current;
+
         try {
-            const {token} = await createUser(elements.get('login'), elements.get('password'));
+            const {token} = await createUser(login.value(), password.value());
             
-            addNotification('Přidáno!', 'success');
+            addNotification('Uživatel přidaný!', 'success');
             setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');

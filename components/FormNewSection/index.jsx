@@ -17,9 +17,12 @@ function FormNewSection() {
     const [, addSection] = useGlobalMap('sections');
     const [, addNotification] = useGlobalMap('notifications');
 
-    async function handleOnSubmit(elements) {
+    async function handleOnSubmit(_, refs) {
+        const title = refs.get('title').current;
+        const song = refs.get('song').current;
+
         try {
-            const {section, token} = await createSection(elements.get('title'), elements.get('song'), currentRepertoireId);
+            const {section, token} = await createSection(title.value(), song.value(), currentRepertoireId);
 
             addSection(section._id, section);
             setTokenCookie(token);

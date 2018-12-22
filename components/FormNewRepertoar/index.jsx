@@ -20,9 +20,11 @@ function FormNewRepertoar() {
     const [, , removeVisibility] = useGlobalMap('visibility');
 
 
-    async function handleOnSubmit(elements) {
+    async function handleOnSubmit(_, refs) {
+        const title = refs.get('title').current;
+
         try {
-            const {repertoire, token} = await createRepertoir(elements.get('title'));
+            const {repertoire, token} = await createRepertoir(title.value());
 
             addRepertoire(repertoire._id, repertoire);
             setEditingRepertoireId(repertoire._id);

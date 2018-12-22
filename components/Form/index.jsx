@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '../Input';
+import SongPicker from '../SongPicker';
 import Wysiwyg from '../Wysiwyg';
 
 function Form({action = '/', children, className, method = 'POST', onSubmit}) {
@@ -27,7 +28,7 @@ function Form({action = '/', children, className, method = 'POST', onSubmit}) {
     }
 
     function isInputType(child) {
-        return child.type === Input || child.type === Wysiwyg;
+        return child.type === Input || child.type === Wysiwyg || child.type === SongPicker;
     }
 
     const referencedChildren = React.Children.map(children, child => {

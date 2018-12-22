@@ -5,7 +5,7 @@ import Button from '../Button';
 import Form from '../Form';
 import Input from '../Input';
 
-import {login} from '../../api/client';
+import {login as loginApi} from '../../api/client';
 import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
@@ -14,15 +14,17 @@ function FormLoginUser() {
     const [, setNotification, , deleteAllNotifications] = useGlobalMap('notifications');
     const [, setIsLogged] = useGlobal('isLogged');
 
-    async function handleOnSubmit(elements) {
+    async function handleOnSubmit(_, refs) {
+        const login = refs.get('login').current;
+        const password = refs.get('password').current;
+
         setFetching(true);
 
         try {
-            const {token} = await login(elements.get('login'), elements.get('password'));
+            const {token} = await loginApi(login.value(), password.value());
 
             deleteAllNotifications();
             setTokenCookie(token);
-
             setIsLogged(true);
         } catch (e) {
             setNotification(e.message, 'error');
