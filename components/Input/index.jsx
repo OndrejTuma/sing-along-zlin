@@ -19,6 +19,7 @@ function Input({className, errorMessage, id = generateID(), label, name, type = 
 
     useImperativeMethods(ref, () => ({
         reset: () => setStateValue(value),
+        value: () => stateValue,
     }));
 
     return (

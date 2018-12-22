@@ -14,16 +14,19 @@ function FormNewSong() {
     const [, addNotification] = useGlobalMap('notifications');
     const [, addSong] = useGlobalMap('songs');
 
-    async function handleOnSubmit(elements, refs) {
+    async function handleOnSubmit(_, refs) {
         setFetching(true);
-        refs.forEach(ref => ref.current.reset());
+        const title = refs.get('title').current;
+        const text = refs.get('text').current;
 
         try {
-            const {song, token} = await createSong(elements.get('title'), elements.get('text'));
+            const {song, token} = await createSong(title.value(), text.value());
 
             addSong(song._id, song);
             setTokenCookie(token);
             addNotification('A písnička je na světě', 'success');
+            title.reset();
+            text.reset();
         } catch (e) {
             addNotification(e.message, 'error');
         }

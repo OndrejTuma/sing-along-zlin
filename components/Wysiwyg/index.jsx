@@ -16,6 +16,7 @@ function Wysiwyg({label, name}, ref) {
 
     useImperativeMethods(ref, () => ({
         reset: () => setEditorState(EditorState.createEmpty()),
+        value: () => JSON.stringify(convertToRaw(editorState.getCurrentContent())),
     }));
 
     return (
