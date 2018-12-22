@@ -37,7 +37,11 @@ app.prepare()
 
         // update token
         server.all('*', (req, res, next) => {
-            // TODO: not all request, just page requests (exlude paths containing '/static/')
+            // but only for page and api's requests
+            if (req.url.match(/\/(static|_next)\//)) {
+                return next();
+            }
+
             const token = cookie.parse(req.headers.cookie)[tokenName];
 
             let data = false;
