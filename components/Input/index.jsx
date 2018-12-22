@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {forwardRef, useImperativeMethods, useRef, useState} from 'react';
 import classNames from 'classnames';
 
 import InputHidden from '../InputHidden';
@@ -8,14 +8,21 @@ import {generateID} from '../../helpers/strings';
 
 import styles from './styles.scss';
 
-function Input({className, errorMessage, id = generateID(), label, name, type = 'text', value = ''}) {
+function Input({className, errorMessage, id = generateID(), label, name, type = 'text', value = ''}, ref) {
     const [stateValue, setStateValue] = useState(value);
     const [isFocused, setIsFocused] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const [hasError] = useState(false);
+
+    const inputRef = useRef();
 
     if (type === 'hidden') {
         return <InputHidden name={name} value={value}/>;
     }
+
+    useImperativeMethods(ref, () => ({
+        reset: () => setStateValue(value),
+        focus: () => inputRef.current.focus()
+    }));
 
     return (
         <div className={classNames(styles.container, className, {
@@ -34,6 +41,7 @@ function Input({className, errorMessage, id = generateID(), label, name, type = 
                        onFocus={() => setIsFocused(true)}
                        onBlur={() => setIsFocused(false)}
                        onChange={(e) => setStateValue(e.target.value)}
+                       ref={inputRef}
                 />
             )}
             {hasError && <p className={styles.error}>{errorMessage}</p>}
@@ -41,4 +49,4 @@ function Input({className, errorMessage, id = generateID(), label, name, type = 
     )
 }
 
-export default Input;
+export default forwardRef(Input);

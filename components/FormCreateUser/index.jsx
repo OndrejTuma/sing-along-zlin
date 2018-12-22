@@ -15,7 +15,7 @@ const FormCreateUser = () => {
         try {
             const {token} = await createUser(elements.get('login'), elements.get('password'));
             
-            addNotification('Přidáno!', 'success')
+            addNotification('Přidáno!', 'success');
             setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
