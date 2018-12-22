@@ -14,8 +14,9 @@ function FormNewSong() {
     const [, addNotification] = useGlobalMap('notifications');
     const [, addSong] = useGlobalMap('songs');
 
-    async function handleOnSubmit(elements) {
+    async function handleOnSubmit(elements, refs) {
         setFetching(true);
+        refs.forEach(ref => ref.current.reset());
 
         try {
             const {song, token} = await createSong(elements.get('title'), elements.get('text'));

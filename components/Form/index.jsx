@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '../Input';
+import Wysiwyg from '../Wysiwyg';
 
 function Form({action = '/', children, className, method = 'POST', onSubmit}) {
     const refs = new Map();
@@ -26,15 +27,19 @@ function Form({action = '/', children, className, method = 'POST', onSubmit}) {
     }
 
     function isInputType(child) {
-        return child.type === Input;
+        return child.type === Input || child.type === Wysiwyg;
     }
 
-    children.forEach(child => isInputType(child) && refs.set(child.props.name, React.createRef()));
-
     const referencedChildren = React.Children.map(children, child => {
-        return isInputType(child)
-            ? React.cloneElement(child, {ref: refs.get(child.props.name)})
-            : child;
+        if (isInputType(child)) {
+            const {name} = child.props;
+
+            refs.set(name, React.createRef());
+
+            return React.cloneElement(child, {ref: refs.get(name)})
+        }
+
+        return child;
     });
 
     return (
