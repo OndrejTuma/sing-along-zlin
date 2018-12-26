@@ -17,12 +17,12 @@ function Form({action = '/', children, className, method = 'POST', onSubmit}) {
         onSubmit(refs);
     }
 
-    function isInputType(child) {
+    function isFormElement(child) {
         return child.type === Input || child.type === Wysiwyg || child.type === SongPicker;
     }
 
     const referencedChildren = React.Children.map(children, child => {
-        if (isInputType(child)) {
+        if (isFormElement(child)) {
             const {name} = child.props;
 
             refs.set(name, React.createRef());
