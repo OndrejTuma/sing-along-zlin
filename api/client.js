@@ -14,6 +14,7 @@ import {
     SONG_CREATE_URL,
     SONG_DELETE_URL,
     SONG_FETCH_ALL_URL,
+    SONG_UPDATE_URL,
     USER_CREATE_URL,
     USER_LOGIN_URL,
 } from './urls';
@@ -83,6 +84,12 @@ export function setActiveRepertoire(id) {
     return apiFetch(REPERTOIRE_SET_ACTIVE_URL, 'POST', {
         id,
     });
+}
+export function updateSong(id, data) {
+    return apiFetch(SONG_UPDATE_URL, 'POST', {
+        id,
+        data,
+    })
 }
 
 async function apiFetch(url, method = 'POST', body) {

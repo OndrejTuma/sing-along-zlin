@@ -4,9 +4,11 @@
     cursor: pointer;
 }
 .removeIcon {
+    cursor: pointer;
+    fill: $wild-strawberry;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 2px;
     width: 20px;
 }
 .title {

@@ -1,5 +1,5 @@
 import React, {forwardRef, useImperativeMethods, useState} from 'react';
-import {EditorState, convertToRaw} from 'draft-js';
+import {ContentState, EditorState, convertToRaw, convertFromRaw} from 'draft-js';
 import {Editor} from 'react-draft-wysiwyg';
 
 import Input from '../Input';
@@ -7,8 +7,11 @@ import Input from '../Input';
 import './globals.scss';
 import styles from './styles.scss';
 
-function Wysiwyg({label, name}, ref) {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+function Wysiwyg({formattedValue = '', label, name, value=''}, ref) {
+    const [editorState, setEditorState] = useState(EditorState.createWithContent(formattedValue
+        ? convertFromRaw(JSON.parse(formattedValue))
+        : ContentState.createFromText(value)
+    ));
 
     function onEditorStateChange(state) {
         setEditorState(state);

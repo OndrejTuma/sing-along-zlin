@@ -28,7 +28,6 @@ function FormNewSection() {
             setTokenCookie(token);
             title.reset();
             song.reset();
-            addNotification('Sekce je na svém místě', 'success');
         } catch (e) {
             addNotification(e.message, 'error');
         }

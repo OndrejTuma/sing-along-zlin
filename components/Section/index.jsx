@@ -1,7 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import PlusSVG from '../../static/svg/plus.svg';
+import BinSVG from '../../static/svg/bin.svg';
 
 import {deleteSection as deleteSectionAPI} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
@@ -31,7 +30,7 @@ function Section({section, song}) {
     return (
         <div className={styles.wrapper}>
             <h4>{section.title}: {song.title}</h4>
-            <PlusSVG className={classNames(styles.removeIcon, 'removeSVG')} onClick={handleDeleteSection}/>
+            <BinSVG className={styles.removeIcon} onClick={handleDeleteSection}/>
         </div>
     )
 }

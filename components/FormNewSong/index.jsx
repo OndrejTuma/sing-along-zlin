@@ -29,7 +29,6 @@ function FormNewSong() {
 
             addSong(song._id, song);
             setTokenCookie(token);
-            addNotification('A písnička je na světě', 'success');
             title.reset();
             text.reset();
         } catch (e) {

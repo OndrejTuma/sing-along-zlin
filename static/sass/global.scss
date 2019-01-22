@@ -9,9 +9,10 @@ a {
     text-decoration: none;
 }
 body {
-    color: $regent-gray;
+    color: $black;
     font-family: $font-family-hind;
     margin: 0;
+    padding: $padding--big;
 }
 
 :global {

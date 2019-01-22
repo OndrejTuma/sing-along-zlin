@@ -309,6 +309,23 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
+        server.post('/song/update', async (req, res) => {
+            const token = req.token;
+
+            if (!token) {
+                return res.status(200).json({error: 'you must be logged in'});
+            }
+
+            try {
+                await Song.updateOne({_id: req.body.id}, {$set: req.body.data});
+
+                res.status(200).json({
+                    token: token,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
         server.post('/user/create', async (req, res) => {
             try {
                 const newUser = new User({

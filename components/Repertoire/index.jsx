@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {useGlobal} from 'reactn';
 import classNames from 'classnames';
 
+import BinSVG from '../../static/svg/bin.svg';
 import CheckSVG from '../../static/svg/check.svg';
-import PlusSVG from '../../static/svg/plus.svg';
 
 import {deleteRepertoire as deleteRepertoireAPI, fetchSectionsInRepertoar, setActiveRepertoire} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
@@ -88,7 +88,7 @@ function Repertoire({repertoire}) {
                     <CheckSVG onClick={handleSetActive}/>
                 )}
             </h4>
-            <PlusSVG className={classNames(styles.removeIcon, 'removeSVG')} onClick={handleDeleteRepertoire}/>
+            <BinSVG className={styles.removeIcon} onClick={handleDeleteRepertoire}/>
         </div>
     )
 }
