@@ -15,6 +15,7 @@ import '../static/sass/global.scss';
 setGlobal({
     isLogged: false,
     editingRepertoireId: '',
+    editingSongs: new Map(),
     currentActiveRepertoireId: '',
     notifications: new Map(),
     repertoires: new Map(),

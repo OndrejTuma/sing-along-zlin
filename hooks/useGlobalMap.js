@@ -3,7 +3,7 @@ import {useGlobal} from 'reactn';
 function useGlobalMap(name) {
     const [map, setMap] = useGlobal(name);
 
-    function addItem(id, item) {
+    function addItem(id, item = true) {
         setMap(map.set(id, item));
     }
 
