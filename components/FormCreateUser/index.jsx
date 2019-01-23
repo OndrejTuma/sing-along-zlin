@@ -5,7 +5,6 @@ import Form from '../Form';
 import Input from '../Input';
 
 import {createUser} from '../../api/client';
-import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 const FormCreateUser = () => {
@@ -16,10 +15,9 @@ const FormCreateUser = () => {
         const password = refs.get('password').current;
 
         try {
-            const {token} = await createUser(login.value(), password.value());
+            await createUser(login.value(), password.value());
             
             addNotification('Uživatel přidaný!', 'success');
-            setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
         }

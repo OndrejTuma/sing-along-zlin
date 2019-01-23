@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
 import {useGlobal} from 'reactn';
-import classNames from 'classnames';
 
 import BinSVG from '../../static/svg/bin.svg';
 import CheckSVG from '../../static/svg/check.svg';
 
 import {deleteRepertoire as deleteRepertoireAPI, fetchSectionsInRepertoar, setActiveRepertoire} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
-import {setTokenCookie} from '../../helpers/user';
 
 import styles from './styles.scss';
 
@@ -23,10 +21,9 @@ function Repertoire({repertoire}) {
     async function fetchRepertoarSections() {
         setFetching(true);
         try {
-            const {sections, token} = await fetchSectionsInRepertoar(repertoire._id);
+            const {sections} = await fetchSectionsInRepertoar(repertoire._id);
 
             sections.forEach(section => addSection(section._id, section));
-            setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
         } finally {
@@ -35,10 +32,9 @@ function Repertoire({repertoire}) {
     }
     async function handleSetActive() {
         try {
-            const {token} = await setActiveRepertoire(repertoire._id);
+            await setActiveRepertoire(repertoire._id);
 
             setCurrentActiveRepertoireId(repertoire._id);
-            setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
         }
@@ -49,7 +45,7 @@ function Repertoire({repertoire}) {
         let sectionsLoaded = false;
         sections.forEach(({belongsTo}) => {
             if (belongsTo === repertoire._id) {
-                sectionsLoaded = true
+                sectionsLoaded = true;
             }
         });
 
@@ -65,10 +61,9 @@ function Repertoire({repertoire}) {
         }
 
         try {
-            const {token} = await deleteRepertoireAPI(repertoire._id);
+            await deleteRepertoireAPI(repertoire._id);
 
             deleteRepertoire(repertoire._id);
-            setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
         }

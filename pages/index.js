@@ -1,8 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 
-import '../static/sass/global.scss';
 import FullRepertoire from "../components/FullRepertoire";
+
+import '../static/sass/global.scss';
+import globalStyles from 'Sass/global.scss';
 
 function Index({activeRepertoire}) {
     return (
@@ -17,7 +19,7 @@ function Index({activeRepertoire}) {
                     songs={activeRepertoire.songs}
                 />
             ) : (
-                <div className={'wrapper'} style={{textAlign: 'center'}}>
+                <div className={globalStyles.wrapper} style={{textAlign: 'center'}}>
                     <h1>Dneska se nezpívá</h1>
                 </div>
             )}

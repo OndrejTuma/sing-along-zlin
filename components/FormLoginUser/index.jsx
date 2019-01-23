@@ -6,7 +6,6 @@ import Form from '../Form';
 import Input from '../Input';
 
 import {login as loginApi} from '../../api/client';
-import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 function FormLoginUser() {
@@ -21,10 +20,9 @@ function FormLoginUser() {
         setFetching(true);
 
         try {
-            const {token} = await loginApi(login.value(), password.value());
+            await loginApi(login.value(), password.value());
 
             deleteAllNotifications();
-            setTokenCookie(token);
             setIsLogged(true);
         } catch (e) {
             setNotification(e.message, 'error');

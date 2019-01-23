@@ -1,9 +1,7 @@
-@import "~./../../static/sass/helpers.scss";
+@import "~Sass/helpers.scss";
 
 .addNewSong {
-    position: absolute;
-    right: 0;
-    top: 0;
+    @include square(32px);
 }
 .wrapper {
     border-bottom: 1px solid $regent-gray;

@@ -7,7 +7,7 @@ import AdminLogin from '../components/AdminLogin';
 import Loading from '../components/Loading';
 import Notification from '../components/Notification';
 
-import {setTokenCookie} from '../helpers/user';
+import {getUserCookie} from 'Helpers/user';
 import useGlobalMap from '../hooks/useGlobalMap';
 
 import '../static/sass/global.scss';
@@ -24,7 +24,7 @@ setGlobal({
     visibility: new Map(),
 });
 
-function Admin({activeRepertoire, songs, token}) {
+function Admin({activeRepertoire, songs}) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLogged, setIsLogged] = useGlobal('isLogged');
     const [, setCurrentActiveRepertoireId] = useGlobal('currentActiveRepertoireId');
@@ -34,10 +34,9 @@ function Admin({activeRepertoire, songs, token}) {
     useEffect(() => {
         songs.forEach(song => addSong(song._id, song));
         activeRepertoire && setCurrentActiveRepertoireId(activeRepertoire._id);
-        setTokenCookie(token);
 
         //TODO: think of a way to set token from server to false after using it here
-        setIsLogged(!!token);
+        setIsLogged(!!getUserCookie());
         setIsLoaded(true);
     }, []);
 
@@ -60,11 +59,10 @@ function Admin({activeRepertoire, songs, token}) {
     );
 }
 
-Admin.getInitialProps = ({req, res: {activeRepertoire, songs, token}}) => {
+Admin.getInitialProps = ({req, res: {activeRepertoire, songs}}) => {
     return {
         activeRepertoire,
         songs,
-        token,
     };
 };
 

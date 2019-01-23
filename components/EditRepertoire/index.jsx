@@ -9,6 +9,7 @@ import FormNewSection from '../FormNewSection';
 import {ADD_SECTION} from '../../consts/visibility';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
+import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
 
 function EditRepertoire() {
@@ -30,8 +31,8 @@ function EditRepertoire() {
             <h3>Upravit repertoár: {repertoires.get(currentRepertoireId).title}</h3>
             <span className={styles.close} onClick={() => setEditingRepertoireId('')}>&times;</span>
             <PlusSVG
-                className={classNames(styles.addNewSection, 'addSVG', {
-                    active: addSectionVisible,
+                className={classNames(styles.addNewSection, globalStyles.addSVG, {
+                    [globalStyles.closeSVG]: addSectionVisible,
                 })}
                 onClick={() => handleAddSectionVisibility(!addSectionVisible)}
                 title={addSectionVisible ? 'Zavřít' : 'Přidat sekci'}

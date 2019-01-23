@@ -3,11 +3,12 @@ import classNames from 'classnames';
 
 import {getHTMLFromStringifiedState} from '../../helpers/wysiwyg';
 
+import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
 
 function FullRepertoire({repertoire, sections, songs}) {
     return (
-        <div className={classNames('wrapper', styles.wrapper)}>
+        <div className={classNames(globalStyles.wrapper, styles.wrapper)}>
             <h1>{repertoire.title}</h1>
             {sections.map(({_id, title, song: songId}) => {
                 const song = songs.filter(song => song._id.toString() === songId.toString())[0];

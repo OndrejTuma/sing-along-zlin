@@ -1,7 +1,9 @@
-@import "~./../../static/sass/helpers.scss";
+@import "~Sass/helpers.scss";
 
 .addNewSection {
-    float: right;
+    @include square(32px);
+    right: 20px;
+    top: auto;
 }
 .close {
     cursor: pointer;

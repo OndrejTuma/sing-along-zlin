@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import Loading from '../Loading';
 
 import {fetchRepertoires} from '../../api/client';
-import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
@@ -17,9 +16,8 @@ function ListRepertoires() {
     useEffect(() => {
         setFetching(true);
         fetchRepertoires()
-            .then(({repertoires, token}) => {
+            .then(({repertoires}) => {
                 repertoires.forEach(repertoire => addRepertoire(repertoire._id, repertoire));
-                setTokenCookie(token);
             })
             .catch(e => addNotification(e.message, 'error'))
             .finally(() => setFetching(false));

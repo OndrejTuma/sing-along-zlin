@@ -8,8 +8,8 @@ import Wysiwyg from '../Wysiwyg';
 
 import {updateSong} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
-import {setTokenCookie} from '../../helpers/user';
 
+import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
 import Button from "../Button";
 
@@ -28,8 +28,7 @@ function EditSong({song}) {
                 text: text.value(),
             };
 
-            const {token} = await updateSong(song._id, data);
-            setTokenCookie(token);
+            await updateSong(song._id, data);
 
             addSong(song._id, Object.assign({}, song, data));
 
@@ -41,7 +40,8 @@ function EditSong({song}) {
 
     return (
         <div className={styles.wrapper}>
-            <PlusSVG className={classNames(styles.removeSong, 'removeSVG')} onClick={() => deleteEditingSongs(song._id)}/>
+            <PlusSVG className={classNames(globalStyles.closeSVG)}
+                     onClick={() => deleteEditingSongs(song._id)}/>
             <Form onSubmit={handleEditSong}>
                 <Input name={'title'} value={song.title}/>
                 <Wysiwyg label={'Text'} name={'text'} formattedValue={song.text}/>

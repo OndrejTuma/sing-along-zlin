@@ -7,6 +7,7 @@ import PlusSVG from '../../static/svg/plus.svg';
 
 import useGlobalMap from '../../hooks/useGlobalMap';
 
+import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
 
 function AdminSongs() {
@@ -21,8 +22,8 @@ function AdminSongs() {
         <div className={styles.wrapper}>
             <h2>Správa písniček</h2>
             <PlusSVG
-                className={classNames(styles.addNewSong, 'addSVG', {
-                    active: showNewSong,
+                className={classNames(styles.addNewSong, globalStyles.addSVG, {
+                    [globalStyles.closeSVG]: showNewSong,
                 })}
                 onClick={() => handleAddSongVisibility(!showNewSong)}
                 title={showNewSong ? 'Zavřít' : 'Přidat písničku'}

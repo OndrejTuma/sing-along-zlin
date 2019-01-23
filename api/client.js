@@ -18,7 +18,7 @@ import {
     USER_CREATE_URL,
     USER_LOGIN_URL,
 } from './urls';
-import tokenName from './token_name';
+import cookieName from 'Api/cookie-name';
 
 export function createRepertoir(title) {
     return apiFetch(REPERTOIRE_CREATE_URL, 'POST', {
@@ -78,7 +78,7 @@ export function login(login, password) {
     });
 }
 export function logout() {
-    return cookie.remove(tokenName);
+    return cookie.remove(cookieName);
 }
 export function setActiveRepertoire(id) {
     return apiFetch(REPERTOIRE_SET_ACTIVE_URL, 'POST', {
@@ -97,12 +97,13 @@ async function apiFetch(url, method = 'POST', body) {
 
     try {
         result = await fetch(url, {
+            body: JSON.stringify(body),
             method,
-            mode: 'cors',
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(body),
+            mode: 'cors',
         });
     } catch (e) {
         throw new AppError(ERR_NETWORK, ERR_NETWORK_MSG);

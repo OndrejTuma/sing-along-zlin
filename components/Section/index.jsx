@@ -4,7 +4,6 @@ import BinSVG from '../../static/svg/bin.svg';
 
 import {deleteSection as deleteSectionAPI} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
-import {setTokenCookie} from '../../helpers/user';
 
 import styles from './styles.scss';
 
@@ -18,10 +17,9 @@ function Section({section, song}) {
         }
 
         try {
-            const {token} = await deleteSectionAPI(section._id);
+            await deleteSectionAPI(section._id);
 
             deleteSection(section._id);
-            setTokenCookie(token);
         } catch (e) {
             setNotification(e.message, 'error');
         }

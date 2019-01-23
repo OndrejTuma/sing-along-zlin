@@ -7,7 +7,6 @@ import Input from '../Input';
 import SongPicker from '../SongPicker';
 
 import {createSection} from '../../api/client';
-import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
@@ -22,10 +21,9 @@ function FormNewSection() {
         const song = refs.get('song').current;
 
         try {
-            const {section, token} = await createSection(title.value(), song.value(), currentRepertoireId);
+            const {section} = await createSection(title.value(), song.value(), currentRepertoireId);
 
             addSection(section._id, section);
-            setTokenCookie(token);
             title.reset();
             song.reset();
         } catch (e) {

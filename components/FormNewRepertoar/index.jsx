@@ -7,7 +7,6 @@ import Input from '../Input';
 
 import {createRepertoir} from '../../api/client';
 import {ADD_REPERTOIRE} from '../../consts/visibility';
-import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 
@@ -24,12 +23,11 @@ function FormNewRepertoar() {
         const title = refs.get('title').current;
 
         try {
-            const {repertoire, token} = await createRepertoir(title.value());
+            const {repertoire} = await createRepertoir(title.value());
 
             addRepertoire(repertoire._id, repertoire);
             setEditingRepertoireId(repertoire._id);
             removeVisibility(ADD_REPERTOIRE);
-            setTokenCookie(token);
         } catch (e) {
             addNotification(e.message, 'error');
         }

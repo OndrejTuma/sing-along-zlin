@@ -22,3 +22,12 @@ $wrapper-width: 700px;
 $margin--default: 1em;
 $padding--default: 1em;
 $padding--big: 2em;
+
+/* mixins */
+@mixin size($width, $height) {
+    width: $width;
+    height: $height;
+}
+@mixin square($size) {
+    @include size($size, $size);
+}

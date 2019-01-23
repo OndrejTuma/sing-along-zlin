@@ -6,9 +6,9 @@ import BinSVG from '../../static/svg/bin.svg';
 
 import {deleteSong as deleteSongAPI} from '../../api/client';
 import useGlobalMap from '../../hooks/useGlobalMap';
-import {setTokenCookie} from '../../helpers/user';
 import {getHTMLFromStringifiedState} from '../../helpers/wysiwyg';
 
+import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
 
 function Song({song}) {
@@ -24,8 +24,7 @@ function Song({song}) {
         }
 
         try {
-            const {token} = await deleteSongAPI(song.title);
-            setTokenCookie(token);
+            await deleteSongAPI(song.title);
             deleteSong(song._id);
         } catch (e) {
             setNotification(e.message, 'error');
@@ -42,7 +41,7 @@ function Song({song}) {
         <div className={styles.wrapper}>
             <h4 className={styles.title} onClick={() => handleSongTextVisibility(!songTextIsVisible)}>{song.title}</h4>
             <PencilSVG className={styles.edit} onClick={() => addEditingSongs(song._id)}/>
-            <BinSVG className={styles.removeSong} onClick={handleDeleteSong}/>
+            <BinSVG className={globalStyles.deleteSVG} onClick={handleDeleteSong}/>
             {songTextIsVisible && (
                 <div dangerouslySetInnerHTML={{__html: getHTMLFromStringifiedState(song.text)}}/>
             )}

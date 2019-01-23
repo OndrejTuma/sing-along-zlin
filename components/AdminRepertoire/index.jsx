@@ -10,6 +10,7 @@ import PlusSVG from '../../static/svg/plus.svg';
 import {ADD_REPERTOIRE} from '../../consts/visibility';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
+import globalStyles from 'Sass/global.scss';
 import styles from './styles.scss';
 
 function AdminRepertoire() {
@@ -30,8 +31,8 @@ function AdminRepertoire() {
         <div className={styles.wrapper}>
             <h2>Správa repertoárů</h2>
             <PlusSVG
-                className={classNames(styles.addNewRepertoire, 'addSVG', {
-                    active: addRepertoireVisible,
+                className={classNames(styles.addNewRepertoire, globalStyles.addSVG, {
+                    [globalStyles.closeSVG]: addRepertoireVisible,
                 })}
                 onClick={() => handleAddRepertoireVisibility(!addRepertoireVisible)}
                 title={addRepertoireVisible ? 'Zavřít' : 'Přidat repertoár'}

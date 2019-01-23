@@ -1,12 +1,14 @@
 const bodyParser = require('body-parser');
 const cookie = require('cookie');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const next = require('next');
 
 const secret = require('./consts/secret');
-const tokenName = require('./api/token_name');
+const cookieName = require('./api/cookie-name');
+const cookieMaxage = require('./api/cookie-maxage');
 const userHelper = require('./helpers/server/user');
 
 const Repertoire = require('./models/Repertoire');
@@ -34,6 +36,7 @@ app.prepare()
         const server = express();
 
         server.use(bodyParser.json());
+        server.use(cookieParser());
 
         // update token
         server.all('*', (req, res, next) => {
@@ -42,13 +45,20 @@ app.prepare()
                 return next();
             }
 
-            const token = cookie.parse(req.headers.cookie)[tokenName];
+            const token = cookie.parse(req.headers.cookie)[cookieName];
 
-            let data = false;
             try {
-                data = jwt.verify(token, secret);
+                const data = jwt.verify(token, secret);
 
-                req.token = userHelper.login(data);
+                const newToken = userHelper.login(data);
+
+                res.cookie(cookieName, newToken, {maxAge: cookieMaxage});
+
+                // when reaching admin api
+                if (!newToken && req.url.match(/\/admin\//)) {
+                    return res.status(200).json({error: 'Musíte být přihlášený'});
+                }
+
                 req.login = data.login;
             } catch (e) {
             }
@@ -83,17 +93,10 @@ app.prepare()
             return handle(req, Object.assign(res, {
                 activeRepertoire: activeRepertoire,
                 songs: songs,
-                token: req.token,
             }));
         });
 
-        server.post('/repertoire/create', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/repertoire/create', async (req, res) => {
             try {
                 const newRepertoire = new Repertoire({
                     title: req.body.title,
@@ -103,93 +106,58 @@ app.prepare()
 
                 res.status(200).json({
                     repertoire: newRepertoire,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/repertoire/delete', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/repertoire/delete', async (req, res) => {
             try {
                 await Repertoire.deleteOne({_id: req.body.id});
                 await Section.deleteMany({belongsTo: req.body.id});
 
                 res.status(200).json({
                     success: true,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/repertoire/fetch/:id', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/repertoire/fetch/:id', async (req, res) => {
             try {
                 const repertoire = await Repertoire.find({_id: req.params.id});
 
                 res.status(200).json({
                     repertoire: repertoire,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/repertoire/fetch-all', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/repertoire/fetch-all', async (req, res) => {
             try {
                 const repertoires = await Repertoire.find();
 
                 res.status(200).json({
                     repertoires: repertoires,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/repertoire/set/active', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/repertoire/set/active', async (req, res) => {
             try {
                 await Repertoire.updateMany({active: true}, {$set: {active: false}});
                 await Repertoire.updateOne({_id: req.body.id}, {$set: {active: true}});
 
                 res.status(200).json({
                     success: true,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/section/create', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/section/create', async (req, res) => {
             try {
                 const newSection = new Section({
                     belongsTo: req.body.repertoireId,
@@ -201,19 +169,12 @@ app.prepare()
 
                 res.status(200).json({
                     section: newSection,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/section/delete', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/section/delete', async (req, res) => {
             try {
                 await Section.deleteOne({
                     _id: req.body.id,
@@ -221,37 +182,23 @@ app.prepare()
 
                 res.status(200).json({
                     success: true,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/section/fetch/:repertoireId', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/section/fetch/:repertoireId', async (req, res) => {
             try {
                 const sections = await Section.find({belongsTo: req.params.repertoireId})
 
                 res.status(200).json({
                     sections: sections,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/song/create', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/song/create', async (req, res) => {
             try {
                 const adminUser = await User.findOne({login: req.login});
 
@@ -265,19 +212,12 @@ app.prepare()
 
                 res.status(200).json({
                     song: newSong,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/song/delete', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/song/delete', async (req, res) => {
             try {
                 await Song.deleteOne({
                     title: req.body.title,
@@ -285,48 +225,34 @@ app.prepare()
 
                 res.status(200).json({
                     success: true,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/song/fetch-all', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/song/fetch-all', async (req, res) => {
             try {
                 const songs = await Song.find();
 
                 res.status(200).json({
                     songs: songs,
-                    token: token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/song/update', async (req, res) => {
-            const token = req.token;
-
-            if (!token) {
-                return res.status(200).json({error: 'you must be logged in'});
-            }
-
+        server.post('/admin/song/update', async (req, res) => {
             try {
                 await Song.updateOne({_id: req.body.id}, {$set: req.body.data});
 
                 res.status(200).json({
-                    token: token,
+                    success: true,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/user/create', async (req, res) => {
+        server.post('/admin/user/create', async (req, res) => {
             try {
                 const newUser = new User({
                     login: req.body.login,
@@ -337,13 +263,12 @@ app.prepare()
 
                 res.status(200).json({
                     success: true,
-                    token: req.token,
                 });
             } catch (e) {
                 res.status(500).json(e);
             }
         });
-        server.post('/user/login', async (req, res) => {
+        server.post('/admin/user/login', async (req, res) => {
             try {
                 const user = await User.findOne({
                     login: req.body.login,
@@ -354,9 +279,13 @@ app.prepare()
                     return res.status(200).json({error: 'invalid credentials'});
                 }
 
-                const JWT = userHelper.login(user);
+                const token = userHelper.login(user);
 
-                res.status(200).json({token: JWT});
+                res.cookie(cookieName, token, {maxAge: cookieMaxage});
+
+                res.status(200).json({
+                    success: true,
+                });
             } catch (e) {
                 res.status(500).json(e);
             }

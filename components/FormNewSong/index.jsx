@@ -7,7 +7,6 @@ import Wysiwyg from '../Wysiwyg';
 
 import {createSong} from '../../api/client';
 import {AppError, ERR_FORM, ERR_FORM_MSG} from '../../api/errors';
-import {setTokenCookie} from '../../helpers/user';
 import useGlobalMap from '../../hooks/useGlobalMap';
 
 function FormNewSong() {
@@ -25,10 +24,9 @@ function FormNewSong() {
             }
             setFetching(true);
 
-            const {song, token} = await createSong(title.value(), text.value());
+            const {song} = await createSong(title.value(), text.value());
 
             addSong(song._id, song);
-            setTokenCookie(token);
             title.reset();
             text.reset();
         } catch (e) {

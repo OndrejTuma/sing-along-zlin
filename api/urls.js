@@ -1,4 +1,4 @@
-const API_URL = '/';
+const API_URL = '/admin/';
 
 export const REPERTOIRE_CREATE_URL = `${API_URL}repertoire/create`;
 export const REPERTOIRE_DELETE_URL = `${API_URL}repertoire/delete`;

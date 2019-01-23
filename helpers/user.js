@@ -1,6 +1,6 @@
 import cookie from 'js-cookie';
-import tokenName from '../api/token_name';
+import cookieName from 'Api/cookie-name';
 
-export function setTokenCookie(token) {
-    cookie.set(tokenName, token);
+export function getUserCookie() {
+    return cookie.get(cookieName);
 }
