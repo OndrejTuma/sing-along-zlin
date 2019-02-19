@@ -7,4 +7,4 @@ const SectionSchema = new Schema({
     song: {type: Schema.ObjectId, ref: 'song'},
 });
 
-module.exports = Section = mongoose.model('section', SectionSchema);
+module.exports = SectionSchema;

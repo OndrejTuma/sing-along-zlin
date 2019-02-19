@@ -8,4 +8,4 @@ const SongSchema = new Schema({
     created: {type: Date, default: Date.now},
 });
 
-module.exports = Song = mongoose.model('song', SongSchema);
+module.exports = SongSchema;

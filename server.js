@@ -11,10 +11,10 @@ const cookieName = require('./api/cookie-name');
 const cookieMaxage = require('./api/cookie-maxage');
 const userHelper = require('./helpers/server/user');
 
-const Repertoire = require('./models/Repertoire');
-const Section = require('./models/Section');
-const Song = require('./models/Song');
-const User = require('./models/User');
+const Repertoire = require('./mongo/models/Repertoire');
+const Section = require('./mongo/models/Section');
+const Song = require('./mongo/models/Song');
+const User = require('./mongo/models/User');
 
 const dev = process.env.NODE_ENV !== 'production';
 

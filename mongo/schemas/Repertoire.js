@@ -9,4 +9,4 @@ const RepertoireSchema = new Schema({
     date: {type: Date, default: Date.now},
 });
 
-module.exports = Repertoire = mongoose.model('repertoire', RepertoireSchema);
+module.exports = RepertoireSchema;
