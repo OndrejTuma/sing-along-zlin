@@ -1,0 +1,33 @@
+@import "~Sass/helpers.scss";
+
+.list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0 auto;
+    max-width: 400px;
+    padding-left: 0;
+
+    a {
+        border-bottom: 1px solid transparent;
+        transition: border-color .5s;
+
+        &:hover {
+            border-color: $gray-chateau;
+        }
+    }
+    li {
+        display: inline-block;
+        margin: 2px;
+    }
+}
+.wrapper {
+    background-color: $white;
+    box-shadow: 0 5px 5px rgba($black, .3);
+    left: 0;
+    padding: $padding--default;
+    position: fixed;
+    right: 0;
+    top: 0;
+}

@@ -1,7 +1,15 @@
 @import "~Sass/helpers.scss";
 
+.section {
+    padding-top: 60px;
+}
+.sectionName {
+    display: block;
+    color: $gray-chateau;
+}
 .wrapper {
     font-weight: 700;
+    padding-top: 100px;
 
     p {
         margin: 0;
