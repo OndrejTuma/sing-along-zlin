@@ -23,16 +23,16 @@ endif
 COMPOSE_FILES := -f docker-compose.yml
 
 run:
-	docker-compose -p m_d $(COMPOSE_FILES) up -d
+	docker-compose -p sing_along $(COMPOSE_FILES) up -d
 
 build:
-	docker-compose -p m_d $(COMPOSE_FILES) build
+	docker-compose -p sing_along $(COMPOSE_FILES) build
 
 stop:
-	docker-compose -p m_d $(COMPOSE_FILES) stop
+	docker-compose -p sing_along $(COMPOSE_FILES) stop
 
 kill:
-	docker-compose -p m_d $(COMPOSE_FILES) kill
+	docker-compose -p sing_along $(COMPOSE_FILES) kill
 
 clean-all:
-	docker-compose -p m_d $(COMPOSE_FILES) down --rmi all --remove-orphans --volumes
+	docker-compose -p sing_along $(COMPOSE_FILES) down --rmi all --remove-orphans --volumes
