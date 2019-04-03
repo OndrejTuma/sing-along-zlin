@@ -3,3 +3,4 @@
 yarn install --pure-lockfile
 
 yarn build
+yarn production
