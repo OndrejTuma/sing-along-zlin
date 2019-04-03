@@ -4,18 +4,20 @@ version: '3'
 
 services:
   app:
-    container_name: sing-along
-    restart: always
+    container_name: sing_along
     build: .
     ports:
-      - '88:3000'
+      - '80:3000'
+      - '3003:3003'
     links:
       - mongo
     volumes:
-      - ./:/usr/src/app
+      - ../../:/usr/src/app/
+      - ./run.sh:/run.sh
       - app-node-modules:/usr/src/app/node_modules/
+
   mongo:
-    container_name: mongo
+    container_name: sing_along_mongo
     image: mongo
     ports:
       - '27017:27017'
