@@ -7,7 +7,7 @@
   "author": "Ondřej Tůma <ondr@centrum.cz>",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production node server.js",
+    "build": "cross-env NODE_ENV=production next build && node server.js",
     "dev": "cross-env NODE_ENV=development node server.js",
     "generate": "plop"
   },
