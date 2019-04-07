@@ -13,13 +13,17 @@ function FullRepertoire({repertoire, sections, songs}) {
         <div className={classNames(globalStyles.wrapper, styles.wrapper)}>
             <h1>{repertoire.title}</h1>
             <RepertoireNavigation sections={sections} songs={songs}/>
-            {sections.map(({_id, title, song: songId}) => {
-                const song = songs.filter(song => song._id.toString() === songId.toString())[0];
+            {sections.map(({_id, title: sectionTitle, songs: sectionSongs}) => {
+                const songsList = songs.filter(song => sectionSongs.indexOf(song._id) > -1);
 
                 return (
-                    <div className={styles.section} key={_id} id={title}>
-                        <h2><small className={styles.sectionName}>{title}:</small> {song.title}</h2>
-                        <div dangerouslySetInnerHTML={{__html: getHTMLFromStringifiedState(song.text)}}/>
+                    <div className={styles.section} key={_id} id={sectionTitle}>
+                        {songsList.map(({_id: id, title, text}, index) => (
+                            <div key={id} className={styles.song}>
+                                <h2>{index === 0 && <small className={styles.sectionName}>{sectionTitle}:</small> }{title}</h2>
+                                <div dangerouslySetInnerHTML={{__html: getHTMLFromStringifiedState(text)}}/>
+                            </div>
+                        ))}
                     </div>
                 );
             })}

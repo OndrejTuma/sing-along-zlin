@@ -18,15 +18,19 @@ const User = require('./mongo/models/User');
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const app = next({ dev });
+const app = next({dev});
 const handle = app.getRequestHandler();
 
 const APP_PORT = 3000;
 
+if (dev) {
+    mongoose.set('debug', true);
+}
+
 mongoose
     .connect(
         'mongodb://mongo:27017/sing-along',
-        { useNewUrlParser: true }
+        {useNewUrlParser: true}
     )
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error(err));
@@ -66,14 +70,21 @@ app.prepare()
             next();
         });
 
-        server.get('*', async (req, res) => {
+        server.get(/\/|admin/, async (req, res) => {
             let activeRepertoire;
 
             if (req.url === '/') {
                 try {
                     const repertoire = await Repertoire.findOne({active: true});
                     const sections = await Section.find({belongsTo: repertoire._id});
-                    const songs = await Song.find({_id: {$in: sections.map(section => section.song)}});
+                    const songs = await Song.find({
+                        _id: {
+                            $in: sections.reduce((res, section) => {
+                                section.songs && section.songs.map(({_id: id}) => res.push(id));
+                                return res;
+                            }, [])
+                        }
+                    });
 
                     activeRepertoire = {
                         repertoire: repertoire,
@@ -83,8 +94,7 @@ app.prepare()
                 } catch (e) {
                     console.error(e);
                 }
-            }
-            else {
+            } else {
                 activeRepertoire = await Repertoire.findOne({active: true});
             }
 
@@ -162,7 +172,7 @@ app.prepare()
                 const newSection = new Section({
                     belongsTo: req.body.repertoireId,
                     title: req.body.title,
-                    song: req.body.song,
+                    songs: req.body.songs,
                 });
 
                 await newSection.save();

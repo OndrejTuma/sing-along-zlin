@@ -7,7 +7,7 @@ import useGlobalMap from '../../hooks/useGlobalMap';
 
 import styles from './styles.scss';
 
-function Section({section, song}) {
+function Section({section, songs}) {
     const [, setNotification] = useGlobalMap('notifications');
     const [, , deleteSection] = useGlobalMap('sections');
 
@@ -27,7 +27,12 @@ function Section({section, song}) {
 
     return (
         <div className={styles.wrapper}>
-            <h4>{section.title}: {song.title}</h4>
+            <h4>{section.title}:</h4>
+            <ul>
+                {songs.map(({_id: id, title}) => (
+                    <li key={id}>{title}</li>
+                ))}
+            </ul>
             <BinSVG className={styles.removeIcon} onClick={handleDeleteSection}/>
         </div>
     )

@@ -25,10 +25,10 @@ export function createRepertoir(title) {
         title,
     });
 }
-export function createSection(title, song, repertoireId) {
+export function createSection(title, songs, repertoireId) {
     return apiFetch(SECTION_CREATE_URL, 'POST', {
         title,
-        song,
+        songs,
         repertoireId,
     });
 }

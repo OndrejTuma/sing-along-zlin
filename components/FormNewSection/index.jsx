@@ -18,14 +18,14 @@ function FormNewSection() {
 
     async function handleOnSubmit(refs) {
         const title = refs.get('title').current;
-        const song = refs.get('song').current;
+        const songs = refs.get('songs').current;
 
         try {
-            const {section} = await createSection(title.value(), song.value(), currentRepertoireId);
+            const {section} = await createSection(title.value(), songs.value(), currentRepertoireId);
 
             addSection(section._id, section);
             title.reset();
-            song.reset();
+            songs.reset();
         } catch (e) {
             addNotification(e.message, 'error');
         }
@@ -36,7 +36,7 @@ function FormNewSection() {
             <h3>Přidat sekci:</h3>
             <Form className={styles.wrapper} onSubmit={handleOnSubmit}>
                 <Input name={'title'} label={'Název'}/>
-                <SongPicker name={'song'}/>
+                <SongPicker name={'songs'}/>
                 <Button label={'Vytvořit'}/>
             </Form>
         </>

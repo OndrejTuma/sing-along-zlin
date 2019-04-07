@@ -1,39 +1,46 @@
-import React, {forwardRef, useImperativeMethods, useState} from 'react';
+import React, {forwardRef, useImperativeMethods} from 'react';
 import classNames from 'classnames';
 
 import Input from '../Input';
 
 import useGlobalMap from '../../hooks/useGlobalMap';
+import useMap from '../../hooks/useMap';
 
 import styles from './styles.scss';
 
 function SongPicker({name}, ref) {
-    const [pickedSongId, setPickedSongId] = useState('');
+    const [pickedSongIds, addPickedSongsId, deletePickedSongId, resetPickedSongIds] = useMap();
     const [songs] = useGlobalMap('songs');
 
     useImperativeMethods(ref, () => ({
-        isEmpty: () => pickedSongId === '',
-        reset: () => setPickedSongId(''),
-        value: () => pickedSongId,
+        isEmpty: () => pickedSongIds.size === 0,
+        reset: () => resetPickedSongIds(),
+        value: () => [...pickedSongIds.keys()],
     }));
 
-    function handlePickSong({_id}) {
-        setPickedSongId(_id);
+    function isPicked(id) {
+        return pickedSongIds.has(id);
+    }
+
+    function handlePickSong(id) {
+        isPicked(id)
+            ? deletePickedSongId(id)
+            : addPickedSongsId(id);
     }
     
     return (
         <div className={styles.wrapper}>
-            <Input name={name} type={'hidden'} value={pickedSongId}/>
+            <Input name={name} type={'hidden'} value={pickedSongIds}/>
             <label>Vyber písničku:</label>
             <ul>
-                {[...songs.values()].map(song => (
+                {[...songs.values()].map(({_id: id, title}) => (
                     <li
-                        key={song._id}
-                        onClick={() => handlePickSong(song)}
+                        key={id}
+                        onClick={() => handlePickSong(id)}
                         className={classNames(styles.song, {
-                            [styles.active]: pickedSongId === song._id,
+                            [styles.active]: isPicked(id),
                         })}
-                    >{song.title}</li>
+                    >{title}</li>
                 ))}
             </ul>
         </div>

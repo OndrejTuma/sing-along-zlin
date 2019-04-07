@@ -12,7 +12,11 @@ function useMap(initialState = new Map()) {
         setMap(map);
     }
 
-    return [map, addItem, deleteItem];
+    function reset() {
+        setMap(initialState);
+    }
+
+    return [map, addItem, deleteItem, reset];
 }
 
 export default useMap;
