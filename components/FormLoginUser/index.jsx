@@ -32,7 +32,7 @@ function FormLoginUser() {
     }
 
     return (
-        <Form action={`/user/login`} onSubmit={handleOnSubmit}>
+        <Form onSubmit={handleOnSubmit}>
             <h2>Přihlásit</h2>
             <Input label={'Jméno'} name={'login'} />
             <Input label={'Heslo'} type={'password'} name={'password'} />

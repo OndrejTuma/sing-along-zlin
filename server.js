@@ -58,16 +58,23 @@ app.prepare()
 
                 res.cookie(cookieName, newToken, {maxAge: cookieMaxage});
 
-                // when reaching admin api
-                if (!newToken && req.url.match(/\/admin\//)) {
-                    return res.status(200).json({error: 'Musíte být přihlášený'});
-                }
-
                 req.login = data.login;
             } catch (e) {
             }
 
             next();
+        });
+        server.all(/admin\/[a-zA-Z0-9]{3,}/, (req, res, next) => {
+            try {
+                const token = cookie.parse(req.headers.cookie)[cookieName];
+                jwt.verify(token, secret);
+
+                next();
+            } catch (e) {
+                return res.status(200).json({
+                    error: 'Nemáte platný přihlašovací token',
+                });
+            }
         });
 
         server.get(/\/|admin/, async (req, res) => {
@@ -278,7 +285,7 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
-        server.post('/admin/user/login', async (req, res) => {
+        server.post('/user/login', async (req, res) => {
             try {
                 const user = await User.findOne({
                     login: req.body.login,

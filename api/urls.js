@@ -13,4 +13,4 @@ export const SONG_DELETE_URL = `${API_URL}song/delete`;
 export const SONG_FETCH_ALL_URL = `${API_URL}song/fetch-all`;
 export const SONG_UPDATE_URL = `${API_URL}song/update`;
 export const USER_CREATE_URL = `${API_URL}user/create`;
-export const USER_LOGIN_URL = `${API_URL}user/login`;
+export const USER_LOGIN_URL = `/user/login`;
