@@ -31,6 +31,9 @@ build:
 stop:
 	docker-compose -p sing_along $(COMPOSE_FILES) stop
 
+restart:
+	docker-compose -p sing_along $(COMPOSE_FILES) restart
+
 kill:
 	docker-compose -p sing_along $(COMPOSE_FILES) kill
 
