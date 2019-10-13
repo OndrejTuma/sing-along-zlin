@@ -9,10 +9,12 @@
 }
 .wrapper {
     li {
-        cursor: pointer;
+        span {
+            cursor: pointer;
 
-        &:hover {
-            text-decoration: line-through;
+            &:hover {
+                text-decoration: line-through;
+            }
         }
     }
 }

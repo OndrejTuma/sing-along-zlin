@@ -18,16 +18,6 @@ function SongPicker({name}, ref) {
         value: () => [...pickedSongIds.keys()],
     }));
 
-    function isPicked(id) {
-        return pickedSongIds.has(id);
-    }
-
-    function handlePickSong(id) {
-        isPicked(id)
-            ? deletePickedSongId(id)
-            : addPickedSongsId(id);
-    }
-
     return (
         <div className={styles.wrapper}>
             <Input name={name} type={'hidden'} value={pickedSongIds}/>
@@ -36,7 +26,11 @@ function SongPicker({name}, ref) {
                     <strong>Vybrané písničky:</strong>
                     <ul>
                         {[...pickedSongIds.keys()].map(id => (
-                            <li key={id} title={'Odstranit písničku ze sekce'} onClick={() => deletePickedSongId(id)}>{songs.get(id).title}</li>
+                            <li key={id}>
+                                <span title={'Odstranit písničku ze sekce'} onClick={() => deletePickedSongId(id)}>
+                                    {songs.get(id).title}
+                                </span>
+                            </li>
                         ))}
                     </ul>
                 </>
@@ -44,7 +38,7 @@ function SongPicker({name}, ref) {
             <FilteringDropdown
                 placeholder={'Vybrat písničky'}
                 items={[...songs.values()].map(({_id: id, title: name}) => ({id, name}))}
-                onSelect={({id}) => handlePickSong(id)}
+                onSelect={({id}) => addPickedSongsId(id)}
             />
         </div>
     )
