@@ -63,8 +63,8 @@
 
         &:before {
             @include square(10px);
-            border-bottom: 2px solid $gallery;
-            border-right: 2px solid $gallery;
+            border-bottom: 2px solid $gray-chateau;
+            border-right: 2px solid $gray-chateau;
             content: '';
             position: absolute;
             right: 15px;
@@ -103,7 +103,7 @@
         padding: 0 15px;
 
         &:hover {
-            background-color: $gray-chateau;
+            background-color: $gallery;
         }
 
         a {
