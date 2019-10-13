@@ -1,12 +1,12 @@
 import React, {forwardRef, useImperativeMethods} from 'react';
 
 import Input from '../Input';
+import FilteringDropdown from '../FilteringDropdown';
 
 import useGlobalMap from '../../hooks/useGlobalMap';
-import useMap from '../../hooks/useMap';
 
+import useMap from '../../hooks/useMap';
 import styles from './styles.scss';
-import FilteringDropdown from "../FilteringDropdown";
 
 function SongPicker({name}, ref) {
     const [pickedSongIds, addPickedSongsId, deletePickedSongId, resetPickedSongIds] = useMap();
@@ -31,11 +31,16 @@ function SongPicker({name}, ref) {
     return (
         <div className={styles.wrapper}>
             <Input name={name} type={'hidden'} value={pickedSongIds}/>
-            <ul>
-                {[...pickedSongIds.keys()].map(id => (
-                    <li key={id} title={'Odstranit písničku ze sekce'} onClick={() => deletePickedSongId(id)}>{songs.get(id).title}</li>
-                ))}
-            </ul>
+            {pickedSongIds.size > 0 && (
+                <>
+                    <strong>Vybrané písničky:</strong>
+                    <ul>
+                        {[...pickedSongIds.keys()].map(id => (
+                            <li key={id} title={'Odstranit písničku ze sekce'} onClick={() => deletePickedSongId(id)}>{songs.get(id).title}</li>
+                        ))}
+                    </ul>
+                </>
+            )}
             <FilteringDropdown
                 placeholder={'Vybrat písničky'}
                 items={[...songs.values()].map(({_id: id, title: name}) => ({id, name}))}
