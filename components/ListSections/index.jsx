@@ -15,7 +15,7 @@ function ListSections({sections}) {
             <ul className={styles.wrapper}>
                 {sections && sections.length > 0 ? sections.map(section => (
                     <li key={section._id}>
-                        <Section section={section} songs={[...songs.values()].filter(song => section.songs.indexOf(song._id) > -1)}/>
+                        <Section section={section} songs={section.songs.map(id => songs.get(id))}/>
                     </li>
                 )) : (
                     <li><i>zatím žádné nejsou</i></li>

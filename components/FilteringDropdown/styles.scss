@@ -1,0 +1,123 @@
+@import '~Sass/helpers.scss';
+
+.dropdown {
+    border: 1px solid $iron;
+    margin: 0 auto 15px auto;
+    position: relative;
+    text-align: left;
+    z-index: 1;
+
+    &:hover {
+        &,
+        .dropdownContent {
+            border-color: $gray-chateau;
+        }
+    }
+    &.disabled {
+        color: $gray-chateau;
+
+        .activeItem {
+            background-color: $gallery;
+            border-color: color(silver) !important;;
+            cursor: default;
+
+            .arrowDown {
+                fill: $gray-chateau !important;
+            }
+        }
+    }
+    &.opened {
+        z-index: 3;
+
+        .activeItem {
+            border-bottom-color: transparent;
+
+            &:before {
+                transform: rotate(225deg);
+                top: 20px;
+            }
+        }
+    }
+    &.error {
+        &,
+        .dropdownContent {
+            border-color: $wild-strawberry;
+        }
+    }
+
+    .dropdownContent {
+        border: 1px solid $iron;
+    }
+    .activeItem {
+        background-color: $white;
+        cursor: pointer;
+        display: block;
+        font-size: 16px;
+        line-height: 48px;
+        margin: 0;
+        overflow: hidden;
+        padding: 0 40px 0 15px;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:before {
+            @include square(10px);
+            border-bottom: 2px solid $gallery;
+            border-right: 2px solid $gallery;
+            content: '';
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            transform: rotate(45deg);
+            transition: transform .3s, top .1s linear;
+        }
+    }
+    .dropdownContent {
+        box-sizing: border-box;
+        background: $white;
+        border-top: none;
+        left: -1px;
+        position: absolute;
+        right: -1px;
+        top: 100%;
+        z-index: 2;
+    }
+    .input {
+        margin: 15px 10px 5px;
+
+        input {
+            border: 1px solid $iron;
+            box-sizing: border-box;
+            display: block;
+            font-size: 14px;
+            outline: none;
+            padding: 10px;
+            width: 100%;
+        }
+    }
+    .item {
+        background-color: transparent;
+        cursor: pointer;
+        line-height: 50px;
+        padding: 0 15px;
+
+        &:hover {
+            background-color: $gray-chateau;
+        }
+
+        a {
+            display: block;
+        }
+        b {
+            color: $mountain-meadow;
+        }
+    }
+    .list {
+        list-style: none;
+        margin: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 0;
+    }
+}

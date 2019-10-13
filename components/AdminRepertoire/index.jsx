@@ -29,14 +29,18 @@ function AdminRepertoire() {
 
     return (
         <div className={styles.wrapper}>
-            <h2>Správa repertoárů</h2>
-            <PlusSVG
-                className={classNames(styles.addNewRepertoire, globalStyles.addSVG, {
-                    [globalStyles.closeSVG]: addRepertoireVisible,
-                })}
-                onClick={() => handleAddRepertoireVisibility(!addRepertoireVisible)}
-                title={addRepertoireVisible ? 'Zavřít' : 'Přidat repertoár'}
-            />
+            <h2>
+                Správa repertoárů
+                <span
+                    className={classNames(styles.addNewRepertoire, globalStyles.addSVG, {
+                        [globalStyles.closeSVG]: addRepertoireVisible,
+                    })}
+                    onClick={() => handleAddRepertoireVisibility(!addRepertoireVisible)}
+                    title={addRepertoireVisible ? 'Zavřít' : 'Přidat repertoár'}
+                >
+                    <PlusSVG/>
+                </span>
+            </h2>
             {addRepertoireVisible && <FormNewRepertoar/>}
             {currentRepertoireId && <EditRepertoire/>}
             <ListRepertoires/>

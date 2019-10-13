@@ -28,9 +28,9 @@ function ListRepertoires() {
     }
 
     return (
-        <>
+        <div className={styles.wrapper}>
             <h3>Uložené repertoáry</h3>
-            <ul className={styles.wrapper}>
+            <ul>
                 {repertoires && repertoires.size > 0 ? [...repertoires.values()].map(repertoire => (
                     <li key={repertoire._id}>
                         <Repertoire repertoire={repertoire}/>
@@ -39,7 +39,7 @@ function ListRepertoires() {
                     <li><i>zatím žádné nejsou</i></li>
                 )}
             </ul>
-        </>
+        </div>
     )
 }
 

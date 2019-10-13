@@ -7,4 +7,12 @@
 .song {
     cursor: pointer;
 }
-.wrapper {}
+.wrapper {
+    li {
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: line-through;
+        }
+    }
+}

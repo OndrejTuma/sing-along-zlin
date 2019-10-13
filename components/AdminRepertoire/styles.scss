@@ -2,9 +2,18 @@
 
 .addNewRepertoire {
     @include square(32px);
+    display: inline-block;
+
+    svg {
+       @include square(100%);
+    }
 }
 .wrapper {
-    border-bottom: 1px solid $regent-gray;
+    border: 1px solid $regent-gray;
     margin: 20px auto 40px;
-    position: relative;
+    padding: 20px;
+
+    h2 {
+        position: relative;
+    }
 }
