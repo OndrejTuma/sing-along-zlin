@@ -29,7 +29,7 @@ function AdminSongs() {
                 title={showNewSong ? 'Zavřít' : 'Přidat písničku'}
             />
             {showNewSong && <FormNewSong/>}
-            <ListSongs songs={songs}/>
+            <ListSongs songs={[...songs.values()]}/>
         </div>
     )
 }
