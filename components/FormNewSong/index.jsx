@@ -29,6 +29,7 @@ function FormNewSong() {
             addSong(song._id, song);
             title.reset();
             text.reset();
+            addNotification('Písnička je uložená', 'success');
         } catch (e) {
             addNotification(e.message, 'error');
         } finally {
