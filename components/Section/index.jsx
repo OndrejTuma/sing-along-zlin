@@ -1,17 +1,36 @@
 import React, {useState} from 'react';
+import classNames from 'classnames';
+import {useDrag, useDrop} from 'react-dnd-cjs';
 
-import BinSVG from '../../static/svg/bin.svg';
+import BinSVG from 'Svg/bin.svg';
 
-import {deleteSection as deleteSectionAPI} from '../../api/client';
-import useGlobalMap from '../../hooks/useGlobalMap';
+import {deleteSection as deleteSectionAPI} from 'Api/client';
+import dragTypes from 'Consts/dragTypes';
+import {inflectString} from 'Helpers/strings';
+import useGlobalMap from 'Hooks/useGlobalMap';
 
 import styles from './styles.scss';
-import {inflectString} from "../../helpers/strings";
 
-function Section({section, songs}) {
+function Section({onDrop, section, songs}) {
     const [isOpen, setIsOpen] = useState(false);
     const [, setNotification] = useGlobalMap('notifications');
     const [, , deleteSection] = useGlobalMap('sections');
+    const [{opacity}, dragRef] = useDrag({
+        item: {
+            type: dragTypes.SECTION,
+            id: section._id,
+        },
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.5 : 1,
+        }),
+    });
+    const [{isOver}, dropRef] = useDrop({
+        accept: dragTypes.SECTION,
+        drop: ({id: fromId}) => typeof onDrop === 'function' && onDrop(fromId, section._id),
+        collect: monitor => ({
+            isOver: !!monitor.isOver(),
+        }),
+    });
 
     async function handleDeleteSection() {
         if (!confirm(`Opravdu smazat sekci "${section.title}"?`)) {
@@ -28,8 +47,13 @@ function Section({section, songs}) {
     }
 
     return (
-        <div className={styles.wrapper}>
-            <h4 onClick={() => setIsOpen(!isOpen)}>{section.title} <small>({songs.length} {inflectString(songs.length, ['písnička', 'písničky', 'písniček'])})</small></h4>
+        <div className={styles.wrapper} ref={dropRef} style={{opacity}}>
+            <h4 ref={dragRef} onClick={() => setIsOpen(!isOpen)} className={classNames(styles.heading, {
+                [styles.dragOver]: isOver,
+            })}>
+                {section.title}
+                <small> ({songs.length} {inflectString(songs.length, ['písnička', 'písničky', 'písniček'])})</small>
+            </h4>
             {isOpen && (
                 <ul>
                     {songs.map(({_id: id, title}) => (
