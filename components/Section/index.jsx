@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import {createRef, useEffect, useState} from 'react';
 import classNames from 'classnames';
 import {useDrag, useDrop} from 'react-dnd-cjs';
 
 import BinSVG from 'Svg/bin.svg';
+import PencilSVG from 'Svg/pencil.svg';
 
-import {deleteSection as deleteSectionAPI} from 'Api/client';
+import {deleteSection as deleteSectionAPI, updateSection} from 'Api/client';
 import dragTypes from 'Consts/dragTypes';
 import {inflectString} from 'Helpers/strings';
 import useGlobalMap from 'Hooks/useGlobalMap';
@@ -13,8 +14,9 @@ import styles from './styles.scss';
 
 function Section({onDrop, section, songs}) {
     const [isOpen, setIsOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [, setNotification] = useGlobalMap('notifications');
-    const [, , deleteSection] = useGlobalMap('sections');
+    const [, addSection, deleteSection] = useGlobalMap('sections');
     const [{opacity}, dragRef] = useDrag({
         item: {
             type: dragTypes.SECTION,
@@ -31,6 +33,7 @@ function Section({onDrop, section, songs}) {
             isOver: !!monitor.isOver(),
         }),
     });
+    const inputRef = createRef();
 
     async function handleDeleteSection() {
         if (!confirm(`Opravdu smazat sekci "${section.title}"?`)) {
@@ -45,13 +48,37 @@ function Section({onDrop, section, songs}) {
             setNotification(e.message, 'error');
         }
     }
+    async function handleKeyUp(e) {
+        if (e.keyCode !== 13) {
+            return;
+        }
+
+        // enter
+        try {
+            await updateSection(section._id, {title: inputRef.current.value});
+
+            addSection(section._id, {
+                ...section,
+                title: inputRef.current.value,
+            });
+            setIsEditing(false);
+        } catch (e) {
+            setNotification(e.message, 'error');
+        }
+    }
+
+    useEffect(() => {
+        isEditing && inputRef.current.focus();
+    }, [isEditing]);
 
     return (
         <div className={styles.wrapper} ref={dropRef} style={{opacity}}>
             <h4 ref={dragRef} onClick={() => setIsOpen(!isOpen)} className={classNames(styles.heading, {
                 [styles.dragOver]: isOver,
             })}>
-                {section.title}
+                {isEditing ? (
+                    <input type="text" defaultValue={section.title} ref={inputRef} onKeyUp={handleKeyUp}/>
+                ) : section.title}
                 <small> ({songs.length} {inflectString(songs.length, ['písnička', 'písničky', 'písniček'])})</small>
             </h4>
             {isOpen && (
@@ -61,7 +88,12 @@ function Section({onDrop, section, songs}) {
                     ))}
                 </ul>
             )}
-            <BinSVG className={styles.removeIcon} onClick={handleDeleteSection}/>
+            {isEditing ? (
+                <span className={styles.editIcon} onClick={() => setIsEditing(false)}>&times;</span>
+            ) : (
+                <PencilSVG title={'Upravit sekci'} className={styles.editIcon} onClick={() => setIsEditing(true)}/>
+            )}
+            <BinSVG title={'Smazat sekci'} className={styles.removeIcon} onClick={handleDeleteSection}/>
         </div>
     )
 }
