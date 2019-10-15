@@ -174,6 +174,17 @@ app.prepare()
                 res.status(500).json(e);
             }
         });
+        server.post('/admin/repertoire/update', async (req, res) => {
+            try {
+                await Repertoire.updateOne({_id: req.body.id}, {$set: req.body.data});
+
+                res.status(200).json({
+                    success: true,
+                });
+            } catch (e) {
+                res.status(500).json(e);
+            }
+        });
         server.post('/admin/section/create', async (req, res) => {
             try {
                 const newSection = new Section({

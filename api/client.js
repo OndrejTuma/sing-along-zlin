@@ -8,6 +8,7 @@ import {
     REPERTOIRE_FETCH_ALL_URL,
     REPERTOIRE_FETCH_URL,
     REPERTOIRE_SET_ACTIVE_URL,
+    REPERTOIRE_UPDATE_URL,
     SECTION_CREATE_URL,
     SECTION_DELETE_URL,
     SECTION_FETCH_URL,
@@ -86,6 +87,12 @@ export function setActiveRepertoire(id) {
     return apiFetch(REPERTOIRE_SET_ACTIVE_URL, 'POST', {
         id,
     });
+}
+export function updateRepertoire(id, data) {
+    return apiFetch(REPERTOIRE_UPDATE_URL, 'POST', {
+        id,
+        data,
+    })
 }
 export function updateSection(id, data) {
     return apiFetch(SECTION_UPDATE_URL, 'POST', {

@@ -77,7 +77,7 @@ function Section({onDrop, section, songs}) {
                 [styles.dragOver]: isOver,
             })}>
                 {isEditing ? (
-                    <input type="text" defaultValue={section.title} ref={inputRef} onKeyUp={handleKeyUp}/>
+                    <input type={'text'} defaultValue={section.title} ref={inputRef} onKeyUp={handleKeyUp}/>
                 ) : section.title}
                 <small> ({songs.length} {inflectString(songs.length, ['písnička', 'písničky', 'písniček'])})</small>
             </h4>

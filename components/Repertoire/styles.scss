@@ -1,5 +1,15 @@
 @import "~Sass/helpers.scss";
 
+.editIcon {
+    cursor: pointer;
+    fill: $mountain-meadow;
+    font-size: 2em;
+    line-height: 1;
+    position: absolute;
+    right: 30px;
+    top: 2px;
+    width: 20px;
+}
 .name {
     cursor: pointer;
 }
@@ -21,7 +31,7 @@
         cursor: pointer;
         fill: $mountain-meadow;
         position: absolute;
-        right: 30px;
+        right: 60px;
         top: 5px;
     }
 }
