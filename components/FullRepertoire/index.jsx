@@ -15,7 +15,11 @@ function FullRepertoire({repertoire, sections, songs}) {
         <div className={classNames(globalStyles.wrapper, styles.wrapper)}>
             <h1>{repertoire.title}</h1>
             <RepertoireNavigation sections={sections} songs={songs}/>
-            {sections.map(({_id, title: sectionTitle, songs: sectionSongs}) => {
+            {sections.sort(function(a, b){
+                if(a.position < b.position) { return -1; }
+                if(a.position > b.position) { return 1; }
+                return 0;
+            }).map(({_id, title: sectionTitle, songs: sectionSongs}) => {
                 const songsList = sectionSongs.map(id => songsMap.get(id));
 
                 return (
