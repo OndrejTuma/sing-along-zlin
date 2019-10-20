@@ -41,6 +41,6 @@
     "cross-env": "^5.2.0",
     "node-sass": "^4.11.0",
     "plop": "^2.2.0",
-    "react-svg-loader": "^3.0.3"
+    "react-svg-loader": "^2.1.0"
   }
 }
