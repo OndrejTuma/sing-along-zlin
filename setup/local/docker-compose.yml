@@ -19,8 +19,8 @@ services:
   mongo:
     container_name: sing_along_mongo
     image: mongo
-    ports:
-      - '27017:27017'
+    expose:
+      - '27017'
 
 volumes:
   app-node-modules:
