@@ -40,9 +40,13 @@ function Repertoire({repertoire}) {
     }
     async function handleSetActive() {
         try {
-            await setActiveRepertoire(repertoire._id);
-
-            setCurrentActiveRepertoireId(repertoire._id);
+            if (currentActiveRepertoireId === repertoire._id) {
+                await setActiveRepertoire('');
+                setCurrentActiveRepertoireId('');
+            } else {
+                await setActiveRepertoire(repertoire._id);
+                setCurrentActiveRepertoireId(repertoire._id);
+            }
         } catch (e) {
             addNotification(e.message, 'error');
         }

@@ -165,7 +165,9 @@ app.prepare()
         server.post('/admin/repertoire/set/active', async (req, res) => {
             try {
                 await Repertoire.updateMany({active: true}, {$set: {active: false}});
-                await Repertoire.updateOne({_id: req.body.id}, {$set: {active: true}});
+                if (req.body.id) {
+                    await Repertoire.updateOne({_id: req.body.id}, {$set: {active: true}});
+                }
 
                 res.status(200).json({
                     success: true,
