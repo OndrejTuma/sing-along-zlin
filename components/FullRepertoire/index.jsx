@@ -26,7 +26,7 @@ function FullRepertoire({repertoire, sections, songs}) {
                     <div className={styles.section} key={_id} id={sectionTitle}>
                         {songsList.filter(song => song).map(({_id: id, title, text}, index) => (
                             <div key={id} className={styles.song}>
-                                <h2>{index === 0 && <small className={styles.sectionName}>{sectionTitle}:</small> }{title}</h2>
+                                <h2 className={styles.sectionHeading}>{index === 0 && <small className={styles.sectionName}>{sectionTitle}:</small> }{title}</h2>
                                 <div dangerouslySetInnerHTML={{__html: getHTMLFromStringifiedState(text)}}/>
                             </div>
                         ))}

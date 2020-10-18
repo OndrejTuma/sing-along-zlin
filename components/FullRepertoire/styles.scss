@@ -1,20 +1,27 @@
 @import "~Sass/helpers.scss";
 
 .section {
-    padding-top: 60px;
+  padding-top: 60px;
+}
+
+.sectionHeading {
+  margin-bottom: .75em;
 }
 .sectionName {
-    display: block;
-    color: $gray-chateau;
+  color: $gray-chateau;
+  display: block;
+  font-size: .75em;
+  margin-bottom: .5em;
 }
-.song {
-    padding-bottom: $padding--great;
-}
-.wrapper {
-    font-weight: 700;
-    padding-top: 100px;
 
-    p {
-        margin: 0;
-    }
+.song {
+  padding-bottom: $padding--great;
+}
+
+.wrapper {
+  padding-top: 100px;
+
+  p {
+    margin: 0;
+  }
 }
