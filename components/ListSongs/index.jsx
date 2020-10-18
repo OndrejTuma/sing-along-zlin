@@ -1,9 +1,12 @@
 import React from 'react'
+import ListGroup from 'reactstrap/lib/ListGroup'
+import ListGroupItem from 'reactstrap/lib/ListGroupItem'
 
 import usePagination from '../../hooks/usePagination'
 import Song from '../Song'
 
 import Pagination from '../Pagination'
+import Repertoire from '../Repertoire'
 
 /**
  * @param [object[]] songs
@@ -23,23 +26,25 @@ function ListSongs({ songs }) {
 
   const [songsSlice, { activePage, pageCount, setActivePage }] = usePagination(sortedSongs)
   return (
-    <>
-      <h3>Uložené písničky</h3>
-      <ul>
-        {songsSlice.length > 0 ? songsSlice.map(song => (
-          <li key={song._id}>
-            <Song song={song}/>
-          </li>
-        )) : (
-          <li><i>zatím žádné nejsou</i></li>
-        )}
-      </ul>
-      <Pagination
-        activePage={activePage}
-        pageCount={pageCount}
-        setActivePage={setActivePage}
-      />
-    </>
+    <div>
+      {songs.length > 0 ? (
+        <ListGroup>
+          {songsSlice.map(song => (
+            <ListGroupItem key={song._id}>
+              <Song song={song}/>
+            </ListGroupItem>
+          ))}
+          <Pagination
+            activePage={activePage}
+            className={'mt-4'}
+            pageCount={pageCount}
+            setActivePage={setActivePage}
+          />
+        </ListGroup>
+      ) : (
+        <p className={'text-center'}><i>Zatím žádné písničky nejsou</i></p>
+      )}
+    </div>
   )
 }
 

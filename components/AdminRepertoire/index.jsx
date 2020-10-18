@@ -47,7 +47,7 @@ function AdminRepertoire() {
   }, [])
 
   return (
-    <Card>
+    <Card className={'mb-5'}>
       <CardHeader className={'d-flex justify-content-between'}>
         <h2 className={'h3'}>Správa repertoárů</h2>
         <Button

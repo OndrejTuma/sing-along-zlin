@@ -1,12 +1,17 @@
 @import "~Sass/helpers.scss";
 
-.edit {
-    cursor: pointer;
-    fill: $mountain-meadow;
-    position: absolute;
-    right: 30px;
-    top: 4px;
+.heading {
+  cursor: pointer;
 }
+
+.edit {
+  cursor: pointer;
+  fill: $mountain-meadow;
+  position: absolute;
+  right: 30px;
+  top: 4px;
+}
+
 .wrapper {
-    position: relative;
+  position: relative;
 }

@@ -11,7 +11,7 @@ function AdminContent() {
     return (
         <div className={globalStyles.wrapper}>
             <Logout/>
-            <h1>Vítej v administraci</h1>
+            <h1 className={'mb-5'}>Vítej v administraci</h1>
             <AdminRepertoire/>
             <AdminSongs/>
         </div>

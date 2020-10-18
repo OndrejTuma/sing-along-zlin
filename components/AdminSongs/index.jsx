@@ -1,37 +1,41 @@
-import React, {useState} from 'react';
-import classNames from 'classnames';
+import React, { useState } from 'react'
+import CardHeader from 'reactstrap/lib/CardHeader'
+import Button from 'reactstrap/lib/Button'
+import CardBody from 'reactstrap/lib/CardBody'
+import Card from 'reactstrap/lib/Card'
 
-import FormNewSong from '../FormNewSong';
-import ListSongs from '../ListSongs';
-import PlusSVG from '../../static/svg/plus.svg';
+import FormNewSong from '../FormNewSong'
+import ListSongs from '../ListSongs'
 
-import useGlobalMap from '../../hooks/useGlobalMap';
-
-import globalStyles from 'Sass/global.scss';
-import styles from './styles.scss';
+import useGlobalMap from '../../hooks/useGlobalMap'
 
 function AdminSongs() {
-    const [songs] = useGlobalMap('songs');
-    const [showNewSong, setShowNewSong] = useState(false);
+  const [songs] = useGlobalMap('songs')
+  const [showNewSong, setShowNewSong] = useState(false)
 
-    function handleAddSongVisibility(visibility) {
-        setShowNewSong(visibility);
-    }
+  function handleAddSongVisibility(visibility) {
+    setShowNewSong(visibility)
+  }
 
-    return (
-        <div className={styles.wrapper}>
-            <h2>Správa písniček</h2>
-            <PlusSVG
-                className={classNames(styles.addNewSong, globalStyles.addSVG, {
-                    [globalStyles.closeSVG]: showNewSong,
-                })}
-                onClick={() => handleAddSongVisibility(!showNewSong)}
-                title={showNewSong ? 'Zavřít' : 'Přidat písničku'}
-            />
-            {showNewSong && <FormNewSong/>}
-            <ListSongs songs={[...songs.values()]}/>
-        </div>
-    )
+  return (
+    <Card>
+      <CardHeader className={'d-flex justify-content-between'}>
+        <h2 className={'h3'}>Správa písniček</h2>
+        <Button
+          color={'secondary'}
+          outline
+          onClick={() => handleAddSongVisibility(true)}
+        >Přidat písničku</Button>
+      </CardHeader>
+      <FormNewSong
+        isOpen={showNewSong}
+        toggle={() => handleAddSongVisibility(false)}
+      />
+      <CardBody>
+        <ListSongs songs={[...songs.values()]}/>
+      </CardBody>
+    </Card>
+  )
 }
 
-export default AdminSongs;
+export default AdminSongs

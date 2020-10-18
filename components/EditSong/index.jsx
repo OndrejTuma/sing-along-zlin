@@ -1,54 +1,50 @@
-import React from 'react';
-import classNames from 'classnames';
+import React from 'react'
+import Button from 'reactstrap/lib/Button'
 
-import Form from '../Form';
-import Input from '../Input';
-import PlusSVG from '../../static/svg/plus.svg';
-import Wysiwyg from '../Wysiwyg';
+import Form from '../Form'
+import Input from '../Input'
+import Wysiwyg from '../Wysiwyg'
 
-import {updateSong} from '../../api/client';
-import useGlobalMap from '../../hooks/useGlobalMap';
+import { updateSong } from '../../api/client'
+import useGlobalMap from '../../hooks/useGlobalMap'
 
-import globalStyles from 'Sass/global.scss';
-import styles from './styles.scss';
-import Button from "../Button";
+function EditSong({ song }) {
+  const [, , deleteEditingSongs] = useGlobalMap('editingSongs')
+  const [, addSong] = useGlobalMap('songs')
+  const [, setNotification] = useGlobalMap('notifications')
 
-function EditSong({song}) {
-    const [, , deleteEditingSongs] = useGlobalMap('editingSongs');
-    const [, addSong] = useGlobalMap('songs');
-    const [, setNotification] = useGlobalMap('notifications');
+  async function handleEditSong(refs) {
+    const title = refs.get('title').current
+    const text = refs.get('text').current
 
-    async function handleEditSong(refs) {
-        const title = refs.get('title').current;
-        const text = refs.get('text').current;
+    try {
+      const data = {
+        title: title.value(),
+        text: text.value(),
+      }
 
-        try {
-            const data = {
-                title: title.value(),
-                text: text.value(),
-            };
+      await updateSong(song._id, data)
 
-            await updateSong(song._id, data);
+      addSong(song._id, Object.assign({}, song, data))
+      setNotification('Písnička je uložená', 'success')
 
-            addSong(song._id, Object.assign({}, song, data));
-
-            deleteEditingSongs(song._id)
-        } catch (e) {
-            setNotification(e.message, 'error');
-        }
+      deleteEditingSongs(song._id)
+    } catch (e) {
+      setNotification(e.message, 'error')
     }
+  }
 
-    return (
-        <div className={styles.wrapper}>
-            <PlusSVG className={classNames(globalStyles.closeSVG)}
-                     onClick={() => deleteEditingSongs(song._id)}/>
-            <Form onSubmit={handleEditSong}>
-                <Input name={'title'} value={song.title}/>
-                <Wysiwyg label={'Text'} name={'text'} formattedValue={song.text}/>
-                <Button label={'Uložit'}/>
-            </Form>
+  return (
+    <div>
+      <Form onSubmit={handleEditSong}>
+        <Input name={'title'} value={song.title}/>
+        <Wysiwyg label={'Text'} name={'text'} formattedValue={song.text}/>
+        <div className={'text-center'}>
+          <Button color={'primary'} size={'lg'}>Uložit</Button>
         </div>
-    )
+      </Form>
+    </div>
+  )
 }
 
-export default EditSong;
+export default EditSong

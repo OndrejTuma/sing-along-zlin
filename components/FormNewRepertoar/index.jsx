@@ -40,8 +40,8 @@ function FormNewRepertoar({ isOpen, toggle }) {
       <ModalBody>
         <Form onSubmit={handleOnSubmit}>
           <Input name={'title'} label={'Název repertoáru'}/>
-          <div className={'text-right'}>
-            <Button color={'primary'}>Vytvořit</Button>
+          <div className={'text-center'}>
+            <Button color={'primary'} size={'lg'}>Vytvořit</Button>
           </div>
         </Form>
       </ModalBody>

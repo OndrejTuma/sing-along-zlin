@@ -28,7 +28,7 @@ function ListRepertoires({ repertoires }) {
           />
         </ListGroup>
       ) : (
-        <p className={'text-center'}><i>zatím žádné nejsou</i></p>
+        <p className={'text-center'}><i>Zatím žádné repertoáry nejsou</i></p>
       )}
     </div>
   )
