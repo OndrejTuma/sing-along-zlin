@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import FullRepertoire from "../components/FullRepertoire";
 
+import 'Sass/bootstrap.scss'
 import '../static/sass/global.scss';
 import globalStyles from 'Sass/global.scss';
 

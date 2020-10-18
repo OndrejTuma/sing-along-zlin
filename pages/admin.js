@@ -10,6 +10,7 @@ import Notification from '../components/Notification';
 import {getUserCookie} from 'Helpers/user';
 import useGlobalMap from '../hooks/useGlobalMap';
 
+import 'Sass/bootstrap.scss'
 import '../static/sass/global.scss';
 
 setGlobal({
