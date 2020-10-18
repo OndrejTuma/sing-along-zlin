@@ -1,8 +1,9 @@
+import cn from 'classnames'
 import PaginationWrapper from 'reactstrap/lib/Pagination'
 import PaginationItem from 'reactstrap/lib/PaginationItem'
 import PaginationLink from 'reactstrap/lib/PaginationLink'
 
-const Pagination = ({ activePage, navigateBy = 10, pageCount, setActivePage, showExtremes = 1, showPages = 11 }) => {
+const Pagination = ({ activePage, className, navigateBy = 10, pageCount, setActivePage, showExtremes = 1, showPages = 11 }) => {
   const allPages = [...Array(pageCount).keys()]
   let pages
 
@@ -42,7 +43,7 @@ const Pagination = ({ activePage, navigateBy = 10, pageCount, setActivePage, sho
   }
 
   return (
-    <PaginationWrapper size={'lg'} className={'d-flex justify-content-center'}>
+    <PaginationWrapper size={'sm'} className={cn('d-flex justify-content-center', className)}>
       <PaginationItem disabled={activePage === 0}>
         <PaginationLink
           first

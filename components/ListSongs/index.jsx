@@ -3,7 +3,6 @@ import React from 'react'
 import usePagination from '../../hooks/usePagination'
 import Song from '../Song'
 
-import styles from './styles.scss'
 import Pagination from '../Pagination'
 
 /**
@@ -26,7 +25,7 @@ function ListSongs({ songs }) {
   return (
     <>
       <h3>Uložené písničky</h3>
-      <ul className={styles.wrapper}>
+      <ul>
         {songsSlice.length > 0 ? songsSlice.map(song => (
           <li key={song._id}>
             <Song song={song}/>

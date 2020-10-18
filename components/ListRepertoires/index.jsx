@@ -1,46 +1,37 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react'
+import ListGroup from 'reactstrap/lib/ListGroup'
+import ListGroupItem from 'reactstrap/lib/ListGroupItem'
 
-import Loading from '../Loading';
+import Repertoire from '../Repertoire'
+import Pagination from '../Pagination'
 
-import {fetchRepertoires} from '../../api/client';
-import useGlobalMap from '../../hooks/useGlobalMap';
+import usePagination from '../../hooks/usePagination'
+import { sortByDate } from '../../helpers/sorting'
 
-import styles from './styles.scss';
-import Repertoire from "../Repertoire";
+function ListRepertoires({ repertoires }) {
+  const [repertoiresSlice, { activePage, pageCount, setActivePage }] = usePagination(sortByDate('date')([...repertoires.values()], -1))
 
-function ListRepertoires() {
-    const [fetching, setFetching] = useState(false);
-    const [repertoires, addRepertoire] = useGlobalMap('repertoires');
-    const [, addNotification] = useGlobalMap('notifications');
-
-    useEffect(() => {
-        setFetching(true);
-        fetchRepertoires()
-            .then(({repertoires}) => {
-                repertoires.forEach(repertoire => addRepertoire(repertoire._id, repertoire));
-            })
-            .catch(e => addNotification(e.message, 'error'))
-            .finally(() => setFetching(false));
-    }, []);
-
-    if (fetching) {
-        return <Loading/>;
-    }
-
-    return (
-        <div className={styles.wrapper}>
-            <h3>Uložené repertoáry</h3>
-            <ul>
-                {repertoires && repertoires.size > 0 ? [...repertoires.values()].map(repertoire => (
-                    <li key={repertoire._id}>
-                        <Repertoire repertoire={repertoire}/>
-                    </li>
-                )) : (
-                    <li><i>zatím žádné nejsou</i></li>
-                )}
-            </ul>
-        </div>
-    )
+  return (
+    <div>
+      {repertoires.size > 0 ? (
+        <ListGroup>
+          {repertoiresSlice.map(repertoire => (
+            <ListGroupItem key={repertoire._id}>
+              <Repertoire repertoire={repertoire}/>
+            </ListGroupItem>
+          ))}
+          <Pagination
+            activePage={activePage}
+            className={'mt-4'}
+            pageCount={pageCount}
+            setActivePage={setActivePage}
+          />
+        </ListGroup>
+      ) : (
+        <p className={'text-center'}><i>zatím žádné nejsou</i></p>
+      )}
+    </div>
+  )
 }
 
-export default ListRepertoires;
+export default ListRepertoires

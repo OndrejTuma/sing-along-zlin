@@ -1,5 +1,6 @@
 import React, {createRef, useEffect, useState} from 'react';
 import {useGlobal} from 'reactn';
+import ListGroupItemHeading from 'reactstrap/lib/ListGroupItemHeading'
 
 import BinSVG from 'Svg/bin.svg';
 import CheckSVG from 'Svg/check.svg';
@@ -105,12 +106,11 @@ function Repertoire({repertoire}) {
 
     return (
         <div className={styles.wrapper}>
-            <h4
+            <ListGroupItemHeading
                 className={styles.title}
                 onMouseEnter={() => setIsMouseEnter(true)}
                 onMouseLeave={() => setIsMouseEnter(false)}
             >
-                {editingRepertoireId === repertoire._id && <small>(upravujete) </small>}
                 {isEditing ? (
                     <input type={'text'} defaultValue={repertoire.title} ref={inputRef} onKeyUp={handleKeyUp}/>
                 ) : (
@@ -121,7 +121,7 @@ function Repertoire({repertoire}) {
                         <CheckSVG/>
                     </span>
                 )}
-            </h4>
+            </ListGroupItemHeading>
             {isEditing ? (
                 <span className={styles.editIcon} onClick={() => setIsEditing(false)}>&times;</span>
             ) : (
